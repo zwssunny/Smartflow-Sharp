@@ -16,29 +16,42 @@ namespace Smartflow
 {
     public class MailService : IMailService
     {
-        private   ILogging logging = WorkflowServiceProvider.OfType<ILogging>();
+        private ILogging logging = WorkflowServiceProvider.OfType<ILogging>();
 
         private static Lazy<MailConfiguration> mailConfigurationLazy = new
             Lazy<MailConfiguration>(() => (ConfigurationManager.GetSection("mailConfiguration") as MailConfiguration));
 
+        private static
+            Lazy<SmtpClient> smtpClientLazy= new Lazy<SmtpClient>(() => new SmtpClient());
+
+        static MailService()
+        {
+            MailConfiguration mailConfiguration = mailConfigurationLazy.Value;
+            if (mailConfiguration != null)
+            {
+                SmtpClient _smtp = smtpClientLazy.Value;
+                _smtp.Host = mailConfiguration.Host;
+                _smtp.Port = mailConfiguration.Port;
+                _smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                _smtp.EnableSsl = mailConfiguration.EnableSsl;
+                _smtp.UseDefaultCredentials = true;
+                _smtp.Credentials =
+                    new NetworkCredential(mailConfiguration.Account,
+                        mailConfiguration.Password);
+            }
+        }
+
         public void Notification(string[] to, string body)
         {
             MailConfiguration mailConfiguration = mailConfigurationLazy.Value;
-            SmtpClient _smtp = new SmtpClient();
-
-            _smtp.Host = mailConfiguration.Host;
-            _smtp.Port = mailConfiguration.Port;
-            _smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            _smtp.EnableSsl = mailConfiguration.EnableSsl;
-            _smtp.UseDefaultCredentials = true;
-            _smtp.Credentials = new NetworkCredential(mailConfiguration.Account, mailConfiguration.Password);
-
-            List<MailMessage> msgList = GetSendMessageList(mailConfiguration.Account, mailConfiguration.Name, to, "待办通知", body);
+            List<MailMessage> msgList =
+                GetSendMessageList(mailConfiguration.Account,
+                mailConfiguration.Name, to, "待办通知", body);
             foreach (var message in msgList)
             {
                 try
                 {
-                    _smtp.Send(message);
+                    smtpClientLazy.Value.Send(message);
                 }
                 catch (Exception ex)
                 {
@@ -46,7 +59,6 @@ namespace Smartflow
                 }
             }
         }
-
 
         /// <summary>
         /// 获取消息列表
