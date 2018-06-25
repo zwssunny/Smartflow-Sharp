@@ -22,7 +22,7 @@ namespace Smartflow.Web.Mvc.Code
             {
                 if (filterContext.HttpContext.Session["user"] == null)
                 {
-                    filterContext.Result = new SessionOnlineViewResult(filterContext.Controller);
+                    filterContext.Result = new EmptyResult(); 
                     base.OnActionExecuting(filterContext);
                 }
                 else
