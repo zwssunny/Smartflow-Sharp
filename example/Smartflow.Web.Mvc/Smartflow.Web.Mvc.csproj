@@ -108,7 +108,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\AuthorizationFilter.cs" />
     <Compile Include="Code\CommonMethods.cs" />
+    <Compile Include="Code\SessionOnlineViewResult .cs" />
+    <Compile Include="Code\UnAuthorizationMethodFilterAttribute.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\FileApplyController.cs" />
     <Compile Include="Controllers\UserControlController.cs" />
@@ -297,6 +301,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\SessionOnline.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -16,10 +16,11 @@ using Smartflow.BussinessService.WorkflowService;
 using Smartflow.BussinessService.Models;
 using Smartflow.BussinessService.Services;
 using Smartflow.Web.Mvc.Code;
+using Smartflow.Web.Mvc.Controllers;
 
 namespace Smartflow.Web.Controllers
 {
-    public class UserControlController : Controller
+    public class UserControlController : BaseController
     {
         private RecordService workflowRecordService = new RecordService();
         private BaseWorkflowService bwkf = BaseWorkflowService.Instance;
@@ -71,8 +72,7 @@ namespace Smartflow.Web.Controllers
         /// <returns></returns>
         public JsonResult UndoCheck(string instanceID, string bussinessID)
         {
-            User userInfo = System.Web.HttpContext.Current.Session["user"] as User;
-            bwkf.UndoSubmit(instanceID, userInfo.IDENTIFICATION, userInfo.EMPLOYEENAME, bussinessID);
+            bwkf.UndoSubmit(instanceID, UserInfo.IDENTIFICATION, UserInfo.EMPLOYEENAME, bussinessID);
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
@@ -86,18 +86,17 @@ namespace Smartflow.Web.Controllers
         /// <returns>是否成功</returns>
         public JsonResult Jump(string instanceID, string transitionID, string bussinessID, string message, string action)
         {
-            User userInfo = System.Web.HttpContext.Current.Session["user"] as User;
             dynamic data = new ExpandoObject();
             data.Message = message;
             data.bussinessID = bussinessID;
-            data.UserInfo = userInfo;
+            data.UserInfo = UserInfo;
             switch (action.ToLower())
             {
                 case "rollback":
-                    bwkf.Rollback(instanceID, userInfo.IDENTIFICATION, userInfo.EMPLOYEENAME, data);
+                    bwkf.Rollback(instanceID, UserInfo.IDENTIFICATION, UserInfo.EMPLOYEENAME, data);
                     break;
                 default:
-                    bwkf.Jump(instanceID, transitionID, userInfo.IDENTIFICATION, userInfo.EMPLOYEENAME, data);
+                    bwkf.Jump(instanceID, transitionID, UserInfo.IDENTIFICATION, UserInfo.EMPLOYEENAME, data);
                     break;
             }
             return Json(true);

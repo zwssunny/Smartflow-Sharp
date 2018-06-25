@@ -17,7 +17,7 @@
                 var userName = document.getElementById("userName").value;
                 if ($.trim(userName)) {
                     $.ajax({
-                        url: '@Url.Action("GetUser","Default")',
+                        url: '@Url.Action("GetUser","User")',
                         data: { userName: userName },
                         dataType: 'json',
                         type: 'post',

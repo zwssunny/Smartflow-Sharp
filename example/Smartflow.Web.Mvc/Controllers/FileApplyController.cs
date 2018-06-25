@@ -8,10 +8,11 @@ using Smartflow.BussinessService.Models;
 using Smartflow.BussinessService.WorkflowService;
 using Smartflow.BussinessService.Services;
 using Smartflow.Web.Mvc.Code;
+using Smartflow.Web.Mvc.Controllers;
 
 namespace Smartflow.Web.Controllers
 {
-    public class FileApplyController : Controller
+    public class FileApplyController : BaseController
     {
         private BaseWorkflowService bwfs = BaseWorkflowService.Instance;
         private ApplyService fileApplyService = new ApplyService();
@@ -63,8 +64,8 @@ namespace Smartflow.Web.Controllers
                     ViewBag.ButtonName = current.APPELLATION;
                     ViewBag.PreviousButtonName = executeNode == null ? String.Empty : executeNode.APPELLATION;
                     ViewBag.UndoCheck = CommonMethods.CheckUndoButton(mdl.INSTANCEID);
-                    ViewBag.UndoAuth = executeNode == null ? true : CommonMethods.CheckUndoAuth(mdl.INSTANCEID);
-                    ViewBag.JumpAuth = current.APPELLATION == "开始" ? true : CommonMethods.CheckAuth(current.NID, mdl.INSTANCEID);
+                    ViewBag.UndoAuth = executeNode == null ? true : CommonMethods.CheckUndoAuth(mdl.INSTANCEID,UserInfo);
+                    ViewBag.JumpAuth = current.APPELLATION == "开始" ? true : CommonMethods.CheckAuth(current.NID, mdl.INSTANCEID, UserInfo);
                     ViewBag.UserList= new UserService().GetPendingUserList(current.NID, mdl.INSTANCEID);
                 }
                 return View(mdl);
