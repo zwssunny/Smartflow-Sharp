@@ -30,13 +30,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">首页</a>
                     </li>
-                    <li class="nav-item dropdown active">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">文档 <span class="caret"></span></a>
-                        <div class="dropdown-menu" aria-labelledby="download">
-                            <a class="dropdown-item" href="./doc.html">总体介绍</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="./integration.html">集成介绍</a>
-                        </div>
+                    <li class="nav-item  active">
+                        <a href="./doc.html" class="nav-link">文档</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:openWin('tool.html', 960, 560);">流程图设计工具</a>
@@ -59,7 +54,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-
                 <div class="jumbotron">
                     <h3>工作流现状分析</h3>
                     <hr>
@@ -111,6 +105,58 @@
                         </div>
 
                     </div>
+
+
+                    <h3>Smartflow-Sharp 示例运行</h3>
+                    <hr>
+                    <p class="text-justify">
+                        打开项目文件夹，在SQLServer2005中按顺序执行SQL文件夹下SQL脚本，执行完成后会创建flow、bussiness两个数据库。然后，在VS中打开项目解决方案，分别找到example\Smartflow.Web.Mvc\Web.config，src\Smartflow.Web.Design\Web.config 配置文件，修改其访问数据库连接字符串，然后，将这两个项目发布到本地IIS虚拟目录里。部署完成后，直接浏览项目，如果能浏览到登录界面表示部署成功。
+                    </p>
+                    <h3>Smartflow-Sharp 集成说明</h3>
+                    <hr>
+                    <p class="text-justify">Smartflow-Sharp工作流管理平台与业务系统集成，由于Smartflow-Sharp工作流管理平台的高度可定制化特点，既是优点也是缺点，优点就是可以很方便的根据用户的需求做定制化研发，缺点是太过灵活，有些功能需要用户自已开发。集成步骤如下：</p>
+                    <p style="color:red;font-weight:bold;">
+                        1、flow是工作流基础库，直接整体拷贝到你业务系统<br />
+                        2、在flow数据库中打开t_config表，在表中增加业务库的连接字符串<br />
+                        3、bussiness是提供的示例库<br />
+                        4、工作流节点要与角色关联，用户必须提供角色表，工作流是依据角色筛选审批人员<br />
+                        5、调整业务系统和Smartflow.Web.Design项目中Web.config配置文件，如下配置信息<br />
+                        <pre><code>&lt;configsections&gt;
+    &lt;section name="smartflowConfiguration" 
+             type="Smartflow.SmartflowConfiguration,Smartflow" /&gt;
+&lt;/configsections&gt;
+&lt;smartflowConfiguration 
+    connectionstring="server=127.0.0.1;database=flow;uid=sa;pwd=123456"
+category="SQLServer" /&gt;
+&lt;add key="busConnection" 
+     value="server=127.0.0.1;database=bussiness;uid=sa;pwd=123456" /&gt;
+</code>
+</pre>
+                    </p>
+                    <h3>Smartflow-Sharp 邮件服务</h3>
+                    <hr>
+                    <p class="text-justify">Smartflow-Sharp 提供的邮件服务是可选项，如需要请在Web.config配置文件，增加如下配置信息</p>
+
+
+                    <pre><code>&lt;configsections&gt;
+    &lt;section name="mailConfiguration" 
+             type="Smartflow.MailConfiguration,Smartflow" /&gt;
+&lt;/configsections&gt;
+&lt;mailConfiguration account="邮件账号（237552006@qq.com）"
+                   password="授权码（非邮箱的登录密码）"
+                   name="显示名称（smartflow-sharp）"
+                   host="服务(smtp.qq.com)"
+                   port="端口"
+                   enableSsl="是否启用HTTPS" /&gt;
+</code>
+</pre>
+
+
+
+                    <p class="text-justify">
+                        以上就是Smartflow-Sharp工作流管理平台完整的集成过程，工作流管理平台还有些工作需要由用户自已来完成如用户、角色等信息，都需要用户自已提供维护界面。通常在集成过程中需要提供待办、审批记录这些请参照示例，按需集成，在此不详细作介绍。
+                    </p>
+
 
                     <h3>Smartflow-Sharp 未来</h3>
                     <hr>
