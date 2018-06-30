@@ -17,7 +17,6 @@
         drawOption,
         rule = {
             duplicateCheck: function (from, to) {
-                //检查是否已经存在相同路线
                 var result = false;
                 for (var i = 0, len = RC.length; i < len; i++) {
                     var r = RC[i];
