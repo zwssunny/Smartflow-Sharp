@@ -46,7 +46,7 @@
         id: 'IDENTIFICATION',
         name: 'APPELLATION',
         connection: 'CONNECTE',
-        category: 'DBCATEGORY'
+        provider: 'PROVIDERNAME'
     };
 
     $.extend(String.prototype, {
@@ -168,8 +168,8 @@
                 nx.command = {
                     identification: data[configFieldMap.id],
                     script: cmdText,
-                    connecte: data[configFieldMap.connect],
-                    dbcategory: data[configFieldMap.category],
+                    connecte: data[configFieldMap.connection],
+                    providername: data[configFieldMap.provider],
                     commandtype: 'text'
                 };
             }

@@ -96,7 +96,7 @@ create table dbo.t_command (
    APPELLATION          varchar(50)          collate Chinese_PRC_CI_AS null,
    SCRIPT               varchar(4000)        collate Chinese_PRC_CI_AS null,
    CONNECTE             varchar(512)         collate Chinese_PRC_CI_AS null,
-   DBCATEGORY           varchar(50)          collate Chinese_PRC_CI_AS null,
+   PROVIDERNAME          varchar(50)          collate Chinese_PRC_CI_AS null,
    INSTANCEID           varchar(50)          collate Chinese_PRC_CI_AS null,
    COMMANDTYPE          varchar(50)          collate Chinese_PRC_CI_AS null,
    constraint PK_t_command primary key (NID)
@@ -121,8 +121,8 @@ go
 create table dbo.t_config (
    IDENTIFICATION       bigint               not null,
    APPELLATION          varchar(50)          collate Chinese_PRC_CI_AS null,
-   CONNECTE             varchar(512)         collate Chinese_PRC_CI_AS null,
-   DBCATEGORY           varchar(50)          collate Chinese_PRC_CI_AS null,
+   CONNECTE               varchar(512)         collate Chinese_PRC_CI_AS null,
+   PROVIDERNAME             varchar(50)          collate Chinese_PRC_CI_AS null,
    constraint PK_t_config primary key (IDENTIFICATION)
          on "PRIMARY"
 )

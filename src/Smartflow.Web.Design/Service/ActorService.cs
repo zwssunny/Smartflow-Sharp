@@ -16,8 +16,9 @@ namespace Smartflow.Web.Design
 {
     public class ActorService
     {
-        private IDbConnection Connection = DapperFactory.CreateConnection(DatabaseCategory.SQLServer,
-            ConfigurationManager.AppSettings["busConnection"]);
+        private static readonly ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings["busConnection"];
+       
+        private IDbConnection Connection =DapperFactory.CreateConnection(connectionStringSettings.ProviderName,connectionStringSettings.ConnectionString);
 
         public DataTable GetRole(string roleIds, string searchKey)
         {

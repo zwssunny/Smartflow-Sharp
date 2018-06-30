@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="Assert.cs" />
     <Compile Include="DapperFactory.cs" />
-    <Compile Include="DatabaseService.cs" />
     <Compile Include="DelegatingCompletedHandle.cs" />
     <Compile Include="DelegatingProcessHandle.cs" />
     <Compile Include="Elements\ASTNode.cs" />
@@ -60,7 +59,6 @@
     <Compile Include="Elements\Start.cs" />
     <Compile Include="Elements\Transition.cs" />
     <Compile Include="Elements\Workflow.cs" />
-    <Compile Include="Enums\DatabaseCategory.cs" />
     <Compile Include="Enums\WorkflowInstanceState.cs" />
     <Compile Include="Enums\WorkflowNodeCategeory.cs" />
     <Compile Include="ExecutingContext.cs" />
