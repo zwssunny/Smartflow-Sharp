@@ -53,13 +53,9 @@ namespace Smartflow.BussinessService.WorkflowService
             }
             else
             {
-                var dny = executeContext.Data;
-                recordService.Insert(new Record()
-                {
-                    INSTANCEID = executeContext.Instance.InstanceID,
-                    NODENAME = executeContext.From.APPELLATION,
-                    MESSAGE = executeContext.Data.Message
-                });
+                //写入审批记录
+                WriteRecord(executeContext);
+                
                 var current = GetCurrentNode(executeContext.Instance.InstanceID);
                 if (current.APPELLATION == "结束")
                 {
@@ -71,10 +67,7 @@ namespace Smartflow.BussinessService.WorkflowService
                     {
                         //流程回退(谁审就退给谁) 仅限演示
                         var item = executeContext.Instance.Current.GetFromNode().GetActors().FirstOrDefault();
-                        WritePending(item.IDENTIFICATION,executeContext.Operation.ToString(),
-                                     executeContext.Instance.InstanceID,
-                                     GetCurrentNode(executeContext.Instance.InstanceID).NID,
-                                     dny.bussinessID);
+                        WritePending(item.IDENTIFICATION,executeContext);
                     }
                     else
                     {
@@ -84,11 +77,7 @@ namespace Smartflow.BussinessService.WorkflowService
                         List<User> userList = GetUsersByGroup(items);
                         foreach (User user in userList)
                         {
-                            WritePending(user.IDENTIFICATION,
-                                executeContext.Operation.ToString(),
-                                executeContext.Instance.InstanceID,
-                                GetCurrentNode(executeContext.Instance.InstanceID).NID,
-                                dny.bussinessID);
+                            WritePending(user.IDENTIFICATION,executeContext);
                         }
                     }
                     pendingService.Delete(pending =>
@@ -98,18 +87,35 @@ namespace Smartflow.BussinessService.WorkflowService
             }
         }
 
-        /*
-         * 写待办信息
-         */
-        public void WritePending(long actorID, string operation, string instanceID, string nodeID, string bussinessID)
+        /// <summary>
+        /// 写入审批记录
+        /// </summary>
+        /// <param name="executeContext"></param>
+        public void WriteRecord(ExecutingContext executeContext)
+        {
+            //写入审批记录
+            recordService.Insert(new Record()
+            {
+                INSTANCEID = executeContext.Instance.InstanceID,
+                NODENAME = executeContext.From.APPELLATION,
+                MESSAGE = executeContext.Data.Message
+            });
+        }
+
+        /// <summary>
+        /// 写待办信息
+        /// </summary>
+        /// <param name="actorID">参与者</param>
+        /// <param name="executeContext"></param>
+        public void WritePending(long actorID, ExecutingContext executeContext)
         {
             pendingService.Insert(new Pending()
             {
                 ACTORID = actorID,
-                ACTION = operation,
-                INSTANCEID = instanceID,
-                NODEID = nodeID,
-                APPELLATION = string.Format("<a href=\"javascript:;\" onclick=\"parent.window.document.getElementById('frmContent').src='../FileApply/FileApply/{0}'\">你有待办任务。</a>", bussinessID)
+                ACTION = executeContext.Operation.ToString(),
+                INSTANCEID = executeContext.Instance.InstanceID,
+                NODEID =  GetCurrentNode(executeContext.Instance.InstanceID).NID,
+                APPELLATION = string.Format("<a href=\"javascript:;\" onclick=\"parent.window.document.getElementById('frmContent').src='../FileApply/FileApply/{0}'\">你有待办任务。</a>", executeContext.Data.bussinessID)
             });
         }
 
@@ -129,11 +135,7 @@ namespace Smartflow.BussinessService.WorkflowService
                 List<User> userList = GetUsersByGroup(current.Groups);
                 foreach (var user in userList)
                 {
-                    WritePending(user.IDENTIFICATION,
-                                executeContext.Operation.ToString(),
-                                executeContext.Instance.InstanceID,
-                                GetCurrentNode(executeContext.Instance.InstanceID).NID,
-                                executeContext.Data.bussinessID);
+                    WritePending(user.IDENTIFICATION,executeContext);
                 }
                 
                 pendingService.Delete(pending =>
