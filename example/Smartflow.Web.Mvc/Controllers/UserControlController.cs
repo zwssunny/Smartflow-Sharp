@@ -28,7 +28,8 @@ namespace Smartflow.Web.Controllers
         public PartialViewResult Record(string instanceID)
         {
             ViewBag.InstanceID = instanceID;
-            return PartialView(workflowRecordService.Query(instanceID));
+            return PartialView(workflowRecordService
+                .Query(record=>record.INSTANCEID==instanceID));
         }
 
         /// <summary>

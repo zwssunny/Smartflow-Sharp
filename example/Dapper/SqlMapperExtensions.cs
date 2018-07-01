@@ -153,6 +153,30 @@ namespace Dapper
             return obj;
         }
 
+
+        /// <summary>
+        /// Returns a single entity by a single id from table "Ts". T must be of interface type. 
+        /// Id must be marked with [Key] attribute.
+        /// Created entity is tracked/intercepted for changes and used by the Update() extension. 
+        /// </summary>
+        /// <typeparam name="T">Interface type to create and populate</typeparam>
+        /// <param name="connection">Open SqlConnection</param>
+        /// <param name="id">Id of the entity to get, must be marked with [Key] attribute</param>
+        /// <returns>Entity of T</returns>
+        public static List<T> GetAll<T>(this IDbConnection connection, string whereStr=null, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        {
+            var type = typeof(T);
+            string sql;
+            var name = GetTableName(type);
+
+            // TODO: pluralizer 
+            // TODO: query information schema and only select fields that are both in information schema and underlying class / interface 
+            sql = "select * from " + name + " where 1=1 " + whereStr;
+            return  connection.Query<T>(sql, null, transaction: transaction, commandTimeout: commandTimeout)
+                .ToList();
+        }
+
+
         private static string GetTableName(Type type)
         {
             string name;
@@ -293,6 +317,22 @@ namespace Dapper
                     sb.AppendFormat(" and ");
             }
             var deleted = connection.Execute(sb.ToString(), entityToDelete, transaction: transaction, commandTimeout: commandTimeout);
+            return deleted > 0;
+        }
+
+
+        /// <summary>
+        /// Delete all entities in the table related to the type T.
+        /// </summary>
+        /// <typeparam name="T">Type of entity</typeparam>
+        /// <param name="connection">Open SqlConnection</param>
+        /// <returns>true if deleted, false if none found</returns>
+        public static bool Delete<T>(this IDbConnection connection, string whereStr, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        {
+            var type = typeof(T);
+            var name = GetTableName(type);
+            var statement = String.Format("delete from {0} where 1=1 {1} ", name, whereStr);
+            var deleted = connection.Execute(statement, null, transaction: transaction, commandTimeout: commandTimeout);
             return deleted > 0;
         }
 
@@ -521,13 +561,12 @@ public class SqlServerAdapter : ISqlAdapter
 {
 	public int Insert(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, String tableName, string columnList, string parameterList, IEnumerable<PropertyInfo> keyProperties, object entityToInsert)
 	{
-		string cmd = String.Format("insert into {0} ({1}) values ({2})", tableName, columnList, parameterList);
-
-		connection.Execute(cmd, entityToInsert, transaction: transaction, commandTimeout: commandTimeout); 
+        string cmd = String.Format("insert into {0} ({1}) values ({2}) select @@IDENTITY id ", tableName, columnList, parameterList);
+		int id=connection.ExecuteScalar<int>(cmd, entityToInsert, transaction: transaction, commandTimeout: commandTimeout); 
 
 		//NOTE: would prefer to use IDENT_CURRENT('tablename') or IDENT_SCOPE but these are not available on SQLCE
-		var r = connection.Query("select @@IDENTITY id", transaction: transaction, commandTimeout: commandTimeout);
-		int id = (int)r.First().id;
+		//var r = connection.Query("select @@IDENTITY id", transaction: transaction, commandTimeout: commandTimeout);
+		//int id = (int)r.First().id;
 		if (keyProperties.Any())
 			keyProperties.First().SetValue(entityToInsert, id, null);
 		return id;

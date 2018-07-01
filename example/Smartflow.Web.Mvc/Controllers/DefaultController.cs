@@ -37,12 +37,15 @@ namespace Smartflow.Web.Controllers
 
         public ActionResult Pending()
         {
-            return View(pendingService.Query(UserInfo.IDENTIFICATION));
+            return View(pendingService.Query(mdl => mdl.ACTORID == UserInfo.IDENTIFICATION));
         }
 
         public JsonResult GetPendingCount()
         {
-            return Json(pendingService.Query(UserInfo.IDENTIFICATION).Count);
+            List<Pending> pendingList = pendingService.Query(pending =>
+                pending.ACTORID == UserInfo.IDENTIFICATION);
+
+            return Json(pendingList.Count);
         }
 
         [UnAuthorizationMethodFilter]

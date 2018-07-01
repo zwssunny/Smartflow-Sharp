@@ -15,16 +15,16 @@ namespace Smartflow.Web.Controllers
     public class FileApplyController : BaseController
     {
         private BaseWorkflowService bwfs = BaseWorkflowService.Instance;
-        private ApplyService fileApplyService = new ApplyService();
+        private FileApplyService fileApplyService = new FileApplyService();
 
-        public ActionResult Save(Apply model)
+        public ActionResult Save(FileApply model)
         {
             model.STATUS = 0;
             fileApplyService.Persistent(model);
             return RedirectToAction("FileApplyList");
         }
 
-        public ActionResult Submit(Apply model)
+        public ActionResult Submit(FileApply model)
         {
             model.INSTANCEID = bwfs.Start(model.STRUCTUREID);
             model.STATUS = 1;
@@ -52,7 +52,7 @@ namespace Smartflow.Web.Controllers
             }
             else
             {
-                Apply mdl = fileApplyService.GetInstance(long.Parse(id));
+                FileApply mdl = fileApplyService.Get(long.Parse(id));
                 GenerateSecretViewData(mdl.SECRETGRADE);
                 GenerateWFViewData(mdl.STRUCTUREID);
 

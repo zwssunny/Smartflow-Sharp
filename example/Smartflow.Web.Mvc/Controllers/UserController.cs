@@ -15,20 +15,15 @@ namespace Smartflow.Web.Mvc.Controllers
         // GET: /User/
         public ActionResult UserList()
         {
-            return View(userService.GetUserList());
+            return View(userService.Query());
         }
 
-        //
-        // GET: /User/
-        public ActionResult RoleStatistics()
-        {
-            return View(userService.GetStatisticsDataTable());
-        }
 
         public JsonResult GetUser(string userName)
         {
             //演示使用
-            Smartflow.BussinessService.Models.User userInfo = new UserService().GetUser(userName);
+            Smartflow.BussinessService.Models.User userInfo = new UserService()
+                .Get(u=>u.USERNAME==userName);
 
             if (userInfo == null)
             {

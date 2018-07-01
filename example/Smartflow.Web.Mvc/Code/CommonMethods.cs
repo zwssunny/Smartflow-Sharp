@@ -13,10 +13,13 @@ namespace Smartflow.Web.Mvc.Code
     {
         public static bool CheckAuth(string nodeID, string instanceID, User userInfo)
         {
-            return new PendingService().Check(userInfo.IDENTIFICATION.ToString(), nodeID, instanceID);
+            return (new PendingService().Query(pending => pending.ACTORID == userInfo.IDENTIFICATION
+                && pending.NODEID == nodeID
+                && pending.INSTANCEID == instanceID).FirstOrDefault() != null);
+
         }
 
-        public static bool CheckUndoAuth(string instanceID,User userInfo)
+        public static bool CheckUndoAuth(string instanceID, User userInfo)
         {
             WorkflowInstance instance = WorkflowInstance.GetInstance(instanceID);
             return instance.Current.GetFromNode().GetActors().Count(e => e.IDENTIFICATION == userInfo.IDENTIFICATION) > 0;

@@ -36,114 +36,109 @@ namespace Smartflow.BussinessService.WorkflowService
         {
             //以下代码仅用于演示
             //流程结束（在完成事件中可以做业务操作）
-            ApplyService applyService = new ApplyService();
-            Apply model = applyService.GetInstanceByInstanceID(executeContext.Instance.InstanceID);
+            FileApplyService applyService = new FileApplyService();
+            FileApply model = applyService.Get(apply => apply.INSTANCEID == executeContext.Instance.InstanceID);
             model.STATUS = 8;
             applyService.Persistent(model);
-            new PendingService().Delete(executeContext.Instance.InstanceID);
+
+
+            new PendingService().Delete(p => p.INSTANCEID == executeContext.Instance.InstanceID);
         }
 
         public void OnProcess(ExecutingContext executeContext)
         {
             if (executeContext.Instance.Current.NodeType == Enums.WorkflowNodeCategeory.Decision)
             {
-                new PendingService().Delete(executeContext.Instance.Current.NID, executeContext.Instance.InstanceID);
-                var current = GetCurrentNode(executeContext.Instance.InstanceID);
-                if (executeContext.Operation == Enums.WorkflowAction.Jump&&current.NodeType!=Enums.WorkflowNodeCategeory.Decision)
-                {
-                    List<User> userList = GetUsersByGroup(current.Groups);
-                    //写待办业务
-                    foreach (var item in userList)
-                    {
-                        new PendingService().Persistent(new Pending()
-                        {
-                            ACTORID = item.IDENTIFICATION,
-                            ACTION = executeContext.Operation.ToString(),
-                            INSTANCEID = executeContext.Instance.InstanceID,
-                            NODEID = GetCurrentNode(executeContext.Instance.InstanceID).NID,
-                            APPELLATION = string.Format("<a href=\"javascript:parent.window.document.getElementById('frmContent').src='../FileApply/FileApply/{0}'\">你有待办任务。</a>", executeContext.Data.bussinessID)
-                        });
-                    }
-                    new PendingService().Delete(executeContext.Instance.Current.NID, executeContext.Instance.InstanceID);
-                }
+                DecisionJump(executeContext);
             }
-            //以下代码仅用于演示
-            if (executeContext.Instance.Current.NodeType != Enums.WorkflowNodeCategeory.Decision)
+            else
             {
                 var dny = executeContext.Data;
-                recordService.Persistent(new Record()
+                recordService.Insert(new Record()
                 {
                     INSTANCEID = executeContext.Instance.InstanceID,
                     NODENAME = executeContext.From.APPELLATION,
                     MESSAGE = executeContext.Data.Message
                 });
-
                 var current = GetCurrentNode(executeContext.Instance.InstanceID);
-
                 if (current.APPELLATION == "结束")
                 {
-                    new PendingService().Delete(executeContext.Instance.InstanceID);
+                    pendingService.Delete(p => p.INSTANCEID == executeContext.Instance.InstanceID);
                 }
-                else if (executeContext.Operation == Enums.WorkflowAction.Jump)
+                else
                 {
-                    List<User> userList = GetUsersByGroup(current.Groups);
-                    //写待办业务
-                    foreach (var item in userList)
+                    if (executeContext.Operation == Enums.WorkflowAction.Rollback)
                     {
-                        new PendingService().Persistent(new Pending()
-                        {
-                            ACTORID = item.IDENTIFICATION,
-                            ACTION = executeContext.Operation.ToString(),
-                            INSTANCEID = executeContext.Instance.InstanceID,
-                            NODEID = GetCurrentNode(executeContext.Instance.InstanceID).NID,
-                            APPELLATION = string.Format("<a href=\"javascript:;\" onclick=\"parent.window.document.getElementById('frmContent').src='../FileApply/FileApply/{0}'\">你有待办任务。</a>", dny.bussinessID)
-                        });
+                        //流程回退(谁审就退给谁) 仅限演示
+                        var item = executeContext.Instance.Current.GetFromNode().GetActors().FirstOrDefault();
+                        WritePending(item.IDENTIFICATION,executeContext.Operation.ToString(),
+                                     executeContext.Instance.InstanceID,
+                                     GetCurrentNode(executeContext.Instance.InstanceID).NID,
+                                     dny.bussinessID);
                     }
-
-                    //Task.Factory.StartNew(() => {
-                    //    Smartflow.WorkflowServiceProvider.OfType<IMailService>()
-                    //        .Notification(new string[] { "ren421@163.com" }, "您有新的待办信息");
-                    //});
-                    new PendingService().Delete(executeContext.Instance.Current.NID, executeContext.Instance.InstanceID);
-                }
-                else if (executeContext.Operation == Enums.WorkflowAction.Rollback)
-                {
-                    //流程回退(谁审就退给谁) 仅限演示
-                    var item = executeContext.Instance.Current
-                              .GetFromNode()
-                              .GetActors()
-                              .FirstOrDefault();
-
-                    new PendingService().Persistent(new Pending()
+                    else
                     {
-                        ACTORID = item.IDENTIFICATION,
-                        ACTION = executeContext.Operation.ToString(),
-                        INSTANCEID = executeContext.Instance.InstanceID,
-                        NODEID = GetCurrentNode(executeContext.Instance.InstanceID).NID,
-                        APPELLATION = string.Format("<a href=\"javascript:;\" onclick=\"parent.window.document.getElementById('frmContent').src='../FileApply/FileApply/{0}'\">你有待办任务。</a>", dny.bussinessID)
-                    });
-
-                    //WorkflowServiceProvider.OfType<IMailService>().Notification()
-                    new PendingService().Delete(executeContext.Instance.Current.NID, executeContext.Instance.InstanceID);
-                 }
-                else if (executeContext.Operation == Enums.WorkflowAction.Undo)
-                {
-                    //流程撤销(重新指派人审批) 仅限演示
-                    List<Group> items = executeContext.Instance.Current.GetFromNode().Groups;
-                    List<User> userList = GetUsersByGroup(items);
-                    foreach (User item in userList)
-                    {
-                        new PendingService().Persistent(new Pending()
+                        //流程跳转|流程撤销(重新指派人审批) 仅限演示
+                        List<Group> items = (executeContext.Operation == Enums.WorkflowAction.Jump) ? current.Groups :
+                            executeContext.Instance.Current.GetFromNode().Groups;
+                        List<User> userList = GetUsersByGroup(items);
+                        foreach (User user in userList)
                         {
-                            ACTORID = item.IDENTIFICATION,
-                            ACTION = executeContext.Operation.ToString(),
-                            INSTANCEID = executeContext.Instance.InstanceID,
-                            NODEID = GetCurrentNode(executeContext.Instance.InstanceID).NID,
-                            APPELLATION = string.Format("<a href=\"javascript:;\" onclick=\"parent.window.document.getElementById('frmContent').src='../FileApply/FileApply/{0}'\">你有待办任务。</a>", dny.bussinessID)
-                        });
+                            WritePending(user.IDENTIFICATION,
+                                executeContext.Operation.ToString(),
+                                executeContext.Instance.InstanceID,
+                                GetCurrentNode(executeContext.Instance.InstanceID).NID,
+                                dny.bussinessID);
+                        }
                     }
-                    new PendingService().Delete(executeContext.Instance.Current.NID, executeContext.Instance.InstanceID);
+                    pendingService.Delete(pending =>
+                       pending.NODEID == executeContext.Instance.Current.NID &&
+                       pending.INSTANCEID == executeContext.Instance.InstanceID);
                 }
+            }
+        }
+
+        /*
+         * 写待办信息
+         */
+        public void WritePending(long actorID, string operation, string instanceID, string nodeID, string bussinessID)
+        {
+            pendingService.Insert(new Pending()
+            {
+                ACTORID = actorID,
+                ACTION = operation,
+                INSTANCEID = instanceID,
+                NODEID = nodeID,
+                APPELLATION = string.Format("<a href=\"javascript:;\" onclick=\"parent.window.document.getElementById('frmContent').src='../FileApply/FileApply/{0}'\">你有待办任务。</a>", bussinessID)
+            });
+        }
+
+        /// <summary>
+        /// 多条件跳转
+        /// </summary>
+        /// <param name="executeContext">执行上下文</param>
+        private void DecisionJump(ExecutingContext executeContext)
+        {
+            pendingService.Delete(pending =>
+                pending.NODEID == executeContext.Instance.Current.NID &&
+                pending.INSTANCEID == executeContext.Instance.InstanceID);
+
+            var current = GetCurrentNode(executeContext.Instance.InstanceID);
+            if (executeContext.Operation == Enums.WorkflowAction.Jump && current.NodeType != Enums.WorkflowNodeCategeory.Decision)
+            {
+                List<User> userList = GetUsersByGroup(current.Groups);
+                foreach (var user in userList)
+                {
+                    WritePending(user.IDENTIFICATION,
+                                executeContext.Operation.ToString(),
+                                executeContext.Instance.InstanceID,
+                                GetCurrentNode(executeContext.Instance.InstanceID).NID,
+                                executeContext.Data.bussinessID);
+                }
+                
+                pendingService.Delete(pending =>
+                    pending.NODEID == executeContext.Instance.Current.NID &&
+                    pending.INSTANCEID == executeContext.Instance.InstanceID);
             }
         }
 
@@ -154,12 +149,12 @@ namespace Smartflow.BussinessService.WorkflowService
             {
                 gList.Add(g.IDENTIFICATION.ToString());
             }
-            
-            if (gList.Count==0)
+
+            if (gList.Count == 0)
             {
                 return new List<User>();
             }
-            
+
             return new UserService().GetUserList(string.Join(",", gList));
         }
 
@@ -179,7 +174,7 @@ namespace Smartflow.BussinessService.WorkflowService
             return WorkflowInstance.GetInstance(instanceID).Current;
         }
 
-        public void UndoSubmit(string instanceID, long actorID, string actorName,string bussinessID)
+        public void UndoSubmit(string instanceID, long actorID, string actorName, string bussinessID)
         {
             WorkflowInstance instance = WorkflowInstance.GetInstance(instanceID);
             dynamic dynData = new ExpandoObject();
@@ -190,7 +185,7 @@ namespace Smartflow.BussinessService.WorkflowService
                 Instance = instance,
                 Data = dynData,
                 ActorID = actorID,
-                ActorName=actorName
+                ActorName = actorName
             });
         }
 

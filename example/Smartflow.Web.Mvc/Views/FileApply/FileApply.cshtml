@@ -1,4 +1,4 @@
-﻿@model Smartflow.BussinessService.Models.Apply
+﻿@model Smartflow.BussinessService.Models.FileApply
 @using Smartflow.BussinessService.Models
 @{
     Layout = null;
@@ -159,7 +159,7 @@
             </table>
         </form>
         @{
-            if (Model != null)
+            if (Model != null && !String.IsNullOrEmpty(Model.INSTANCEID))
             {
                 Html.RenderAction("Record", "UserControl", new { instanceID = Model.INSTANCEID });
             }
