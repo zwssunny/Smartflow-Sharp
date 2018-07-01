@@ -11,14 +11,6 @@ namespace Smartflow.Web.Mvc.Controllers
     {
         private UserService userService = new UserService();
 
-        //
-        // GET: /User/
-        public ActionResult UserList()
-        {
-            return View(userService.Query());
-        }
-
-
         public JsonResult GetUser(string userName)
         {
             //演示使用

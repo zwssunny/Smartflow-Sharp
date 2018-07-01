@@ -52,7 +52,6 @@ namespace Smartflow.BussinessService
             }
         }
 
-
         public static string ParseToWhere<T>(Expression expression)
         {
             StringBuilder whereBuilder = new StringBuilder();
