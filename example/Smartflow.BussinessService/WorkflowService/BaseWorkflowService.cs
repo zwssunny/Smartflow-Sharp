@@ -32,22 +32,6 @@ namespace Smartflow.BussinessService.WorkflowService
             get { return singleton; }
         }
 
-        protected List<User> GetUsersByGroup(List<Group> items)
-        {
-            List<string> gList = new List<string>();
-            foreach (Group g in items)
-            {
-                gList.Add(g.IDENTIFICATION.ToString());
-            }
-
-            if (gList.Count == 0)
-            {
-                return new List<User>();
-            }
-
-            return new UserService().GetUserList(string.Join(",", gList));
-        }
-
         public ASTNode GetCurrent(string instanceID)
         {
             return GetCurrentNode(instanceID);
@@ -90,12 +74,7 @@ namespace Smartflow.BussinessService.WorkflowService
                 ActorName = actorName
             });
         }
-
-        public List<Group> GetCurrentActorGroup(string instanceID)
-        {
-            return WorkflowInstance.GetInstance(instanceID).Current.Groups;
-        }
-
+      
         public string Start(string identification)
         {
             return context.Start(identification);

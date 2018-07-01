@@ -10,6 +10,27 @@ namespace Smartflow.BussinessService.WorkflowService
 {
     public partial class BaseWorkflowService
     {
+        public List<Group> GetCurrentActorGroup(string instanceID)
+        {
+            return WorkflowInstance.GetInstance(instanceID).Current.Groups;
+        }
+
+        protected List<User> GetUsersByGroup(List<Group> items)
+        {
+            List<string> gList = new List<string>();
+            foreach (Group g in items)
+            {
+                gList.Add(g.IDENTIFICATION.ToString());
+            }
+
+            if (gList.Count == 0)
+            {
+                return new List<User>();
+            }
+
+            return new UserService().GetUserList(string.Join(",", gList));
+        }
+
         public void OnCompleted(ExecutingContext executeContext)
         {
             //以下代码仅用于演示
