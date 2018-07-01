@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExpressionUtils.cs" />
+    <Compile Include="IMdl.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Models\Pending.cs" />
     <Compile Include="RepositoryService.cs" />

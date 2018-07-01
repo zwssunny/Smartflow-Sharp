@@ -64,9 +64,9 @@ namespace Smartflow.Web.Controllers
                     ViewBag.ButtonName = current.APPELLATION;
                     ViewBag.PreviousButtonName = executeNode == null ? String.Empty : executeNode.APPELLATION;
                     ViewBag.UndoCheck = CommonMethods.CheckUndoButton(mdl.INSTANCEID);
-                    ViewBag.UndoAuth = executeNode == null ? true : CommonMethods.CheckUndoAuth(mdl.INSTANCEID,UserInfo);
+                    ViewBag.UndoAuth = executeNode == null ? true : CommonMethods.CheckUndoAuth(mdl.INSTANCEID, UserInfo);
                     ViewBag.JumpAuth = current.APPELLATION == "开始" ? true : CommonMethods.CheckAuth(current.NID, mdl.INSTANCEID, UserInfo);
-                    ViewBag.UserList= new UserService().GetPendingUserList(current.NID, mdl.INSTANCEID);
+                    ViewBag.UserList = new UserService().GetPendingUserList(current.NID, mdl.INSTANCEID);
                 }
                 return View(mdl);
             }
@@ -77,8 +77,7 @@ namespace Smartflow.Web.Controllers
             List<WorkflowStructure> workflowXmlList = WorkflowServiceProvider
                 .OfType<IWorkflowDesignService>()
                 .GetWorkflowStructureList();
-            
-            
+
             List<SelectListItem> fileList = new List<SelectListItem>();
             foreach (WorkflowStructure item in workflowXmlList)
             {
@@ -92,8 +91,7 @@ namespace Smartflow.Web.Controllers
             List<string> secrets = new List<string>() { 
               "非密",
               "秘密",
-              "机密",
-              "绝密"
+              "机密"
             };
             List<SelectListItem> list = new List<SelectListItem>();
             foreach (string secret in secrets)

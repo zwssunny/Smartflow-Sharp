@@ -7,7 +7,7 @@ using System.Web;
 namespace Smartflow.BussinessService.Models
 {
     [Table("T_APPLY")]
-    public class FileApply
+    public class FileApply : IMdl
     {
         [Key]
         public long IDENTIFICATION
@@ -33,7 +33,7 @@ namespace Smartflow.BussinessService.Models
             get;
             set;
         }
-        
+
         public string STRUCTUREID
         {
             get;
@@ -50,6 +50,15 @@ namespace Smartflow.BussinessService.Models
         {
             get;
             set;
+        }
+
+        [Computed]
+        public string BLLSERVICE
+        {
+            get
+            {
+                return "Smartflow.BussinessService.Services.FileApplyService,Smartflow.BussinessService";
+            }
         }
     }
 }

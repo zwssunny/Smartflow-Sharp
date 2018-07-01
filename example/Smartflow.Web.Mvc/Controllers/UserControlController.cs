@@ -57,10 +57,11 @@ namespace Smartflow.Web.Controllers
         /// </summary>
         /// <param name="instanceID">流程实例ID</param>
         /// <returns></returns>
-        public ActionResult WorkflowCheck(string instanceID, string bussinessID)
+        public ActionResult WorkflowCheck(string instanceID, string bussinessID, string bllService)
         {
             ViewBag.InstanceID = instanceID;
             ViewBag.bussinessID = bussinessID;
+            ViewBag.bllService = bllService;
             WorkflowInstance instance = WorkflowInstance.GetInstance(instanceID);
             ViewBag.CheckResult = CommonMethods.CheckUndoButton(instanceID);
             return View(instance.Current.GetTransitions());
@@ -85,11 +86,12 @@ namespace Smartflow.Web.Controllers
         /// <param name="message">审批消息</param>
         /// <param name="action">审批动作（原路退回、跳转）</param>
         /// <returns>是否成功</returns>
-        public JsonResult Jump(string instanceID, string transitionID, string bussinessID, string message, string action)
+        public JsonResult Jump(string instanceID, string transitionID, string bussinessID, string bllService,string message, string action)
         {
             dynamic data = new ExpandoObject();
             data.Message = message;
             data.bussinessID = bussinessID;
+            data.bllService = bllService;
             data.UserInfo = UserInfo;
             switch (action.ToLower())
             {

@@ -5,6 +5,7 @@ using System.Text;
 using Smartflow.Elements;
 using Smartflow.BussinessService.Models;
 using Smartflow.BussinessService.Services;
+using System.Reflection;
 
 namespace Smartflow.BussinessService.WorkflowService
 {
@@ -35,10 +36,14 @@ namespace Smartflow.BussinessService.WorkflowService
         {
             //以下代码仅用于演示
             //流程结束（在完成事件中可以做业务操作）
-            FileApplyService applyService = new FileApplyService();
-            FileApply model = applyService.Get(apply => apply.INSTANCEID == executeContext.Instance.InstanceID);
-            model.STATUS = 8;
-            applyService.Persistent(model);
+            string bllServiceClass=executeContext.Data.bllService;
+            object service = Activator.CreateInstance(Type.GetType(bllServiceClass));
+            MethodInfo[] methods = service.GetType().GetMethods();
+            MethodInfo methodGet=methods.FirstOrDefault(m => m.Name == "Get");
+            IMdl mdl = methodGet.Invoke(service, new object[] { Convert.ToInt64(executeContext.Data.bussinessID) }) as IMdl;
+            mdl.STATUS = 8;
+            MethodInfo methodUpdate = methods.FirstOrDefault(m => m.Name == "Update");
+            methodUpdate.Invoke(service, new object[] { mdl });
             pendingService.Delete(p => p.INSTANCEID == executeContext.Instance.InstanceID);
         }
 
