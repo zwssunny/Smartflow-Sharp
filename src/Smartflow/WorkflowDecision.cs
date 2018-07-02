@@ -83,5 +83,17 @@ namespace Smartflow
             return Connection.Query<Command>(query, new { RNID = NID })
                   .FirstOrDefault();
         }
+
+        public static DataTable GetSettings()
+        {
+            string query = " SELECT * FROM T_CONFIG ";
+            DataTable configData = new DataTable(Guid.NewGuid().ToString());
+            using (IDataReader dr = DapperFactory.CreateWorkflowConnection().ExecuteReader(query))
+            {
+                configData.Load(dr);
+            }
+            return configData;
+        }
+
     }
 }

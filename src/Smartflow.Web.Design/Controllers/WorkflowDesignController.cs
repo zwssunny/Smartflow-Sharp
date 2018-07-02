@@ -52,8 +52,9 @@ namespace Smartflow.Web.Design.Controllers
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             ViewBag.Result = serializer.Serialize(WorkflowInstance.GetInstance(instanceID));
-
-            DataTable dt = WorkflowServiceProvider.OfType<IWorkflowActor>().GetRecord(instanceID);
+            
+            DataTable dt = WorkflowNode.GetRecord(instanceID);
+            //WorkflowServiceProvider.OfType<IWorkflowActor>().GetRecord(instanceID);
             ViewBag.Record = Newtonsoft.Json.JsonConvert.SerializeObject(dt);
 
             return View();
@@ -71,9 +72,7 @@ namespace Smartflow.Web.Design.Controllers
 
         public JsonResult GetConfigs()
         {
-            return JsonWrapper(WorkflowServiceProvider
-                .OfType<IWorkflowConfiguration>()
-                .GetWorkflowConfigs());
+            return JsonWrapper(WorkflowDecision.GetSettings());
         }
     }
 }

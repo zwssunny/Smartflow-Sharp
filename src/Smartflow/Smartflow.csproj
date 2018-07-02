@@ -65,8 +65,6 @@
     <Compile Include="ITransition.cs" />
     <Compile Include="IPersistent.cs" />
     <Compile Include="IWorkflow.cs" />
-    <Compile Include="IWorkflowActor.cs" />
-    <Compile Include="IWorkflowConfiguration.cs" />
     <Compile Include="IWorkflowDesignService.cs" />
     <Compile Include="MailConfiguration.cs" />
     <Compile Include="MailService.cs" />
@@ -75,12 +73,10 @@
     <Compile Include="SmartflowConfiguration.cs" />
     <Compile Include="Elements\Actor.cs" />
     <Compile Include="SqlMapper.cs" />
-    <Compile Include="WorkflowActor.cs" />
     <Compile Include="WorkflowContext.cs" />
     <Compile Include="WorkflowDecision.cs" />
     <Compile Include="WorkflowDesignService.cs" />
     <Compile Include="WorkflowEngine.cs" />
-    <Compile Include="WorkflowConfig.cs" />
     <Compile Include="WorkflowException.cs" />
     <Compile Include="Infrastructure.cs" />
     <Compile Include="WorkflowLogging.cs" />
