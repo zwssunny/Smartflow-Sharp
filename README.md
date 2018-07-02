@@ -23,6 +23,6 @@
 ### VS2017 加载不成功
 默认项目会自已发布到本地IIS上，这种方式，先要确定自已本机已安装IIS；或者重新编辑项目解决方案文件，找到UseIIS节点，将其为false。
 ### VS2017 加载成功，但是编译不通过，请在nuget控制台中，按照如下步骤执行
-Update-Package -ProjectName 'Smartflow.Web.Mvc'  -Reinstall
+Update-Package -ProjectName 'Smartflow.Web.Mvc'  -Reinstall  
 Update-Package -ProjectName 'Smartflow.Web.Design'  -Reinstall
 ## 示例运行起来后，要先画流程图，然后再做定密申请业务。
