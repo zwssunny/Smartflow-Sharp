@@ -40,7 +40,7 @@ namespace Smartflow.Web.Design
         }
 
         /// <summary>
-        /// 处理查询依据ID，查询少引号的情况
+        /// 处理依据roleID查询少引号的情况
         /// </summary>
         /// <param name="roleIds"></param>
         /// <returns></returns>
