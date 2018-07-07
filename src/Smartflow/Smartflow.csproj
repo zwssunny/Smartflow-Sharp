@@ -51,6 +51,7 @@
     <Compile Include="Elements\Decision.cs" />
     <Compile Include="Elements\Element.cs" />
     <Compile Include="Elements\End.cs" />
+    <Compile Include="EnumConverter.cs" />
     <Compile Include="Enums\WorkflowAction.cs" />
     <Compile Include="ILogging.cs" />
     <Compile Include="IMailService.cs" />

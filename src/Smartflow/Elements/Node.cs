@@ -24,7 +24,7 @@ namespace Smartflow.Elements
     {
         private WorkflowNodeCategeory _nodeType = WorkflowNodeCategeory.Normal;
 
-        [JsonProperty("category", ItemConverterType = typeof(StringEnumConverter))]
+        [JsonProperty("category", ItemConverterType = typeof(EnumConverter))]
         public override WorkflowNodeCategeory NodeType
         {
             get { return _nodeType; }

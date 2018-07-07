@@ -17,7 +17,7 @@ namespace Smartflow.Enums
     /// <summary>
     /// 工作流节点类型
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(EnumConverter))]
     public enum WorkflowNodeCategeory
     {
         /// <summary>
