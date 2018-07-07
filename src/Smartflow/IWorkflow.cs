@@ -29,7 +29,7 @@ namespace Smartflow
         /// </summary>
         /// <param name="resourceXml">流程结构</param>
         /// <returns></returns>
-        string DeployWorkflow(string resourceXml);
+        string StartWorkflow(string resourceXml);
 
         /// <summary>
         /// 终结流程

@@ -43,7 +43,7 @@ namespace Smartflow
             }
         }
 
-        public string DeployWorkflow(string resourceXml)
+        public string StartWorkflow(string resourceXml)
         {
             Workflow workflow = XmlConfiguration.ParseflowXml<Workflow>(resourceXml);
             List<Element> elements = new List<Element>();

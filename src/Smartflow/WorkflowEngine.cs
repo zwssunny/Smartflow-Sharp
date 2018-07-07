@@ -65,7 +65,7 @@ namespace Smartflow
         /// <returns></returns>
         public string StartWorkflow(string resourceXml)
         {
-            return workflowService.DeployWorkflow(resourceXml);
+            return workflowService.StartWorkflow(resourceXml);
         }
 
         /// <summary>
