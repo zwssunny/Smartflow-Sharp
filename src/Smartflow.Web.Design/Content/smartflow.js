@@ -7,7 +7,25 @@
 
     var
         util = {
-            ie: (!!window.ActiveXObject || "ActiveXObject" in window)
+            ie: (!!window.ActiveXObject || "ActiveXObject" in window),
+            parseNode: function (layout) {
+                var pos = layout.split(' ');
+                return {
+                    x: Number(pos[0]),
+                    y: Number(pos[2]),
+                    disX: Number(pos[1]),
+                    disY: Number(pos[3])
+                };
+            },
+            parseLine: function (layout) {
+                var pos = layout.split(' ');
+                return {
+                    x1: Number(pos[0]),
+                    y1: Number(pos[1]),
+                    x2: Number(pos[2]),
+                    y2: Number(pos[3])
+                };
+            }
         },
         NC = {},
         LC = {},
@@ -44,11 +62,16 @@
             actor: 'actor',
             transition: 'transition'
         },
-        attributeMap = {
+        ATTRIBUTE_MAP = {
             id: 'identification',
             name: 'appellation',
             from: 'origin',
             to: 'destination'
+        },
+        ACTION_MAP = {
+            0: '审核',
+            1: '流程撤销',
+            2: '流程退回'
         };
 
     $.extend(Array.prototype, {
@@ -127,7 +150,7 @@
         this.name = name;
         //节点类别（LINE、NODE、START、END,DECISION）
         this.category = category;
-        this.uniqueId = undefined;
+        this.unique = undefined;
         //禁用事件
         this.disable = false;
         //背景颜色
@@ -233,7 +256,7 @@
         },
         draw: function (b) {
             var n = this,
-                color = (b == n.uniqueId && b && n.uniqueId) ? n.bgCurrentColor : n.bgColor,
+                color = (b == n.unique && b && n.unique) ? n.bgCurrentColor : n.bgColor,
                 rect = draw.rect(n.w, n.h).attr({ fill: color, x: n.x, y: n.y });
 
             n.brush = draw.text(n.name);
@@ -330,17 +353,21 @@
                 .append(self.category);
 
             eachAttributs(build, self);
+            build.append(config.space)
+                       .append('layout')
+                       .append(config.equal)
+                       .append(config.lQuotation)
+                       .append(self.x + ' ' + self.disX + ' ' + self.y + ' ' + self.disY)
+                       .append(config.rQuotation);
             build.append(config.end);
 
             $.each(self.group, function () {
-
                 build.append(config.start)
                      .append(config.group);
                 eachAttributs(build, this, config.group);
                 build.append(config.afterClose);
             });
 
-            //导出Decision 其他元素
             if (self.exportDecision) {
                 self.exportDecision(build);
             }
@@ -355,21 +382,27 @@
                     build.append(config.start)
                          .append(config.transition)
                          .append(config.space)
-                         .append(attributeMap['name'])
+                         .append(ATTRIBUTE_MAP['name'])
                          .append(config.equal)
                          .append(config.lQuotation)
                          .append(L.name)
                          .append(config.rQuotation)
                          .append(config.space)
-                         .append(attributeMap['to'])
+                         .append(ATTRIBUTE_MAP['to'])
                          .append(config.equal)
                          .append(config.lQuotation)
-                         .append(N.uniqueId)
+                         .append(N.unique)
                          .append(config.rQuotation)
-                         .append(config.space);
+                         .append(config.space)
+                         .append('layout')
+                         .append(config.equal)
+                         .append(config.lQuotation)
+                         .append(L.x1 + ' ' + L.y1 + ' ' + L.x2 + ' ' + L.y2)
+                         .append(config.rQuotation);
 
                     if (self.category === 'decision') {
-                        build.append('expression')
+                        build.append(config.space)
+                             .append('expression')
                              .append(config.equal)
                              .append(config.lQuotation)
                              .append(L.expression)
@@ -386,25 +419,21 @@
                 build.append(config.afterClose);
             });
 
-            //结束
             build.append(config.beforeClose)
                  .append(self.category)
                  .append(config.end);
 
-            //属性
             function eachAttributs(build, reference, attribute) {
-                var propertyName = 'uniqueId'
+                var propertyName = 'unique'
                 $.each(['id', 'name'], function (i, p) {
                     build.append(config.space)
-                         .append(attributeMap[p])
+                         .append(ATTRIBUTE_MAP[p])
                          .append(config.equal)
                          .append(config.lQuotation)
                          .append(p === 'id' && (attribute !== 'group' && attribute !== 'actor') ? reference[propertyName] : reference[p])
                          .append(config.rQuotation);
                 });
             }
-
-            //导出
             return build.toString();
         },
         validate: function () {
@@ -419,7 +448,7 @@
     //显示Tooltip 
     Node.prototype.showToolTip = function (data) {
         var n = this,
-            rect= SVG.get(n.id),
+            rect = SVG.get(n.id),
             tooltip = draw.element('title'),
             tn = tooltip.node;
 
@@ -429,12 +458,25 @@
             tn.appendChild(document.createElement("br"));
             tn.appendChild(document.createTextNode("时间：" + date));
             tn.appendChild(document.createElement("br"));
-            tn.appendChild(document.createTextNode("操作：" + ((n.name == "开始") ? "提交" : actionMap[this.OPERATION])));
+            tn.appendChild(document.createTextNode("操作：" + ((n.name == "开始") ? "提交" : ACTION_MAP[this.OPERATION])));
             tn.appendChild(document.createElement("br"));
         });
 
         rect.node.appendChild(tn);
     }
+
+    Node.prototype.revert = function (layout, currentNodeID) {
+        $.extend(this, util.parseNode(layout));
+        this.draw(currentNodeID);
+        $.each(this.transitions, function () {
+            var instance = new Line();
+            $.extend(instance, this, util.parseLine(this.layout));
+
+            instance.disable = (disable || false);
+            instance.draw();
+        });
+    }
+
 
     function Decision() {
         Decision.base.Constructor.call(this);
@@ -595,8 +637,8 @@
                 this.disX = sn.disX;
                 this.disY = sn.disY;
 
-                this.move.call(this,element, {
-                    clientX:ele.x()+this.cx+this.disX,
+                this.move.call(this, element, {
+                    clientX: ele.x() + this.cx + this.disX,
                     clientY: element.y() + this.cy + this.disY
                 });
             }
@@ -766,7 +808,7 @@
     }
 
     function exportToJSON() {
-        var uniqueId = 29,
+        var unique = 29,
             nodeCollection = [],
             pathCollection = [],
             validateCollection = [],
@@ -785,12 +827,12 @@
         }
 
         function generatorId() {
-            uniqueId++;
-            return uniqueId;
+            unique++;
+            return unique;
         }
 
         for (var propertyName in NC) {
-            NC[propertyName].uniqueId = generatorId();
+            NC[propertyName].unique = generatorId();
         }
 
         build.append(config.rootStart);
@@ -800,92 +842,61 @@
         });
 
         build.append(config.rootEnd);
-
-        $.each(NC, function () {
-            var instance = new Node();
-            $.extend(instance, this);
-
-            $.each(['brush', 'circles'], function (index, p) {
-                if (instance[p]) {
-                    delete instance[p];
-                }
-            });
-            nodeCollection.push(instance);
-        });
-
-        $.each(LC, function () {
-            var instance = new Line();
-            $.extend(instance, this);
-            delete instance['brush'];
-            pathCollection.push(instance);
-        });
-
-        var imageData = escape(JSON.stringify({
-            RC: RC,
-            NC: nodeCollection,
-            PC: pathCollection
-        }));
-
-        return {
-            FILESTRUCTURE: escape(build.toString()),
-            STRUCTUREXML: imageData
-        };
+        return { STRUCTUREXML: escape(build.toString()) };
     }
 
-    function revertFlow(data, disable, currentNodeId, process) {
-
+    function revert(data, disable, currentNodeId, process) {
         var record = process || [];
-        var imageData = JSON.parse(unescape(data)),
-            nodeCollection = imageData.NC,
-            pathCollection = imageData.PC,
-            relationCollection = imageData.RC;
-
-        $.each(nodeCollection, function () {
-            var self = this,
-                originId = self.id;
-
+        $.each(data, function () {
+            var self = this;
+            this.category = (this.category.toLowerCase() == 'normal' ? 'node' : this.category.toLowerCase());
             var instance = convertToRealType(this.category);
-            $.extend(instance, this);
-
+            $.extend(instance, this, util.parseNode(self.layout));
             instance.disable = (disable || false);
             instance.draw(currentNodeId);
-
+            self.id = instance.id;
             if (instance.disable && record.length > 0) {
-                var toolTipArray = getToolTipData(record, instance.uniqueId);
+                var toolTipArray = getToolTipData(record, instance.unique);
                 instance.showToolTip(toolTipArray);
             }
+        });
 
-            $.each(["to", "from"], function (i, propertyName) {
-                eachNode(instance.id, originId, propertyName);
+        $.each(data, function () {
+            var self = this;
+            $.each(self.transitions, function () {
+                var transition = new Line();
+                $.extend(transition, this, util.parseLine(this.layout));
+                transition.disable = (disable || false);
+                transition.draw();
+
+                var destinationId = findUID(transition.destination),
+                    destination = SVG.get(destinationId),
+                    from = SVG.get(self.id),
+                    line = SVG.get(transition.id);
+
+                RC.push({
+                    id: transition.id,
+                    from: self.id,
+                    to: destinationId,
+                    ox2: line.attr("x2") - destination.x(),
+                    oy2: line.attr("y2") - destination.y(),
+                    ox1: line.attr("x1") - from.x(),
+                    oy1: line.attr("y1") - from.y()
+                });
             });
         });
 
-        $.each(pathCollection, function () {
-            var instance = new Line();
-            $.extend(instance, this);
-            instance.disable = (disable || false);
-            instance.draw();
-            eachNode(instance.id, this.id, "id");
-        });
-
-        $.each(relationCollection, function () {
-            RC.push(this);
-        });
-
-        function eachNode(id, originId, nid) {
-            $.each(relationCollection, function () {
-                var self = this;
-                if (self[nid] === originId) {
-                    self[nid] = id;
+        function findUID(destination) {
+            var id;
+            for (var i = 0, len = data.length; i < len; i++) {
+                var node = data[i];
+                if (destination == node.unique) {
+                    id = node.id;
+                    break;
                 }
-            });
+            }
+            return id;
         }
-    }
-
-    var actionMap = {
-        0: '审核',
-        1: '流程撤销',
-        2: '流程退回'
     }
 
     //遍历过程记录
@@ -900,7 +911,6 @@
     }
 
     function convertToRealType(category) {
-        var convertType;
         switch (category) {
             case "node":
                 convertType = new Node();
@@ -953,7 +963,7 @@
         connect: connect,
         //导出到JSON对象，以序列化保存到数据库
         exportToJSON: exportToJSON,
-        revert: revertFlow,
+        revert: revert,
         alignment: alignment,
         create: function (category) {
             var reallType = convertToRealType(category);

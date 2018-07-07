@@ -153,8 +153,7 @@
         var roles = [],
             expressions = [],
             name = $("#txtNodeName").val();
-
-        if (nx.category === 'decision') {
+        if (nx.category.toLowerCase() === 'decision') {
             $("#transitions tbody input").each(function () {
                 var input = $(this);
                 expressions.push({ id: input.attr("id"), expression: input.val() });
@@ -190,7 +189,7 @@
 
     function setNodeToSettings(nx) {
         $("#txtNodeName").val(nx.name);
-        if (nx.category === 'decision') {
+        if (nx.category.toLowerCase() === 'decision') {
             var lineCollection = nx.getTransitions();
             if (lineCollection.length > 0) {
                 var unqiueId = 'lineTo',
@@ -209,8 +208,7 @@
         } else {
             loadRoleGrid(nx.group);
         }
-
-        var items = tabConfig[nx.category];
+        var items = tabConfig[nx.category.toLocaleLowerCase()];
         $.each(items, function (i, selector) {
             $(selector).hide();
         });

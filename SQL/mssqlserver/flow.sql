@@ -215,7 +215,6 @@ go
 create table dbo.t_structure (
    IDENTIFICATION       varchar(50)          collate Chinese_PRC_CI_AS not null,
    APPELLATION          varchar(50)          collate Chinese_PRC_CI_AS null,
-   FILESTRUCTURE        text                 collate Chinese_PRC_CI_AS null,
    STRUCTUREXML         text                 collate Chinese_PRC_CI_AS null,
    constraint PK_T_STRUCTURE primary key (IDENTIFICATION)
 )

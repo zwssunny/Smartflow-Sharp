@@ -22,7 +22,7 @@ namespace Smartflow
         {
             try
             {
-                Workflow workflow = XmlConfiguration.ParseflowXml<Workflow>(workflowStructure.FILESTRUCTURE);
+                Workflow workflow = XmlConfiguration.ParseflowXml<Workflow>(workflowStructure.STRUCTUREXML);
                 List<Element> elements = new List<Element>();
                 elements.Add(workflow.StartNode);
                 elements.AddRange(workflow.ChildNode);

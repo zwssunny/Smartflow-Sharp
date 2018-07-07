@@ -74,8 +74,8 @@
                 url: designConfig.instanceUrl,
                 data: { WFID: designConfig.id },
                 success: function (serverData) {
-                    flowName = serverData.APPELLATION;
-                    SMF.revert(serverData.STRUCTUREXML);
+                    flowName = serverData.appellation;
+                    SMF.revert(serverData.structure);
                 }
             };
             ajaxService(settings);

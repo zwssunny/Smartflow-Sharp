@@ -12,6 +12,7 @@ using System.Xml.Serialization;
 
 using Smartflow.Dapper;
 using Smartflow.Enums;
+using Newtonsoft.Json;
 
 namespace Smartflow.Elements
 {
@@ -20,6 +21,7 @@ namespace Smartflow.Elements
         /// <summary>
         /// 执行SQL语句
         /// </summary>
+        [JsonProperty("script")]
         [XmlElement("script")]
         public string SCRIPT
         {
@@ -30,6 +32,7 @@ namespace Smartflow.Elements
         /// <summary>
         /// 连接字符串
         /// </summary>
+        [JsonProperty("connecte")]
         [XmlElement("connecte")]
         public string CONNECTE
         {
@@ -37,6 +40,7 @@ namespace Smartflow.Elements
             set;
         }
 
+        [JsonProperty("providername")]
         [XmlElement("providername")]
         public string PROVIDERNAME
         {
@@ -44,6 +48,7 @@ namespace Smartflow.Elements
             set;
         }
 
+        [JsonProperty("commandtype")]
         [XmlElement("commandtype")]
         public string COMMANDTYPE
         {
@@ -51,6 +56,7 @@ namespace Smartflow.Elements
             set;
         }
 
+        [JsonIgnore]
         [XmlIgnore]
         public string RNID
         {
@@ -63,7 +69,7 @@ namespace Smartflow.Elements
             string sql = "INSERT INTO T_COMMAND(NID,RNID,APPELLATION,SCRIPT,CONNECTE,INSTANCEID,PROVIDERNAME,COMMANDTYPE) VALUES(@NID,@RNID,@APPELLATION,@SCRIPT,@CONNECTE,@INSTANCEID,@PROVIDERNAME,@COMMANDTYPE)";
             Connection.Execute(sql, new
             {
-                NID=Guid.NewGuid().ToString(),
+                NID = Guid.NewGuid().ToString(),
                 RNID = RNID,
                 APPELLATION = APPELLATION,
                 SCRIPT = SCRIPT,

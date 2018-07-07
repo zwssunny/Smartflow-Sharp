@@ -1539,8 +1539,8 @@ Shadow=0</a:DisplayPreferences>
 <c:Symbols>
 <o:TableSymbol Id="o5">
 <a:CreationDate>1528618631</a:CreationDate>
-<a:ModificationDate>1528618631</a:ModificationDate>
-<a:Rect>((-29253,3738), (-16406,11286))</a:Rect>
+<a:ModificationDate>1530797278</a:ModificationDate>
+<a:Rect>((-28578,3813), (-15731,11361))</a:Rect>
 <a:LineColor>12615680</a:LineColor>
 <a:FillColor>16570034</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1631,8 +1631,8 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:TableSymbol>
 <o:TableSymbol Id="o13">
 <a:CreationDate>1528618631</a:CreationDate>
-<a:ModificationDate>1528618631</a:ModificationDate>
-<a:Rect>((-29253,-7985), (-16407,-2087))</a:Rect>
+<a:ModificationDate>1530797641</a:ModificationDate>
+<a:Rect>((-28578,-3110), (-15732,2788))</a:Rect>
 <a:LineColor>12615680</a:LineColor>
 <a:FillColor>16570034</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1723,8 +1723,8 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:TableSymbol>
 <o:TableSymbol Id="o21">
 <a:CreationDate>1529010221</a:CreationDate>
-<a:ModificationDate>1529743276</a:ModificationDate>
-<a:Rect>((-29199,-18526), (-15337,-10976))</a:Rect>
+<a:ModificationDate>1530797644</a:ModificationDate>
+<a:Rect>((-29199,-12076), (-15337,-4526))</a:Rect>
 <a:AutoAdjustToText>0</a:AutoAdjustToText>
 <a:LineColor>12615680</a:LineColor>
 <a:FillColor>16570034</a:FillColor>
@@ -2278,8 +2278,9 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>t_node</a:Code>
 <a:CreationDate>1528618631</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1528618631</a:ModificationDate>
+<a:ModificationDate>1530797526</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
+<a:Comment>流程节点表</a:Comment>
 <a:PhysicalOptions>on &quot;PRIMARY&quot;</a:PhysicalOptions>
 <c:Columns>
 <o:Column Id="o54">
@@ -2761,8 +2762,9 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>t_structure</a:Code>
 <a:CreationDate>1529010221</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1529743437</a:ModificationDate>
+<a:ModificationDate>1530941125</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
+<a:Comment>流程模板</a:Comment>
 <a:PhysicalOptions>on &quot;PRIMARY&quot;</a:PhysicalOptions>
 <c:Columns>
 <o:Column Id="o83">
@@ -2771,8 +2773,9 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>IDENTIFICATION</a:Code>
 <a:CreationDate>1529010221</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1529743437</a:ModificationDate>
+<a:ModificationDate>1530797323</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
+<a:Comment>主键标识 GUID</a:Comment>
 <a:DataType>varchar(50)</a:DataType>
 <a:Length>50</a:Length>
 <a:Mandatory>1</a:Mandatory>
@@ -2786,8 +2789,9 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>APPELLATION</a:Code>
 <a:CreationDate>1529010221</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1529010221</a:ModificationDate>
+<a:ModificationDate>1530797340</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
+<a:Comment>流程图模板名称</a:Comment>
 <a:DataType>varchar(50)</a:DataType>
 <a:Length>50</a:Length>
 <a:ExtendedAttributesText>{030105E8-1DFA-4990-B2C8-DEB36D9D8D09},MSSQLSRV2005,74={A0A25FE3-6358-495A-95F9-8A6A4207D7CC},ExtCollation,17=Chinese_PRC_CI_AS
@@ -2795,26 +2799,14 @@ TableComment 0 新宋体,8,N</a:FontList>
 </a:ExtendedAttributesText>
 </o:Column>
 <o:Column Id="o85">
-<a:ObjectID>643625F8-E44A-4563-8004-5136447F6396</a:ObjectID>
-<a:Name>FILESTRUCTURE</a:Name>
-<a:Code>FILESTRUCTURE</a:Code>
-<a:CreationDate>1529010221</a:CreationDate>
-<a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1529010221</a:ModificationDate>
-<a:Modifier>Administrator</a:Modifier>
-<a:DataType>text</a:DataType>
-<a:ExtendedAttributesText>{030105E8-1DFA-4990-B2C8-DEB36D9D8D09},MSSQLSRV2005,74={A0A25FE3-6358-495A-95F9-8A6A4207D7CC},ExtCollation,17=Chinese_PRC_CI_AS
-
-</a:ExtendedAttributesText>
-</o:Column>
-<o:Column Id="o86">
 <a:ObjectID>7DD8AA0F-5C2B-49A8-A04D-55557A640090</a:ObjectID>
 <a:Name>STRUCTUREXML</a:Name>
 <a:Code>STRUCTUREXML</a:Code>
 <a:CreationDate>1529010221</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1529743273</a:ModificationDate>
+<a:ModificationDate>1530797505</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
+<a:Comment>流程的JSON数据结构</a:Comment>
 <a:DataType>text</a:DataType>
 <a:ExtendedAttributesText>{030105E8-1DFA-4990-B2C8-DEB36D9D8D09},MSSQLSRV2005,74={A0A25FE3-6358-495A-95F9-8A6A4207D7CC},ExtCollation,17=Chinese_PRC_CI_AS
 
@@ -2822,7 +2814,7 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:Column>
 </c:Columns>
 <c:Keys>
-<o:Key Id="o87">
+<o:Key Id="o86">
 <a:ObjectID>FC0615C5-8C28-4F80-BAB0-137EC3A360A3</a:ObjectID>
 <a:Name>PK_t_structure</a:Name>
 <a:Code>PK_t_structure</a:Code>
@@ -2839,15 +2831,15 @@ TableComment 0 新宋体,8,N</a:FontList>
 <o:User Ref="o23"/>
 </c:Owner>
 <c:PrimaryKey>
-<o:Key Ref="o87"/>
+<o:Key Ref="o86"/>
 </c:PrimaryKey>
 <c:ClusterObject>
-<o:Key Ref="o87"/>
+<o:Key Ref="o86"/>
 </c:ClusterObject>
 </o:Table>
 </c:Tables>
 <c:DefaultGroups>
-<o:Group Id="o88">
+<o:Group Id="o87">
 <a:ObjectID>CF570103-6890-45E8-A2B9-86EE490DAD16</a:ObjectID>
 <a:Name>PUBLIC</a:Name>
 <a:Code>PUBLIC</a:Code>
@@ -2861,7 +2853,7 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:Group>
 </c:DefaultGroups>
 <c:TargetModels>
-<o:TargetModel Id="o89">
+<o:TargetModel Id="o88">
 <a:ObjectID>97B61813-0745-41C7-A9AE-A184844B1E7B</a:ObjectID>
 <a:Name>Microsoft SQL Server 2005</a:Name>
 <a:Code>MSSQLSRV2005</a:Code>
