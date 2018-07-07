@@ -63,14 +63,13 @@ namespace Smartflow.Web.Design.Controllers
                 new Newtonsoft.Json.JsonSerializerSettings()
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    //ContractResolver=new DefaultContractResolver()
                     ContractResolver = ContractResolver
                 });
             response.Write(data);
         }
     }
 
-    public class UpperCaseContractResolver : Newtonsoft.Json.Serialization.DefaultContractResolver
+    public class UpperCaseContractResolver : DefaultContractResolver
     {
         protected override string ResolvePropertyName(string propertyName)
         {
@@ -78,12 +77,11 @@ namespace Smartflow.Web.Design.Controllers
         }
     }
 
-    public class LowerCaseContractResolver : Newtonsoft.Json.Serialization.DefaultContractResolver
+    public class LowerCaseContractResolver : DefaultContractResolver
     {
         protected override string ResolvePropertyName(string propertyName)
         {
             return propertyName.ToLower();
         }
     }
-
 }
