@@ -58,7 +58,12 @@ namespace Smartflow
             return workflowService.Start(workflowStructure);
         }
 
-        public string DeployWorkflow(string resourceXml)
+        /// <summary>
+        /// 根据传递的流程XML字符串,启动工作流
+        /// </summary>
+        /// <param name="resourceXml"></param>
+        /// <returns></returns>
+        public string StartWorkflow(string resourceXml)
         {
             return workflowService.DeployWorkflow(resourceXml);
         }
