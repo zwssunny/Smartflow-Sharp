@@ -43,6 +43,24 @@ namespace Smartflow
             }
         }
 
+        public string DeployWorkflow(string resourceXml)
+        {
+            Workflow workflow = XmlConfiguration.ParseflowXml<Workflow>(resourceXml);
+            List<Element> elements = new List<Element>();
+            elements.Add(workflow.StartNode);
+            elements.AddRange(workflow.ChildNode);
+            elements.AddRange(workflow.ChildDecisionNode);
+            elements.Add(workflow.EndNode);
+
+            string instaceID = CreateWorkflowInstance(workflow.StartNode.IDENTIFICATION,"0",resourceXml);
+            foreach (Element element in elements)
+            {
+                element.INSTANCEID = instaceID;
+                element.Persistent();
+            }
+            return instaceID;
+        }
+
         public void Kill(WorkflowInstance instance)
         {
             if (instance.State == WorkflowInstanceState.Running)

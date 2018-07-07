@@ -58,6 +58,11 @@ namespace Smartflow
             return workflowService.Start(workflowStructure);
         }
 
+        public string DeployWorkflow(string resourceXml)
+        {
+            return workflowService.DeployWorkflow(resourceXml);
+        }
+
         /// <summary>
         /// 终止流程
         /// </summary>
