@@ -110,7 +110,7 @@ namespace Smartflow
 
                 if (CheckAuthorization(context) == false) return;
 
-                long transitionTo = current.Transitions
+                string transitionTo = current.Transitions
                                   .FirstOrDefault(e => e.NID == context.TransitionID).DESTINATION;
 
                 current.SetActor(context.ActorID, context.ActorName, WorkflowAction.Jump);

@@ -64,14 +64,13 @@ if exists (select 1
             and   type = 'U')
    drop table dbo.t_transition
 go
-
 /*==============================================================*/
 /* Table: t_actor                                               */
 /*==============================================================*/
 create table dbo.t_actor (
    NID                  varchar(50)          collate Chinese_PRC_CI_AS not null,
    RNID                 varchar(50)          collate Chinese_PRC_CI_AS null,
-   IDENTIFICATION       bigint               null,
+   IDENTIFICATION       varchar(50)          null,
    APPELLATION          varchar(50)          collate Chinese_PRC_CI_AS null,
    INSTANCEID           varchar(50)          collate Chinese_PRC_CI_AS null,
    CREATEDATETIME       datetime             null constraint DF_t_actor_INSERTDATE default getdate(),
@@ -230,7 +229,7 @@ go
 create table dbo.t_group (
    NID                  varchar(50)          collate Chinese_PRC_CI_AS not null,
    RNID                 varchar(50)          collate Chinese_PRC_CI_AS null,
-   IDENTIFICATION       bigint               null,
+   IDENTIFICATION       varchar(50)          null,
    APPELLATION          varchar(50)          collate Chinese_PRC_CI_AS null,
    INSTANCEID           varchar(50)          collate Chinese_PRC_CI_AS null,
    constraint PK_t_role primary key (NID)
@@ -275,7 +274,7 @@ go
 create table dbo.t_instance (
    INSTANCEID           varchar(50)          collate Chinese_PRC_CI_AS not null,
    CREATEDATETIME       datetime             null constraint DF_t_instance_CreateDateTime default getdate(),
-   RNID                 bigint               null,
+   RNID                 varchar(50)          null,
    STRUCTUREID          varchar(50)          collate Chinese_PRC_CI_AS null,
    STATE                varchar(50)          collate Chinese_PRC_CI_AS null constraint DF_t_instance_STATUS default 'running',
    STRUCTUREXML         text                 collate Chinese_PRC_CI_AS null,
@@ -325,7 +324,7 @@ go
 /*==============================================================*/
 create table dbo.t_node (
    NID                  varchar(50)          collate Chinese_PRC_CI_AS not null,
-   IDENTIFICATION       bigint               not null,
+   IDENTIFICATION       varchar(50)          not null,
    APPELLATION          varchar(50)          collate Chinese_PRC_CI_AS null,
    NODETYPE             varchar(50)          collate Chinese_PRC_CI_AS null,
    INSTANCEID           varchar(50)          collate Chinese_PRC_CI_AS null,
@@ -365,8 +364,8 @@ go
 /*==============================================================*/
 create table dbo.t_process (
    NID                  varchar(50)          collate Chinese_PRC_CI_AS not null,
-   ORIGIN               bigint               null,
-   DESTINATION          bigint               null,
+   ORIGIN               varchar(50)          null,
+   DESTINATION          varchar(50)          null,
    TRANSITIONID         varchar(50)          collate Chinese_PRC_CI_AS null,
    INSTANCEID           varchar(50)          collate Chinese_PRC_CI_AS null,
    NODETYPE             varchar(50)          collate Chinese_PRC_CI_AS null,
@@ -468,8 +467,8 @@ create table dbo.t_transition (
    NID                  varchar(50)          collate Chinese_PRC_CI_AS not null,
    RNID                 varchar(50)          collate Chinese_PRC_CI_AS null,
    APPELLATION          varchar(128)         collate Chinese_PRC_CI_AS null,
-   DESTINATION          bigint               null,
-   ORIGIN               bigint               null,
+   DESTINATION          varchar(50)          null,
+   ORIGIN               varchar(50)          null,
    INSTANCEID           varchar(50)          collate Chinese_PRC_CI_AS null,
    EXPRESSION           varchar(50)          collate Chinese_PRC_CI_AS null,
    constraint PK_t_transition_1 primary key (NID)

@@ -90,7 +90,7 @@ go
 /*==============================================================*/
 create table dbo.t_pending (
    IDENTIFICATION       bigint               identity(1, 1),
-   ACTORID              bigint               null,
+   ACTORID              varchar(50)          collate Chinese_PRC_CI_AS null,
    NODEID               varchar(50)          collate Chinese_PRC_CI_AS null,
    INSTANCEID           varchar(50)          collate Chinese_PRC_CI_AS null,
    APPELLATION          varchar(1024)        collate Chinese_PRC_CI_AS null,

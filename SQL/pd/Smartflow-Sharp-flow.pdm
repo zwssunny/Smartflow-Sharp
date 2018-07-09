@@ -1812,10 +1812,11 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>IDENTIFICATION</a:Code>
 <a:CreationDate>1528618631</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1530966940</a:ModificationDate>
+<a:ModificationDate>1531137704</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
 <a:Comment>参与者标识</a:Comment>
-<a:DataType>bigint</a:DataType>
+<a:DataType>varchar(50)</a:DataType>
+<a:Length>50</a:Length>
 </o:Column>
 <o:Column Id="o27">
 <a:ObjectID>3F293795-3B3C-422F-842E-AB6478D83E0C</a:ObjectID>
@@ -2111,10 +2112,11 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>IDENTIFICATION</a:Code>
 <a:CreationDate>1528618631</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1530967325</a:ModificationDate>
+<a:ModificationDate>1531137796</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
 <a:Comment>组的标识</a:Comment>
-<a:DataType>bigint</a:DataType>
+<a:DataType>varchar(50)</a:DataType>
+<a:Length>50</a:Length>
 </o:Column>
 <o:Column Id="o44">
 <a:ObjectID>9736A1E2-4125-43A8-BDD9-3C4464A56826</a:ObjectID>
@@ -2221,10 +2223,11 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>RNID</a:Code>
 <a:CreationDate>1528618631</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1530967547</a:ModificationDate>
+<a:ModificationDate>1531137774</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
 <a:Comment>与T_NODE进行关联，即当前执行流程节点ID</a:Comment>
-<a:DataType>bigint</a:DataType>
+<a:DataType>varchar(50)</a:DataType>
+<a:Length>50</a:Length>
 </o:Column>
 <o:Column Id="o50">
 <a:ObjectID>4E506F91-A5F3-4A8C-9707-D9F2931E2A8C</a:ObjectID>
@@ -2331,10 +2334,11 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>IDENTIFICATION</a:Code>
 <a:CreationDate>1528618631</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1530968409</a:ModificationDate>
+<a:ModificationDate>1531137731</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
 <a:Comment>节点的标识</a:Comment>
-<a:DataType>bigint</a:DataType>
+<a:DataType>varchar(50)</a:DataType>
+<a:Length>50</a:Length>
 <a:Mandatory>1</a:Mandatory>
 </o:Column>
 <o:Column Id="o56">
@@ -2442,10 +2446,11 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>ORIGIN</a:Code>
 <a:CreationDate>1528618631</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1530967615</a:ModificationDate>
+<a:ModificationDate>1531137743</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
 <a:Comment>当前节点ID </a:Comment>
-<a:DataType>bigint</a:DataType>
+<a:DataType>varchar(50)</a:DataType>
+<a:Length>50</a:Length>
 </o:Column>
 <o:Column Id="o62">
 <a:ObjectID>1AA872EC-20A4-423A-9BA6-B1E9829CDDE8</a:ObjectID>
@@ -2453,10 +2458,11 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>DESTINATION</a:Code>
 <a:CreationDate>1528618631</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1530967623</a:ModificationDate>
+<a:ModificationDate>1531137743</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
 <a:Comment>跳转节点的ID</a:Comment>
-<a:DataType>bigint</a:DataType>
+<a:DataType>varchar(50)</a:DataType>
+<a:Length>50</a:Length>
 </o:Column>
 <o:Column Id="o63">
 <a:ObjectID>38D48F79-8938-46F6-B262-23365373EAF4</a:ObjectID>
@@ -2639,10 +2645,11 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>DESTINATION</a:Code>
 <a:CreationDate>1528618631</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1530967979</a:ModificationDate>
+<a:ModificationDate>1531137757</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
 <a:Comment>跳转到节点ID</a:Comment>
-<a:DataType>bigint</a:DataType>
+<a:DataType>varchar(50)</a:DataType>
+<a:Length>50</a:Length>
 </o:Column>
 <o:Column Id="o74">
 <a:ObjectID>B1C67F06-EB5E-496E-885F-F86236D7453F</a:ObjectID>
@@ -2650,10 +2657,11 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>ORIGIN</a:Code>
 <a:CreationDate>1528618631</a:CreationDate>
 <a:Creator>Administrator</a:Creator>
-<a:ModificationDate>1530967966</a:ModificationDate>
+<a:ModificationDate>1531137757</a:ModificationDate>
 <a:Modifier>Administrator</a:Modifier>
 <a:Comment>当前节点ID</a:Comment>
-<a:DataType>bigint</a:DataType>
+<a:DataType>varchar(50)</a:DataType>
+<a:Length>50</a:Length>
 </o:Column>
 <o:Column Id="o75">
 <a:ObjectID>6B3E849E-D590-4888-AD0F-84A10AE36B6C</a:ObjectID>

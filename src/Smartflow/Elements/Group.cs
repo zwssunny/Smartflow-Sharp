@@ -18,7 +18,7 @@ namespace Smartflow.Elements
     {
         [JsonProperty("id")]
         [XmlAttribute("identification")]
-        public override long IDENTIFICATION
+        public override string IDENTIFICATION
         {
             get;
             set;

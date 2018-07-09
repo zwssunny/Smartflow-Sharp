@@ -73,7 +73,7 @@ namespace Smartflow.Elements
             }
         }
 
-        public ASTNode GetNode(long IDENTIFICATION)
+        public ASTNode GetNode(string IDENTIFICATION)
         {
             string query = "SELECT * FROM T_NODE WHERE IDENTIFICATION=@IDENTIFICATION AND INSTANCEID=@INSTANCEID";
             ASTNode node = Connection.Query<ASTNode>(query, new

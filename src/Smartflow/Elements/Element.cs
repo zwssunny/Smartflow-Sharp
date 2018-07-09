@@ -22,7 +22,7 @@ namespace Smartflow.Elements
     public abstract class Element : Infrastructure
     {
         [XmlAttribute("identification")]
-        public virtual long IDENTIFICATION
+        public virtual string IDENTIFICATION
         {
             get;
             set;

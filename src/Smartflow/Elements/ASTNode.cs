@@ -21,7 +21,7 @@ namespace Smartflow.Elements
     {
         [JsonProperty("unique")]
         [XmlAttribute("identification")]
-        public override long IDENTIFICATION
+        public override string IDENTIFICATION
         {
             get;
             set;
@@ -70,7 +70,7 @@ namespace Smartflow.Elements
         /// <param name="actorID"></param>
         /// <param name="actorName"></param>
         /// <param name="action"></param>
-        internal virtual void SetActor(long actorID, string actorName, WorkflowAction action)
+        internal virtual void SetActor(string actorID, string actorName, WorkflowAction action)
         {
             if (this.NodeType != WorkflowNodeCategeory.Decision)
             {

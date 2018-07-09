@@ -34,7 +34,7 @@ namespace Smartflow.Elements
         }
 
         [JsonIgnore]
-        public long ORIGIN
+        public string ORIGIN
         {
             get;
             set;
@@ -42,7 +42,7 @@ namespace Smartflow.Elements
 
         [JsonProperty("destination")]
         [XmlAttribute("destination")]
-        public long DESTINATION
+        public string DESTINATION
         {
             get;
             set;

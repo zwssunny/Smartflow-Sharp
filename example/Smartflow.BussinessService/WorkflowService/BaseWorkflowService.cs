@@ -48,7 +48,7 @@ namespace Smartflow.BussinessService.WorkflowService
             return WorkflowInstance.GetInstance(instanceID).Current;
         }
 
-        public void UndoSubmit(string instanceID, long actorID, string actorName, string bussinessID)
+        public void UndoSubmit(string instanceID, string actorID, string actorName, string bussinessID)
         {
             WorkflowInstance instance = WorkflowInstance.GetInstance(instanceID);
             dynamic dynData = new ExpandoObject();
@@ -63,7 +63,7 @@ namespace Smartflow.BussinessService.WorkflowService
             });
         }
 
-        public void Rollback(string instanceID, long actorID, string actorName, dynamic data)
+        public void Rollback(string instanceID, string actorID, string actorName, dynamic data)
         {
             WorkflowInstance instance = WorkflowInstance.GetInstance(instanceID);
             context.Rollback(new WorkflowContext()
@@ -80,7 +80,7 @@ namespace Smartflow.BussinessService.WorkflowService
             return context.Start(identification);
         }
 
-        public void Jump(string instanceID, string transitionID, long actorID, string actorName, dynamic data)
+        public void Jump(string instanceID, string transitionID, string actorID, string actorName, dynamic data)
         {
             WorkflowInstance instance = WorkflowInstance.GetInstance(instanceID);
             context.Jump(new WorkflowContext()

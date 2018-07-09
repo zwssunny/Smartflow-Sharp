@@ -16,7 +16,7 @@ namespace Smartflow.BussinessService.Models
             set;
         }
 
-        public long ACTORID
+        public string ACTORID
         {
             get;
             set;

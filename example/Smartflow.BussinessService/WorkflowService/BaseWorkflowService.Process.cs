@@ -79,7 +79,7 @@ namespace Smartflow.BussinessService.WorkflowService
                         List<User> userList = GetUsersByGroup(items);
                         foreach (User user in userList)
                         {
-                            WritePending(user.IDENTIFICATION, executeContext);
+                            WritePending(user.IDENTIFICATION.ToString(), executeContext);
                         }
                     }
                     pendingService.Delete(pending =>
@@ -105,7 +105,7 @@ namespace Smartflow.BussinessService.WorkflowService
                 List<User> userList = GetUsersByGroup(current.Groups);
                 foreach (var user in userList)
                 {
-                    WritePending(user.IDENTIFICATION, executeContext);
+                    WritePending(user.IDENTIFICATION.ToString(), executeContext);
                 }
 
                 pendingService.Delete(pending =>
@@ -134,7 +134,7 @@ namespace Smartflow.BussinessService.WorkflowService
         /// </summary>
         /// <param name="actorID">参与者</param>
         /// <param name="executeContext"></param>
-        public void WritePending(long actorID, ExecutingContext executeContext)
+        public void WritePending(string actorID, ExecutingContext executeContext)
         {
             pendingService.Insert(new Pending()
             {

@@ -88,7 +88,7 @@ namespace Smartflow
             }
         }
 
-        protected string CreateWorkflowInstance(long startNID, string structureID, string structure)
+        protected string CreateWorkflowInstance(string startNID, string structureID, string structure)
         {
             return WorkflowInstance.CreateWorkflowInstance(startNID, structureID, structure);
         }
