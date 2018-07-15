@@ -60,7 +60,8 @@
             group: 'group',
             from: 'from',
             actor: 'actor',
-            transition: 'transition'
+            transition: 'transition',
+            br:'br'
         },
         ATTRIBUTE_MAP = {
             id: 'identification',
@@ -68,11 +69,30 @@
             from: 'origin',
             to: 'destination'
         },
-        ACTION_MAP = {
-            0: '审核',
-            1: '流程撤销',
-            2: '流程退回'
-        };
+        ACTION_TIP = [{
+            title: '审核人：',
+            fieldName: 'APPELLATION',
+            format: function (value) {
+                return value;
+            }
+        }, {
+            title: '时间：',
+            fieldName: 'CREATEDATETIME',
+            format: function (value) {
+                return util.format('yyyy-MM-dd hh:mm', new Date(value));
+            }
+        }, {
+            title: '操作：',
+            fieldName: 'OPERATION',
+            format: function (value) {
+                var action = {
+                    0: '审核',
+                    1: '流程撤销',
+                    2: '流程退回'
+                }
+                return action[value];
+            }
+        }];
 
     $.extend(Array.prototype, {
         remove: function (dx, to) {
@@ -450,18 +470,18 @@
         var n = this,
             rect = SVG.get(n.id),
             tooltip = draw.element('title'),
-            tn = tooltip.node;
+            tn = tooltip.node,
+            fragmeng = document.createDocumentFragment();
 
         $.each(data, function () {
-            var date = util.format('yyyy-MM-dd hh:mm', new Date(this.CREATEDATETIME));
-            tn.appendChild(document.createTextNode("审核人：" + this.APPELLATION));
-            tn.appendChild(document.createElement("br"));
-            tn.appendChild(document.createTextNode("时间：" + date));
-            tn.appendChild(document.createElement("br"));
-            tn.appendChild(document.createTextNode("操作：" + ((n.name == "开始") ? "提交" : ACTION_MAP[this.OPERATION])));
-            tn.appendChild(document.createElement("br"));
+            var serverData = this;
+            $.each(ACTION_TIP, function () {
+                var column = this.title + this.format(serverData[this.fieldName]);
+                fragmeng.appendChild(document.createTextNode(column));
+                fragmeng.appendChild(document.createElement(config.br));
+            });
         });
-
+        tn.appendChild(fragmeng);
         rect.node.appendChild(tn);
     }
 
