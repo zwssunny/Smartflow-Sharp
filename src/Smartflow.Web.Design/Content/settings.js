@@ -88,8 +88,8 @@
         ajaxSettings.data.searchKey = key;
 
         ajaxSettings.success = function (serverData) {
-            var build = new StringBuilder(),
-                Abuild = new StringBuilder();
+            var build = util.builder(),
+                Abuild = util.builder();
             $.each(serverData, function () {
                 build.append(config.start)
                     .append('li')
@@ -193,7 +193,7 @@
             var lineCollection = nx.getTransitions();
             if (lineCollection.length > 0) {
                 var unqiueId = 'lineTo',
-                    build = new StringBuilder();
+                    build = util.builder();
                 $.each(lineCollection, function (i) {
                     build.append(lineTemplate.format(this.name, this.expression, this.id));
                 });
@@ -219,7 +219,7 @@
             url: config.configUrl
         };
         settings.success = function (serverData) {
-            var build = new StringBuilder();
+            var build =util.builder();
             $.each(serverData, function () {
                 var data = JSON.stringify(this);
 
@@ -255,20 +255,6 @@
             cache: false
         }, settings);
         $.ajax(defaultSettings);
-    }
-
-    function StringBuilder() {
-        this.elements = [];
-    }
-    StringBuilder.prototype = {
-        constructor: StringBuilder,
-        append: function (text) {
-            this.elements.push(text);
-            return this;
-        },
-        toString: function () {
-            return this.elements.join('');
-        }
     }
 
     function doSearch(searchKey) {

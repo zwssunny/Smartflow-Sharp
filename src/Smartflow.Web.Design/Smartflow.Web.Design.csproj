@@ -234,6 +234,7 @@
     <Content Include="Content\smartflow.css" />
     <Content Include="Content\smartflow.js" />
     <Content Include="Content\svg.js" />
+    <Content Include="Content\utils.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

@@ -6,45 +6,22 @@
 (function ($) {
 
     var
-        util = {
-            ie: (!!window.ActiveXObject || "ActiveXObject" in window),
-            parseNode: function (layout) {
-                var pos = layout.split(' ');
-                return {
-                    x: Number(pos[0]),
-                    y: Number(pos[2]),
-                    disX: Number(pos[1]),
-                    disY: Number(pos[3])
-                };
-            },
-            parseLine: function (layout) {
-                var pos = layout.split(' ');
-                return {
-                    x1: Number(pos[0]),
-                    y1: Number(pos[1]),
-                    x2: Number(pos[2]),
-                    y2: Number(pos[3])
-                };
-            }
-        },
         NC = {},
         LC = {},
         RC = [],
         draw,
         fromConnect,
         drawOption,
-        rule = {
-            duplicateCheck: function (from, to) {
-                var result = false;
-                for (var i = 0, len = RC.length; i < len; i++) {
-                    var r = RC[i];
-                    if (r.from === from && r.to === to) {
-                        result = true;
-                        break;
-                    }
+        duplicateCheck = function (from, to) {
+            var result = false;
+            for (var i = 0, len = RC.length; i < len; i++) {
+                var r = RC[i];
+                if (r.from === from && r.to === to) {
+                    result = true;
+                    break;
                 }
-                return result;
             }
+            return result;
         },
         config = {
             rootStart: '<workflow>',
@@ -61,9 +38,9 @@
             from: 'from',
             actor: 'actor',
             transition: 'transition',
-            br:'br'
+            br: 'br'
         },
-        ATTRIBUTE_MAP = {
+        ATTRIBUTE_FIELD_MAP = {
             id: 'identification',
             name: 'appellation',
             from: 'origin',
@@ -79,71 +56,20 @@
             title: '时间：',
             fieldName: 'CREATEDATETIME',
             format: function (value) {
-                return util.format('yyyy-MM-dd hh:mm', new Date(value));
+                return new Date(value).format('yyyy-MM-dd hh:mm');
             }
         }, {
             title: '操作：',
             fieldName: 'OPERATION',
             format: function (value) {
-                var action = {
+                var ACTION_VALUE_MAP = {
                     0: '审核',
                     1: '流程撤销',
                     2: '流程退回'
                 }
-                return action[value];
+                return ACTION_VALUE_MAP[value];
             }
         }];
-
-    $.extend(Array.prototype, {
-        remove: function (dx, to) {
-            this.splice(dx, (to || 1));
-        }
-    });
-
-    //日期格扩展
-    $.extend(util, {
-        format: function (fmt, date) {
-            var o = {
-                "M+": date.getMonth() + 1,
-                "d+": date.getDate(),
-                "h+": date.getHours(),
-                "m+": date.getMinutes(),
-                "s+": date.getSeconds(),
-                "q+": Math.floor((date.getMonth() + 3) / 3),
-                "S": date.getMilliseconds()
-            };
-
-            if (/(y+)/.test(fmt)) {
-                fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-            }
-
-            for (var k in o) {
-                if (new RegExp("(" + k + ")").test(fmt)) {
-                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) :
-                          (("00" + o[k]).substr(("" + o[k]).length)));
-                }
-            }
-            return fmt;
-        }
-    });
-
-
-    document.oncontextmenu = function () { return false; }
-
-    $.extend(Function.prototype, {
-        extend: function (Parent, Override) {
-            function F() { }
-            F.prototype = Parent.prototype;
-            this.prototype = new F();
-            this.prototype.constructor = this;
-            this.base = {};
-            this.base.Parent = Parent;
-            this.base.Constructor = Parent;
-            if (Override) {
-                $.extend(this.prototype, Override);
-            }
-        }
-    });
 
     function init(option) {
         draw = SVG(option.container);
@@ -287,9 +213,7 @@
             return Node.base.Parent.prototype.draw.call(this);
         },
         checkRule: function (nf) {
-            var rule = ((nf.category === 'end' || this.category === 'start') ||
-                        (nf.category === 'start' && this.category === 'end'));
-            return rule;
+            return ((nf.category === 'end' || this.category === 'start') ||(nf.category === 'start' && this.category === 'end'));
         },
         bindEvent: function (n) {
             this.mousedown(OnDrag);
@@ -367,7 +291,7 @@
         exportElement: function () {
             var
                 self = this,
-                build = new StringBuilder();
+                build = util.builder();
 
             build.append(config.start)
                 .append(self.category);
@@ -402,13 +326,13 @@
                     build.append(config.start)
                          .append(config.transition)
                          .append(config.space)
-                         .append(ATTRIBUTE_MAP['name'])
+                         .append(ATTRIBUTE_FIELD_MAP['name'])
                          .append(config.equal)
                          .append(config.lQuotation)
                          .append(L.name)
                          .append(config.rQuotation)
                          .append(config.space)
-                         .append(ATTRIBUTE_MAP['to'])
+                         .append(ATTRIBUTE_FIELD_MAP['to'])
                          .append(config.equal)
                          .append(config.lQuotation)
                          .append(N.unique)
@@ -447,7 +371,7 @@
                 var propertyName = 'unique'
                 $.each(['id', 'name'], function (i, p) {
                     build.append(config.space)
-                         .append(ATTRIBUTE_MAP[p])
+                         .append(ATTRIBUTE_FIELD_MAP[p])
                          .append(config.equal)
                          .append(config.lQuotation)
                          .append(p === 'id' && (attribute !== 'group' && attribute !== 'actor') ? reference[propertyName] : reference[p])
@@ -713,7 +637,7 @@
 
             if (nodeId !== fromConnect.id
                 && !nt.checkRule(nf)
-                && !rule.duplicateCheck(fromConnect.id, nodeId)) {
+                && !duplicateCheck(fromConnect.id, nodeId)) {
 
                 var instance = new Line(),
                     orientation = checkOrientation(fromRect, toRect);
@@ -832,7 +756,7 @@
             nodeCollection = [],
             pathCollection = [],
             validateCollection = [],
-            build = new StringBuilder();
+            build = util.builder();
 
         $.each(NC, function () {
             var self = this;
@@ -961,20 +885,6 @@
         return orientation;
     }
 
-    function StringBuilder() {
-        this.elements = [];
-    }
-
-    StringBuilder.prototype = {
-        constructor: StringBuilder,
-        append: function (text) {
-            this.elements.push(text);
-            return this;
-        },
-        toString: function () {
-            return this.elements.join('');
-        }
-    }
 
     //对外提供访问接口
     window.SMF = {
