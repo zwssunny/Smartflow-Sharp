@@ -17,7 +17,7 @@ namespace Smartflow
 {
     public class DapperFactory
     {
-        public static IDbConnection CreateWorkflowConnection()
+        internal static IDbConnection CreateWorkflowConnection()
         {
             SmartflowConfiguration config = ConfigurationManager.GetSection("smartflowConfiguration") as
                 SmartflowConfiguration;
