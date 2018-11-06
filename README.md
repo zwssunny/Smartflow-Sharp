@@ -27,5 +27,5 @@ Update-Package -ProjectName 'Smartflow.Web.Mvc'  -Reinstall
 Update-Package -ProjectName 'Smartflow.Web.Design'  -Reinstall
 
 
-### 如果你使用Smartflow-Sharp工作流组件，希望能返馈使用情况。
+### 若使用了Smartflow-Sharp工作流组件，希望能反馈使用情况。
 
