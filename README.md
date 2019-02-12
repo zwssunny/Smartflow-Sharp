@@ -27,5 +27,5 @@ Update-Package -ProjectName 'Smartflow.Web.Mvc'  -Reinstall
 Update-Package -ProjectName 'Smartflow.Web.Design'  -Reinstall
 ### 若使用了Smartflow-Sharp工作流组件，希望能反馈使用情况。
 ### 2019 Plan
-一、优化工作流组件，并推出.NetCore 工作流版本；
+一、优化工作流组件，并推出.NetCore 工作流版本；<br/>
 二、利用现有的工作流组件，推出快速搭建管理系统平台，目前正在研发中，敬请期待；
