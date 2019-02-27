@@ -13,7 +13,7 @@ using System.Data;
 
 namespace Smartflow
 {
-    public class WorkflowProcess :Infrastructure,IPersistent, IRelationShip
+    public class WorkflowProcess :WorkflowInfrastructure,IPersistent, IRelationShip
     {
         /// <summary>
         /// 外键

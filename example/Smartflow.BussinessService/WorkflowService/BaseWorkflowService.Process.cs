@@ -57,11 +57,11 @@ namespace Smartflow.BussinessService.WorkflowService
             {
                 //写入审批记录
                 WriteRecord(executeContext);
-
-                var current = GetCurrentNode(executeContext.Instance.InstanceID);
+                string instanceID = executeContext.Instance.InstanceID;
+                var current = GetCurrentNode(instanceID);
                 if (current.APPELLATION == "结束")
                 {
-                    pendingService.Delete(p => p.INSTANCEID == executeContext.Instance.InstanceID);
+                    pendingService.Delete(p => p.INSTANCEID == instanceID);
                 }
                 else
                 {
@@ -82,9 +82,9 @@ namespace Smartflow.BussinessService.WorkflowService
                             WritePending(user.IDENTIFICATION.ToString(), executeContext);
                         }
                     }
-                    pendingService.Delete(pending =>
-                       pending.NODEID == executeContext.Instance.Current.NID &&
-                       pending.INSTANCEID == executeContext.Instance.InstanceID);
+
+                    string NID = executeContext.Instance.Current.NID;
+                    pendingService.Delete(pending =>pending.NODEID == NID &&pending.INSTANCEID == instanceID);
                 }
             }
         }
@@ -95,9 +95,11 @@ namespace Smartflow.BussinessService.WorkflowService
         /// <param name="executeContext">执行上下文</param>
         private void DecisionJump(ExecutingContext executeContext)
         {
+            string instanceID = executeContext.Instance.InstanceID;
+            string NID = executeContext.Instance.Current.NID;
             pendingService.Delete(pending =>
-                pending.NODEID == executeContext.Instance.Current.NID &&
-                pending.INSTANCEID == executeContext.Instance.InstanceID);
+                pending.NODEID == NID &&
+                pending.INSTANCEID == instanceID);
 
             var current = GetCurrentNode(executeContext.Instance.InstanceID);
             if (executeContext.Operation == Enums.WorkflowAction.Jump && current.NodeType != Enums.WorkflowNodeCategeory.Decision)
@@ -109,8 +111,8 @@ namespace Smartflow.BussinessService.WorkflowService
                 }
 
                 pendingService.Delete(pending =>
-                    pending.NODEID == executeContext.Instance.Current.NID &&
-                    pending.INSTANCEID == executeContext.Instance.InstanceID);
+                    pending.NODEID == NID &&
+                    pending.INSTANCEID == instanceID);
             }
         }
 

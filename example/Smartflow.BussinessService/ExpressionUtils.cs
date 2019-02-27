@@ -69,6 +69,7 @@ namespace Smartflow.BussinessService
                 if (expr.Right != null)
                 {
                     ParseBinaryExpression(expr.Right as BinaryExpression, builder);
+                    ParseMethodCall(expr.Right, builder);
                     ParseMember(expr.Right as MemberExpression, builder, ConstantCharacter.Right);
                     ParseConstant(expr.Right as ConstantExpression, builder, ConstantCharacter.Equals);
                 }
@@ -85,13 +86,20 @@ namespace Smartflow.BussinessService
             if (expr is MethodCallExpression)
             {
                 MethodCallExpression method = expr as MethodCallExpression;
-                ParseMember(method.Object, builder, ConstantCharacter.None);
+                
                 string methodName = method.Method.Name;
                 switch (methodName)
                 {
                     case "Contains":
+                        ParseMember(method.Object, builder, ConstantCharacter.None);
                         builder.Append(" LIKE ");
                         ParseConstant(method.Arguments[0], builder, ConstantCharacter.Like);
+                        break;
+                    case "ToString":
+
+                        string value= Expression.Lambda(method, null).Compile().DynamicInvoke().ToString();
+                        builder.AppendFormat("'{0}'", value);
+                        //ParseConstant(method.Arguments[0], builder, ConstantCharacter.Like);
                         break;
                     default:
                         break;

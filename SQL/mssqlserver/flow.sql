@@ -428,37 +428,7 @@ execute sp_addextendedproperty 'MS_Description',
    'user', 'dbo', 'table', 't_process', 'column', 'OPERATION'
 go
 
-/*==============================================================*/
-/* Table: t_structure                                           */
-/*==============================================================*/
-create table dbo.t_structure (
-   IDENTIFICATION       varchar(50)          collate Chinese_PRC_CI_AS not null,
-   APPELLATION          varchar(50)          collate Chinese_PRC_CI_AS null,
-   STRUCTUREXML         text                 collate Chinese_PRC_CI_AS null,
-   constraint PK_T_STRUCTURE primary key (IDENTIFICATION)
-)
-on "PRIMARY"
-go
 
-execute sp_addextendedproperty 'MS_Description', 
-   '流程模板',
-   'user', 'dbo', 'table', 't_structure'
-go
-
-execute sp_addextendedproperty 'MS_Description', 
-   '主键标识 GUID',
-   'user', 'dbo', 'table', 't_structure', 'column', 'IDENTIFICATION'
-go
-
-execute sp_addextendedproperty 'MS_Description', 
-   '流程图模板名称',
-   'user', 'dbo', 'table', 't_structure', 'column', 'APPELLATION'
-go
-
-execute sp_addextendedproperty 'MS_Description', 
-   '存储描述流程数据结构',
-   'user', 'dbo', 'table', 't_structure', 'column', 'STRUCTUREXML'
-go
 
 /*==============================================================*/
 /* Table: t_transition                                          */

@@ -46,26 +46,15 @@ namespace Smartflow
         /// <returns>true：授权 false：未授权</returns>
         protected abstract bool CheckAuthorization(WorkflowContext context);
 
-        /// <summary>
-        /// 启动工作流
-        /// </summary>
-        /// <param name="workflowStructure">文件</param>
-        /// <returns>返回实例ID</returns>
-        public string Start(string identification)
-        {
-            IWorkflowDesignService service = WorkflowServiceProvider.OfType<IWorkflowDesignService>();
-            WorkflowStructure workflowStructure = service.GetWorkflowStructure(identification);
-            return workflowService.Start(workflowStructure);
-        }
-
+       
         /// <summary>
         /// 根据传递的流程XML字符串,启动工作流
         /// </summary>
         /// <param name="resourceXml"></param>
         /// <returns></returns>
-        public string StartWorkflow(string resourceXml)
+        public string Start(string resourceXml)
         {
-            return workflowService.StartWorkflow(resourceXml);
+            return workflowService.Start(resourceXml);
         }
 
         /// <summary>

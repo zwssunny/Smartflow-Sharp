@@ -10,10 +10,15 @@ using System.Linq;
 using System.Text;
 using Smartflow.Dapper;
 
-namespace Smartflow
+namespace Smartflow.BussinessService.WorkflowService
 {
-    public class WorkflowDesignService :Infrastructure, IWorkflowDesignService
+    public class WorkflowDesignService : IWorkflowDesignService
     {
+        protected IDbConnection Connection
+        {
+            get { return DblHelper.CreateConnection(); }
+        }
+
         public void Persistent(WorkflowStructure workflowStructure)
         {
             string sql = " INSERT INTO T_STRUCTURE(IDENTIFICATION,APPELLATION,STRUCTUREXML) VALUES(@IDENTIFICATION,@APPELLATION,@STRUCTUREXML) ";
@@ -41,8 +46,7 @@ namespace Smartflow
         public WorkflowStructure GetWorkflowStructure(string identification)
         {
             string sql = " SELECT * FROM T_STRUCTURE WHERE IDENTIFICATION=@IDENTIFICATION ";
-            return DapperFactory.CreateWorkflowConnection().Query<WorkflowStructure>(sql, new { IDENTIFICATION = identification })
-                .FirstOrDefault<WorkflowStructure>();
+            return Connection.Query<WorkflowStructure>(sql, new { IDENTIFICATION = identification }).FirstOrDefault<WorkflowStructure>();
         }
     }
 }

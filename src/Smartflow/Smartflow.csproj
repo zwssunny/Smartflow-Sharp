@@ -67,7 +67,6 @@
     <Compile Include="ITransition.cs" />
     <Compile Include="IPersistent.cs" />
     <Compile Include="IWorkflow.cs" />
-    <Compile Include="IWorkflowDesignService.cs" />
     <Compile Include="MailConfiguration.cs" />
     <Compile Include="MailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,10 +76,9 @@
     <Compile Include="SqlMapper.cs" />
     <Compile Include="WorkflowContext.cs" />
     <Compile Include="WorkflowDecision.cs" />
-    <Compile Include="WorkflowDesignService.cs" />
     <Compile Include="WorkflowEngine.cs" />
     <Compile Include="WorkflowException.cs" />
-    <Compile Include="Infrastructure.cs" />
+    <Compile Include="WorkflowInfrastructure.cs" />
     <Compile Include="WorkflowLogging.cs" />
     <Compile Include="WorkflowServiceProvider.cs" />
     <Compile Include="WorkflowInstance.cs" />
@@ -88,7 +86,6 @@
     <Compile Include="WorkflowProcess.cs" />
     <Compile Include="WorkflowService.cs" />
     <Compile Include="WorkflowService.Process.cs" />
-    <Compile Include="WorkflowStructure.cs" />
     <Compile Include="XmlConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Smartflow
+namespace Smartflow.BussinessService.WorkflowService
 {
     /**
      *工作流设计器服务 

@@ -17,19 +17,13 @@ namespace Smartflow
     /// </summary>
     public interface IWorkflow
     {
+
         /// <summary>
         /// 启动工作流
         /// </summary>
-        /// <param name="workflowStructure"></param>
-        /// <returns></returns>
-        string Start(WorkflowStructure workflowStructure);
-
-        /// <summary>
-        /// 部署工作流
-        /// </summary>
         /// <param name="resourceXml">流程结构</param>
         /// <returns></returns>
-        string StartWorkflow(string resourceXml);
+        string Start(string resourceXml);
 
         /// <summary>
         /// 终结流程

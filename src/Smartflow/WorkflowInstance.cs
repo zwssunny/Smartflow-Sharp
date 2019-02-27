@@ -14,7 +14,7 @@ using Smartflow.Enums;
 
 namespace Smartflow
 {
-    public class WorkflowInstance : Infrastructure
+    public class WorkflowInstance : WorkflowInfrastructure
     {
         protected WorkflowInstance()
         {

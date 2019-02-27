@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Smartflow
+namespace Smartflow.BussinessService.WorkflowService
 {
     public class WorkflowStructure
     {

@@ -16,34 +16,10 @@ using Smartflow.Enums;
 
 namespace Smartflow
 {
-    public partial class WorkflowService :Infrastructure, IWorkflow
+    public partial class WorkflowService :WorkflowInfrastructure, IWorkflow
     {
-        public string Start(WorkflowStructure workflowStructure)
-        {
-            try
-            {
-                Workflow workflow = XmlConfiguration.ParseflowXml<Workflow>(workflowStructure.STRUCTUREXML);
-                List<Element> elements = new List<Element>();
-                elements.Add(workflow.StartNode);
-                elements.AddRange(workflow.ChildNode);
-                elements.AddRange(workflow.ChildDecisionNode);
-                elements.Add(workflow.EndNode);
 
-                string instaceID = CreateWorkflowInstance(workflow.StartNode.IDENTIFICATION, workflowStructure.IDENTIFICATION, workflowStructure.STRUCTUREXML);
-                foreach (Element element in elements)
-                {
-                    element.INSTANCEID = instaceID;
-                    element.Persistent();
-                }
-                return instaceID;
-            }
-            catch (Exception ex)
-            {
-                throw new WorkflowException(ex);
-            }
-        }
-
-        public string StartWorkflow(string resourceXml)
+        public string Start(string resourceXml)
         {
             Workflow workflow = XmlConfiguration.ParseflowXml<Workflow>(resourceXml);
             List<Element> elements = new List<Element>();

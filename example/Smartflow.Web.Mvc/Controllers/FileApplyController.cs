@@ -16,7 +16,7 @@ namespace Smartflow.Web.Controllers
     {
         private BaseWorkflowService bwfs = BaseWorkflowService.Instance;
         private FileApplyService fileApplyService = new FileApplyService();
-
+        private IWorkflowDesignService designService = new WorkflowDesignService();
         public ActionResult Save(FileApply model)
         {
             model.STATUS = 0;
@@ -74,9 +74,7 @@ namespace Smartflow.Web.Controllers
 
         public void GenerateWFViewData(string WFID)
         {
-            List<WorkflowStructure> workflowXmlList = WorkflowServiceProvider
-                .OfType<IWorkflowDesignService>()
-                .GetWorkflowStructureList();
+            List<WorkflowStructure> workflowXmlList = designService.GetWorkflowStructureList();
 
             List<SelectListItem> fileList = new List<SelectListItem>();
             foreach (WorkflowStructure item in workflowXmlList)

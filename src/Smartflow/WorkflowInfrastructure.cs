@@ -9,10 +9,10 @@ using System.Linq;
 
 namespace Smartflow
 {
-    /**
-     * 定义工作流基础服务
-     */
-    public class Infrastructure
+    /// <summary>
+    /// 定义工作流基础服务
+    /// </summary>
+    public abstract class WorkflowInfrastructure
     {
         /// <summary>
         /// 访问数据库服务
