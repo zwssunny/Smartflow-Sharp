@@ -190,7 +190,7 @@ namespace Smartflow
         }
 
         /// <summary>
-        /// 流程回退、
+        /// 流程回退
         /// </summary>
         /// <param name="context"></param>
         public void Rollback(WorkflowContext context)
