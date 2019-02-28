@@ -15,7 +15,7 @@ namespace Smartflow
     /// </summary>
     public interface IRelationship
     {
-        string RNID
+        string RelationshipID
         {
             get;
             set;

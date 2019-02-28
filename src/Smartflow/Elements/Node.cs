@@ -55,9 +55,9 @@ namespace Smartflow.Elements
             {
                 foreach (Transition transition in Transitions)
                 {
-                    transition.RNID = this.NID;
-                    transition.ORIGIN = this.IDENTIFICATION;
-                    transition.INSTANCEID = INSTANCEID;
+                    transition.RelationshipID = this.NID;
+                    transition.Origin = this.ID;
+                    transition.InstanceID = InstanceID;
                     transition.Persistent();
                 }
             }
@@ -66,8 +66,8 @@ namespace Smartflow.Elements
             {
                 foreach (Group r in Groups)
                 {
-                    r.RNID = this.NID;
-                    r.INSTANCEID = INSTANCEID;
+                    r.RelationshipID = this.NID;
+                    r.InstanceID = InstanceID;
                     r.Persistent();
                 }
             }
@@ -75,11 +75,11 @@ namespace Smartflow.Elements
 
         public ASTNode GetNode(string IDENTIFICATION)
         {
-            string query = "SELECT * FROM T_NODE WHERE IDENTIFICATION=@IDENTIFICATION AND INSTANCEID=@INSTANCEID";
+            string query = "SELECT * FROM T_NODE WHERE IDENTIFICATION=@IDENTIFICATION AND InstanceID=@InstanceID";
             ASTNode node = Connection.Query<ASTNode>(query, new
             {
                 IDENTIFICATION = IDENTIFICATION,
-                INSTANCEID = INSTANCEID
+                INSTANCEID = InstanceID
 
             }).FirstOrDefault();
 

@@ -27,7 +27,7 @@ namespace Smartflow.BussinessService.WorkflowService
             }
             if (!String.IsNullOrEmpty(searchKey))
             {
-                query = string.Format("{0} AND APPELLATION LIKE '%{1}%'", query, searchKey);
+                query = string.Format("{0} AND Name LIKE '%{1}%'", query, searchKey);
             }
             DataTable roleData = new DataTable(Guid.NewGuid().ToString());
             using (IDataReader dr = Connection.ExecuteReader(query))

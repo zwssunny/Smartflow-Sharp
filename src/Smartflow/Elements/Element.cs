@@ -20,15 +20,8 @@ namespace Smartflow.Elements
     [Serializable]
     public abstract class Element : WorkflowInfrastructure
     {
-        [XmlAttribute("identification")]
-        public virtual string IDENTIFICATION
-        {
-            get;
-            set;
-        }
-
         /// <summary>
-        /// 节点唯一标识
+        /// 唯一标识
         /// </summary>
         [JsonIgnore]
         [XmlIgnore]
@@ -38,9 +31,19 @@ namespace Smartflow.Elements
             set;
         }
 
+        /// <summary>
+        /// 节点ID
+        /// </summary>
+        [XmlAttribute("id")]
+        public virtual string ID
+        {
+            get;
+            set;
+        }
+
         [JsonProperty("name")]
-        [XmlAttribute("appellation")]
-        public virtual string APPELLATION
+        [XmlAttribute("name")]
+        public virtual string Name
         {
             get;
             set;
@@ -48,7 +51,7 @@ namespace Smartflow.Elements
 
         [JsonIgnore]
         [XmlIgnore]
-        public virtual string INSTANCEID
+        public virtual string InstanceID
         {
             get;
             set;

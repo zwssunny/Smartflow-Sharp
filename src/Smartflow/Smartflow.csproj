@@ -43,8 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DapperFactory.cs" />
-    <Compile Include="DelegatingCompletedHandle.cs" />
-    <Compile Include="DelegatingProcessHandle.cs" />
+    <Compile Include="DelegatingHandle.cs" />
     <Compile Include="Elements\ASTNode.cs" />
     <Compile Include="Elements\Command.cs" />
     <Compile Include="Elements\Decision.cs" />
@@ -85,7 +84,9 @@
     <Compile Include="XmlConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SmartflowResource.resx" />
+    <EmbeddedResource Include="SmartflowResource.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

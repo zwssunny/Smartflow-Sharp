@@ -21,7 +21,7 @@ namespace Smartflow.BussinessService.WorkflowService
             List<string> gList = new List<string>();
             foreach (Group g in items)
             {
-                gList.Add(g.IDENTIFICATION.ToString());
+                gList.Add(g.ID.ToString());
             }
 
             if (gList.Count == 0)
@@ -59,7 +59,7 @@ namespace Smartflow.BussinessService.WorkflowService
                 WriteRecord(executeContext);
                 string instanceID = executeContext.Instance.InstanceID;
                 var current = GetCurrentNode(instanceID);
-                if (current.APPELLATION == "结束")
+                if (current.Name == "结束")
                 {
                     pendingService.Delete(p => p.INSTANCEID == instanceID);
                 }
@@ -69,7 +69,7 @@ namespace Smartflow.BussinessService.WorkflowService
                     {
                         //流程回退(谁审就退给谁) 仅限演示
                         var item = executeContext.Instance.Current.GetFromNode().GetActors().FirstOrDefault();
-                        WritePending(item.IDENTIFICATION, executeContext);
+                        WritePending(item.ID, executeContext);
                     }
                     else
                     {
@@ -126,7 +126,7 @@ namespace Smartflow.BussinessService.WorkflowService
             recordService.Insert(new Record()
             {
                 INSTANCEID = executeContext.Instance.InstanceID,
-                NODENAME = executeContext.From.APPELLATION,
+                NODENAME = executeContext.From.Name,
                 MESSAGE = executeContext.Data.Message
             });
         }

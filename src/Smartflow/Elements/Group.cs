@@ -18,14 +18,14 @@ namespace Smartflow.Elements
     {
         [JsonProperty("id")]
         [XmlAttribute("identification")]
-        public override string IDENTIFICATION
+        public override string ID
         {
             get;
             set;
         }
 
         [JsonIgnore]
-        public string RNID
+        public string RelationshipID
         {
             get;
             set;
@@ -33,14 +33,14 @@ namespace Smartflow.Elements
 
         internal override void Persistent()
         {
-            string sql = "INSERT INTO T_GROUP(NID,IDENTIFICATION,RNID,APPELLATION,INSTANCEID) VALUES(@NID,@IDENTIFICATION,@RNID,@APPELLATION,@INSTANCEID)";
+            string sql = "INSERT INTO T_GROUP(NID,ID,RelationshipID,Name,InstanceID) VALUES(@NID,@ID,@RelationshipID,@Name,@InstanceID)";
             Connection.Execute(sql, new
             {
                 NID = Guid.NewGuid().ToString(),
-                IDENTIFICATION = IDENTIFICATION,
-                RNID = RNID,
-                APPELLATION = APPELLATION,
-                INSTANCEID = INSTANCEID
+                ID = ID,
+                RelationshipID = RelationshipID,
+                Name = Name,
+                InstanceID = InstanceID
             });
         }
     }

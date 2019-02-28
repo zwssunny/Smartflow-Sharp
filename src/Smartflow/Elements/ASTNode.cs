@@ -21,7 +21,7 @@ namespace Smartflow.Elements
     {
         [JsonProperty("unique")]
         [XmlAttribute("identification")]
-        public override string IDENTIFICATION
+        public override string ID
         {
             get;
             set;
@@ -45,14 +45,14 @@ namespace Smartflow.Elements
         internal override void Persistent()
         {
             NID = Guid.NewGuid().ToString();
-            string sql = "INSERT INTO T_NODE(NID,IDENTIFICATION,APPELLATION,NODETYPE,INSTANCEID) VALUES(@NID,@IDENTIFICATION,@APPELLATION,@NODETYPE,@INSTANCEID)";
+            string sql = "INSERT INTO T_NODE(NID,IDENTIFICATION,Name,NodeType,InstanceID) VALUES(@NID,@IDENTIFICATION,@Name,@NodeType,@InstanceID)";
             Connection.ExecuteScalar<long>(sql, new
             {
                 NID = NID,
-                IDENTIFICATION = IDENTIFICATION,
-                APPELLATION = APPELLATION,
+                IDENTIFICATION = ID,
+                APPELLATION = Name,
                 NODETYPE = NodeType.ToString(),
-                INSTANCEID = INSTANCEID
+                INSTANCEID = InstanceID
             });
         }
 
@@ -74,11 +74,11 @@ namespace Smartflow.Elements
             if (this.NodeType != WorkflowNodeCategory.Decision)
             {
                 Actor actor = new Actor();
-                actor.IDENTIFICATION = actorID;
-                actor.APPELLATION = actorName;
-                actor.RNID = NID;
-                actor.OPERATION = action;
-                actor.INSTANCEID = INSTANCEID;
+                actor.ID = actorID;
+                actor.Name = actorName;
+                actor.RelationshipID = NID;
+                actor.Operation = action;
+                actor.InstanceID = InstanceID;
                 actor.Persistent();
             }
         }

@@ -100,7 +100,7 @@ namespace Smartflow
                 if (CheckAuthorization(context) == false) return;
 
                 string transitionTo = current.Transitions
-                                  .FirstOrDefault(e => e.NID == context.TransitionID).DESTINATION;
+                                  .FirstOrDefault(e => e.NID == context.TransitionID).Destination;
 
                 current.SetActor(context.ActorID, context.ActorName, WorkflowAction.Jump);
                 instance.Jump(transitionTo);
@@ -156,9 +156,9 @@ namespace Smartflow
                 //记录已经参与审批过的人信息
                 current.SetActor(context.ActorID, context.ActorName, WorkflowAction.Undo);
 
-                instance.Jump(current.IDENTIFICATION);
+                instance.Jump(current.ID);
 
-                ASTNode to = current.GetNode(current.IDENTIFICATION);
+                ASTNode to = current.GetNode(current.ID);
 
                 OnExecuteProcess(new ExecutingContext()
                 {
@@ -205,9 +205,9 @@ namespace Smartflow
                 //记录已经参与审批过的人信息
                 current.SetActor(context.ActorID, context.ActorName, WorkflowAction.Rollback);
 
-                instance.Jump(current.IDENTIFICATION);
+                instance.Jump(current.ID);
 
-                ASTNode to = current.GetNode(current.IDENTIFICATION);
+                ASTNode to = current.GetNode(current.ID);
 
                 OnExecuteProcess(new ExecutingContext()
                 {
@@ -246,13 +246,13 @@ namespace Smartflow
         {
             workflowService.Processing(new WorkflowProcess()
             {
-                RNID = executeContext.To.NID,
-                ORIGIN = executeContext.From.IDENTIFICATION,
-                DESTINATION = executeContext.To.IDENTIFICATION,
-                TRANSITIONID = executeContext.TransitionID,
-                INSTANCEID = executeContext.Instance.InstanceID,
-                NODETYPE = executeContext.From.NodeType,
-                OPERATION = executeContext.Operation
+                RelationshipID = executeContext.To.NID,
+                Origin = executeContext.From.ID,
+                Destination = executeContext.To.ID,
+                TransitionID = executeContext.TransitionID,
+                InstanceID = executeContext.Instance.InstanceID,
+                NodeType = executeContext.From.NodeType,
+                Operation = executeContext.Operation
             });
         }
     }

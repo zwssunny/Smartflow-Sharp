@@ -28,10 +28,10 @@ namespace Smartflow
             elements.AddRange(workflow.ChildDecisionNode);
             elements.Add(workflow.EndNode);
 
-            string instaceID = CreateWorkflowInstance(workflow.StartNode.IDENTIFICATION,"0",resourceXml);
+            string instaceID = CreateWorkflowInstance(workflow.StartNode.ID,resourceXml);
             foreach (Element element in elements)
             {
-                element.INSTANCEID = instaceID;
+                element.InstanceID = instaceID;
                 element.Persistent();
             }
             return instaceID;
@@ -64,9 +64,9 @@ namespace Smartflow
             }
         }
 
-        protected string CreateWorkflowInstance(string startNID, string structureID, string structure)
+        protected string CreateWorkflowInstance(string NID, string resource)
         {
-            return WorkflowInstance.CreateWorkflowInstance(startNID, structureID, structure);
+            return WorkflowInstance.CreateWorkflowInstance(NID, resource);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Smartflow.Elements
     {
         [JsonProperty("name")]
         [XmlIgnore]
-        public override string APPELLATION
+        public override string Name
         {
             get { return "开始"; }
         }

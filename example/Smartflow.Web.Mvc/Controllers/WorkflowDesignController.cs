@@ -20,7 +20,7 @@ namespace Smartflow.Web.Mvc.Controllers
 {
     public  class WorkflowDesignController : BaseController
     {
-        private IWorkflowDesignService designService = new WorkflowDesignService();
+        private WorkflowDesignService designService = new WorkflowDesignService();
         private ActorService roleService = new ActorService();
 
         public ActionResult Design(string id)
@@ -59,8 +59,8 @@ namespace Smartflow.Web.Mvc.Controllers
             WorkflowInstance instance = WorkflowInstance.GetInstance(instanceID);
             string data = Newtonsoft.Json.JsonConvert.SerializeObject(new
             {
-                structure = GetNodeList(instance.STRUCTUREXML),
-                id = instance.Current.IDENTIFICATION
+                structure = GetNodeList(instance.Resource),
+                id = instance.Current.ID
             }, new Newtonsoft.Json.JsonSerializerSettings()
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,

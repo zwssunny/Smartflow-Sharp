@@ -42,8 +42,8 @@ namespace Smartflow.Elements
 
             if (Command != null)
             {
-                Command.INSTANCEID = INSTANCEID;
-                Command.RNID = NID;
+                Command.InstanceID = InstanceID;
+                Command.RelationshipID = NID;
                 Command.Persistent();
             }
         }

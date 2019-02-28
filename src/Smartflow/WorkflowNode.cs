@@ -26,15 +26,15 @@ namespace Smartflow
         {
             foreach (Smartflow.Elements.Transition transition in this.Transitions)
             {
-                ASTNode an = this.GetNode(transition.DESTINATION);
+                ASTNode an = this.GetNode(transition.Destination);
                 Transition decisionTransition = transition;
                 while (an.NodeType == Enums.WorkflowNodeCategory.Decision)
                 {
                     WorkflowDecision decision = WorkflowDecision.ConvertToReallyType(an);
                     decisionTransition = decision.GetTransition();
-                    an = this.GetNode(decisionTransition.DESTINATION);
+                    an = this.GetNode(decisionTransition.Destination);
                 }
-                transition.APPELLATION = decisionTransition.APPELLATION;
+                transition.Name = decisionTransition.Name;
             }
             return this.Transitions;
         }
@@ -54,10 +54,10 @@ namespace Smartflow
         {
             WorkflowNode wfNode = new WorkflowNode();
             wfNode.NID = node.NID;
-            wfNode.IDENTIFICATION = node.IDENTIFICATION;
-            wfNode.APPELLATION = node.APPELLATION;
+            wfNode.ID = node.ID;
+            wfNode.Name = node.Name;
             wfNode.NodeType = node.NodeType;
-            wfNode.INSTANCEID = node.INSTANCEID;
+            wfNode.InstanceID = node.InstanceID;
             wfNode.Transitions = wfNode.QueryWorkflowNode(node.NID);
             wfNode.FromTransition = wfNode.GetHistoryTransition();
             wfNode.Groups = wfNode.GetGroup();
@@ -71,18 +71,18 @@ namespace Smartflow
         public WorkflowNode GetFromNode()
         {
             if (FromTransition == null) return null;
-            ASTNode node = GetNode(FromTransition.ORIGIN);
+            ASTNode node = GetNode(FromTransition.Origin);
             return WorkflowNode.ConvertToReallyType(node);
         }
 
         public List<Actor> GetActors()
         {
-            string query = " SELECT * FROM T_ACTOR WHERE RNID=@RNID AND INSTANCEID=@INSTANCEID AND OPERATION=@OPERATION ";
+            string query = " SELECT * FROM T_ACTOR WHERE RelationshipID=@RelationshipID AND InstanceID=@InstanceID AND Operation=@Operation ";
             return Connection.Query<Actor>(query, new
             {
-                RNID = NID,
-                INSTANCEID = INSTANCEID,
-                OPERATION = WorkflowAction.Jump
+                RelationshipID = NID,
+                InstanceID = InstanceID,
+                Operation = WorkflowAction.Jump
 
             }).ToList();
         }
@@ -96,19 +96,19 @@ namespace Smartflow
             Transition transition = null;
             try
             {
-                WorkflowProcess process = WorkflowProcess.GetWorkflowProcessInstance(INSTANCEID, NID);
+                WorkflowProcess process = WorkflowProcess.GetWorkflowProcessInstance(InstanceID, NID);
                 if (process != null && NodeType != WorkflowNodeCategory.Start)
                 {
-                    ASTNode n = GetNode(process.ORIGIN);
+                    ASTNode n = GetNode(process.Origin);
                     while (n.NodeType == WorkflowNodeCategory.Decision)
                     {
-                        process = WorkflowProcess.GetWorkflowProcessInstance(INSTANCEID, n.NID);
-                        n = GetNode(process.ORIGIN);
+                        process = WorkflowProcess.GetWorkflowProcessInstance(InstanceID, n.NID);
+                        n = GetNode(process.Origin);
 
                         if (n.NodeType == WorkflowNodeCategory.Start)
                             break;
                     }
-                    transition = GetTransition(process.TRANSITIONID);
+                    transition = GetTransition(process.TransitionID);
                 }
             }
             catch (Exception ex)
@@ -123,13 +123,13 @@ namespace Smartflow
         /// </summary>
         /// <param name="TRANSITIONID">路线主键</param>
         /// <returns>路线</returns>
-        protected Transition GetTransition(string TRANSITIONID)
+        protected Transition GetTransition(string transitionID)
         {
-            string query = "SELECT * FROM T_TRANSITION WHERE NID=@TRANSITIONID AND INSTANCEID=@INSTANCEID";
+            string query = "SELECT * FROM T_TRANSITION WHERE NID=@transitionID AND InstanceID=@InstanceID";
             Transition transition = Connection.Query<Transition>(query, new
             {
-                TRANSITIONID = TRANSITIONID,
-                INSTANCEID = INSTANCEID
+                TransitionID = transitionID,
+                InstanceID = InstanceID
 
             }).FirstOrDefault();
 
@@ -138,11 +138,11 @@ namespace Smartflow
 
         protected List<Group> GetGroup()
         {
-            string query = "SELECT * FROM T_GROUP WHERE RNID=@RNID AND INSTANCEID=@INSTANCEID";
+            string query = "SELECT * FROM T_GROUP WHERE RNID=@RNID AND InstanceID=@InstanceID";
             return Connection.Query<Group>(query, new
             {
                 RNID = NID,
-                INSTANCEID = INSTANCEID
+                INSTANCEID = InstanceID
 
             }).ToList();
         }
@@ -157,13 +157,13 @@ namespace Smartflow
             Transition executeTransition = Transitions
                 .FirstOrDefault(t => t.NID == transitionID);
 
-            ASTNode an = this.GetNode(executeTransition.DESTINATION);
+            ASTNode an = this.GetNode(executeTransition.Destination);
             Transition returnTransition = executeTransition;
             while (an.NodeType == Enums.WorkflowNodeCategory.Decision)
             {
                 WorkflowDecision decision = WorkflowDecision.ConvertToReallyType(an);
                 returnTransition = decision.GetTransition();
-                an = this.GetNode(returnTransition.DESTINATION);
+                an = this.GetNode(returnTransition.Destination);
             }
             return returnTransition;
         }
@@ -176,13 +176,13 @@ namespace Smartflow
         public List<Group> GetNextGroup(string transitionID)
         {
             Transition executeTransition = this.GetExecuteTransition(transitionID);
-            ASTNode selectNode = this.GetNode(executeTransition.DESTINATION);
+            ASTNode selectNode = this.GetNode(executeTransition.Destination);
 
-            string query = "SELECT * FROM T_GROUP WHERE RNID=@RNID AND INSTANCEID=@INSTANCEID";
+            string query = "SELECT * FROM T_GROUP WHERE RelationshipID=@RelationshipID AND InstanceID=@InstanceID";
             return Connection.Query<Group>(query, new
             {
-                RNID = selectNode.NID,
-                INSTANCEID = INSTANCEID
+                RelationshipID = selectNode.NID,
+                InstanceID = InstanceID
 
             }).ToList();
         }
