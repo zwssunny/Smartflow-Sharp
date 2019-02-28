@@ -73,7 +73,7 @@ namespace Smartflow
             }
             catch (Exception ex)
             {
-                throw new WorkflowException(ex, instanceID);
+                throw ex;
             }
         }
 
@@ -118,9 +118,6 @@ namespace Smartflow
                 STATE = WorkflowInstanceState.Running.ToString(),
                 STRUCTUREXML = structureXml
             });
-
-            instance.LogService.Info(string.Format("执行{0}方法创建实例,实例ID:{1}", "CreateWorkflowInstance", instanceID));
-
             return instanceID;
         }
     }

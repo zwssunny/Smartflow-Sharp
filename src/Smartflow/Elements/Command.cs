@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace Smartflow.Elements
 {
-    public class Command : Element, IRelationShip
+    public class Command : Element, IRelationship
     {
         /// <summary>
         /// 执行SQL语句

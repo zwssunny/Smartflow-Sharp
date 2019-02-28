@@ -64,12 +64,11 @@ namespace Smartflow
                         }
                     }
                 }
-                Assert.CheckNull(instance, "instance");
                 return instance;
             }
             catch (Exception ex)
             {
-                throw new WorkflowException(ex, INSTANCEID);
+                throw ex;
             }
         }
 

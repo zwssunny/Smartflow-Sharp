@@ -28,7 +28,7 @@ namespace Smartflow
             {
                 ASTNode an = this.GetNode(transition.DESTINATION);
                 Transition decisionTransition = transition;
-                while (an.NodeType == Enums.WorkflowNodeCategeory.Decision)
+                while (an.NodeType == Enums.WorkflowNodeCategory.Decision)
                 {
                     WorkflowDecision decision = WorkflowDecision.ConvertToReallyType(an);
                     decisionTransition = decision.GetTransition();
@@ -97,15 +97,15 @@ namespace Smartflow
             try
             {
                 WorkflowProcess process = WorkflowProcess.GetWorkflowProcessInstance(INSTANCEID, NID);
-                if (process != null && NodeType != WorkflowNodeCategeory.Start)
+                if (process != null && NodeType != WorkflowNodeCategory.Start)
                 {
                     ASTNode n = GetNode(process.ORIGIN);
-                    while (n.NodeType == WorkflowNodeCategeory.Decision)
+                    while (n.NodeType == WorkflowNodeCategory.Decision)
                     {
                         process = WorkflowProcess.GetWorkflowProcessInstance(INSTANCEID, n.NID);
                         n = GetNode(process.ORIGIN);
 
-                        if (n.NodeType == WorkflowNodeCategeory.Start)
+                        if (n.NodeType == WorkflowNodeCategory.Start)
                             break;
                     }
                     transition = GetTransition(process.TRANSITIONID);
@@ -113,7 +113,7 @@ namespace Smartflow
             }
             catch (Exception ex)
             {
-                throw new WorkflowException(ex, INSTANCEID);
+                throw ex;
             }
             return transition;
         }
@@ -159,7 +159,7 @@ namespace Smartflow
 
             ASTNode an = this.GetNode(executeTransition.DESTINATION);
             Transition returnTransition = executeTransition;
-            while (an.NodeType == Enums.WorkflowNodeCategeory.Decision)
+            while (an.NodeType == Enums.WorkflowNodeCategory.Decision)
             {
                 WorkflowDecision decision = WorkflowDecision.ConvertToReallyType(an);
                 returnTransition = decision.GetTransition();

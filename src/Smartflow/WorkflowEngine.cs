@@ -32,7 +32,7 @@ namespace Smartflow
         {
             Processing(executeContext);
             OnProcess(executeContext);
-            if (OnCompleted != null && executeContext.To.NodeType == WorkflowNodeCategeory.End)
+            if (OnCompleted != null && executeContext.To.NodeType == WorkflowNodeCategory.End)
             {
                 OnCompleted(executeContext);
             }
@@ -118,12 +118,12 @@ namespace Smartflow
                     ActorName = context.ActorName
                 });
 
-                if (to.NodeType == WorkflowNodeCategeory.End)
+                if (to.NodeType == WorkflowNodeCategory.End)
                 {
                     instance.State = WorkflowInstanceState.End;
                     instance.Transfer();
                 }
-                else if (to.NodeType == WorkflowNodeCategeory.Decision)
+                else if (to.NodeType == WorkflowNodeCategory.Decision)
                 {
                     WorkflowDecision wfDecision = WorkflowDecision.ConvertToReallyType(to);
                     Transition transition = wfDecision.GetTransition();
@@ -172,7 +172,7 @@ namespace Smartflow
                     ActorName = context.ActorName
                 });
 
-                if (to.NodeType == WorkflowNodeCategeory.Decision)
+                if (to.NodeType == WorkflowNodeCategory.Decision)
                 {
                     WorkflowNode wfDecision = WorkflowNode.ConvertToReallyType(to);
                     Transition transition = wfDecision.FromTransition;
@@ -221,7 +221,7 @@ namespace Smartflow
                     ActorName = context.ActorName
                 });
 
-                if (to.NodeType == WorkflowNodeCategeory.Decision)
+                if (to.NodeType == WorkflowNodeCategory.Decision)
                 {
                     WorkflowNode wfDecision = WorkflowNode.ConvertToReallyType(to);
                     Transition transition = wfDecision.FromTransition;

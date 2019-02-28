@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 namespace Smartflow.Elements
 {
     [XmlInclude(typeof(Node))]
-    public class Transition : Element, IRelationShip
+    public class Transition : Element, IRelationship
     {
         [JsonProperty("layout")]
         [XmlAttribute("layout")]

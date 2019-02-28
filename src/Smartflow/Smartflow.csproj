@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assert.cs" />
     <Compile Include="DapperFactory.cs" />
     <Compile Include="DelegatingCompletedHandle.cs" />
     <Compile Include="DelegatingProcessHandle.cs" />
@@ -53,16 +52,15 @@
     <Compile Include="Elements\End.cs" />
     <Compile Include="EnumConverter.cs" />
     <Compile Include="Enums\WorkflowAction.cs" />
-    <Compile Include="ILogging.cs" />
     <Compile Include="IMailService.cs" />
-    <Compile Include="IRelationShip.cs" />
+    <Compile Include="IRelationship.cs" />
     <Compile Include="Elements\Node.cs" />
     <Compile Include="Elements\Group.cs" />
     <Compile Include="Elements\Start.cs" />
     <Compile Include="Elements\Transition.cs" />
     <Compile Include="Elements\Workflow.cs" />
     <Compile Include="Enums\WorkflowInstanceState.cs" />
-    <Compile Include="Enums\WorkflowNodeCategeory.cs" />
+    <Compile Include="Enums\WorkflowNodeCategory.cs" />
     <Compile Include="ExecutingContext.cs" />
     <Compile Include="ITransition.cs" />
     <Compile Include="IPersistent.cs" />
@@ -77,9 +75,7 @@
     <Compile Include="WorkflowContext.cs" />
     <Compile Include="WorkflowDecision.cs" />
     <Compile Include="WorkflowEngine.cs" />
-    <Compile Include="WorkflowException.cs" />
     <Compile Include="WorkflowInfrastructure.cs" />
-    <Compile Include="WorkflowLogging.cs" />
     <Compile Include="WorkflowServiceProvider.cs" />
     <Compile Include="WorkflowInstance.cs" />
     <Compile Include="WorkflowNode.cs" />

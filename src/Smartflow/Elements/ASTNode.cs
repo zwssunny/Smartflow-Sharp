@@ -36,7 +36,7 @@ namespace Smartflow.Elements
         }
 
         [XmlIgnore]
-        public virtual WorkflowNodeCategeory NodeType
+        public virtual WorkflowNodeCategory NodeType
         {
             get;
             set;
@@ -59,7 +59,6 @@ namespace Smartflow.Elements
         internal virtual List<Transition> QueryWorkflowNode(string NID)
         {
             string query = "SELECT * FROM T_TRANSITION WHERE RNID=@RNID";
-            LogService.Info(string.Format("执行QueryWorkflowNode,查询实例RNID：{0} Query:{1}", NID, query));
             return Connection.Query<Transition>(query, new { RNID = NID })
                   .ToList();
         }
@@ -72,7 +71,7 @@ namespace Smartflow.Elements
         /// <param name="action"></param>
         internal virtual void SetActor(string actorID, string actorName, WorkflowAction action)
         {
-            if (this.NodeType != WorkflowNodeCategeory.Decision)
+            if (this.NodeType != WorkflowNodeCategory.Decision)
             {
                 Actor actor = new Actor();
                 actor.IDENTIFICATION = actorID;

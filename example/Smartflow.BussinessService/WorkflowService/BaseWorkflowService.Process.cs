@@ -49,7 +49,7 @@ namespace Smartflow.BussinessService.WorkflowService
 
         public void OnProcess(ExecutingContext executeContext)
         {
-            if (executeContext.Instance.Current.NodeType == Enums.WorkflowNodeCategeory.Decision)
+            if (executeContext.Instance.Current.NodeType == Enums.WorkflowNodeCategory.Decision)
             {
                 DecisionJump(executeContext);
             }
@@ -102,7 +102,7 @@ namespace Smartflow.BussinessService.WorkflowService
                 pending.INSTANCEID == instanceID);
 
             var current = GetCurrentNode(executeContext.Instance.InstanceID);
-            if (executeContext.Operation == Enums.WorkflowAction.Jump && current.NodeType != Enums.WorkflowNodeCategeory.Decision)
+            if (executeContext.Operation == Enums.WorkflowAction.Jump && current.NodeType != Enums.WorkflowNodeCategory.Decision)
             {
                 List<User> userList = GetUsersByGroup(current.Groups);
                 foreach (var user in userList)

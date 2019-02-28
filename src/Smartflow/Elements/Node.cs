@@ -22,10 +22,10 @@ namespace Smartflow.Elements
     [XmlInclude(typeof(List<Group>))]
     public class Node : ASTNode
     {
-        private WorkflowNodeCategeory _nodeType = WorkflowNodeCategeory.Normal;
+        private WorkflowNodeCategory _nodeType = WorkflowNodeCategory.Normal;
 
         [JsonProperty("category", ItemConverterType = typeof(EnumConverter))]
-        public override WorkflowNodeCategeory NodeType
+        public override WorkflowNodeCategory NodeType
         {
             get { return _nodeType; }
             set { _nodeType = value; }

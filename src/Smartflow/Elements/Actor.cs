@@ -15,7 +15,7 @@ using System.Xml.Serialization;
 
 namespace Smartflow.Elements
 {
-    public class Actor : Element, IRelationShip
+    public class Actor : Element, IRelationship
     {
         public string RNID
         {

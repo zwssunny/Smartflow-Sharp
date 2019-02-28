@@ -13,7 +13,7 @@ using System.Data;
 
 namespace Smartflow
 {
-    public class WorkflowProcess :WorkflowInfrastructure,IPersistent, IRelationShip
+    public class WorkflowProcess :WorkflowInfrastructure,IPersistent, IRelationship
     {
         /// <summary>
         /// 外键
@@ -72,7 +72,7 @@ namespace Smartflow
         /// <summary>
         /// 节点类型
         /// </summary>
-        public WorkflowNodeCategeory NODETYPE
+        public WorkflowNodeCategory NODETYPE
         {
             get;
             set;

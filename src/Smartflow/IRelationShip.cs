@@ -13,7 +13,7 @@ namespace Smartflow
     /// <summary>
     /// 定义外键接口
     /// </summary>
-    public interface IRelationShip
+    public interface IRelationship
     {
         string RNID
         {

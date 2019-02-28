@@ -16,9 +16,7 @@ namespace Smartflow.BussinessService.WorkflowService
 {
     public class ActorService
     {
-        private static readonly ConnectionStringSettings connectionStringSettings = ConfigurationManager.ConnectionStrings["busConnection"];
-
-        private IDbConnection Connection = DapperFactory.CreateConnection(connectionStringSettings.ProviderName, connectionStringSettings.ConnectionString);
+        private IDbConnection Connection = DblHelper.CreateConnection();
 
         public DataTable GetRole(string roleIds, string searchKey)
         {

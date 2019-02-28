@@ -33,9 +33,9 @@ namespace Smartflow.Elements
         }
 
         [JsonProperty("category", ItemConverterType = typeof(StringEnumConverter))]
-        public override WorkflowNodeCategeory NodeType
+        public override WorkflowNodeCategory NodeType
         {
-            get { return WorkflowNodeCategeory.End; }
+            get { return WorkflowNodeCategory.End; }
         }
     }
 }
