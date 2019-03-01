@@ -17,6 +17,7 @@ namespace Smartflow.Elements
 {
     public class Actor : Element, IRelationship
     {
+
         public string RelationshipID
         {
             get;
@@ -31,7 +32,7 @@ namespace Smartflow.Elements
 
         internal override void Persistent()
         {
-            string sql = "INSERT INTO T_ACTOR(NID,ID,RelationshipID,Name,InstanceID,Operation) VALUES(@NID,@ID,@RelationshipID,@Name,@InstanceID,@Operation)";
+            string sql = "INSERT INTO T_ACTOR(NID,ID,RelationshipID,ActorName,InstanceID,Operation) VALUES(@NID,@ID,@RelationshipID,@Name,@InstanceID,@Operation)";
             DapperFactory.CreateWorkflowConnection().Execute(sql, new
             {
                 NID = Guid.NewGuid().ToString(),

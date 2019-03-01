@@ -41,8 +41,8 @@
             br: 'br'
         },
         ATTRIBUTE_FIELD_MAP = {
-            id: 'identification',
-            name: 'appellation',
+            id: 'id',
+            name: 'name',
             from: 'origin',
             to: 'destination'
         },

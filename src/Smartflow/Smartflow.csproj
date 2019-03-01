@@ -51,6 +51,7 @@
     <Compile Include="Elements\End.cs" />
     <Compile Include="EnumConverter.cs" />
     <Compile Include="Enums\WorkflowAction.cs" />
+    <Compile Include="IFilter.cs" />
     <Compile Include="IMailService.cs" />
     <Compile Include="IRelationship.cs" />
     <Compile Include="Elements\Node.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="SmartflowConfiguration.cs" />
     <Compile Include="Elements\Actor.cs" />
     <Compile Include="SqlMapper.cs" />
+    <Compile Include="DefaultWordFilter.cs" />
     <Compile Include="WorkflowContext.cs" />
     <Compile Include="WorkflowDecision.cs" />
     <Compile Include="WorkflowEngine.cs" />

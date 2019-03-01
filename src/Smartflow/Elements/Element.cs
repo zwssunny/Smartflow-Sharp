@@ -31,16 +31,6 @@ namespace Smartflow.Elements
             set;
         }
 
-        /// <summary>
-        /// 节点ID
-        /// </summary>
-        [XmlAttribute("id")]
-        public virtual string ID
-        {
-            get;
-            set;
-        }
-
         [JsonProperty("name")]
         [XmlAttribute("name")]
         public virtual string Name
@@ -48,6 +38,15 @@ namespace Smartflow.Elements
             get;
             set;
         }
+
+        [JsonProperty("unique")]
+        [XmlAttribute("id")]
+        public string ID
+        {
+            get;
+            set;
+        }
+
 
         [JsonIgnore]
         [XmlIgnore]

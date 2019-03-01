@@ -16,14 +16,6 @@ namespace Smartflow.Elements
 {
     public class Group : Element, IRelationship
     {
-        [JsonProperty("id")]
-        [XmlAttribute("identification")]
-        public override string ID
-        {
-            get;
-            set;
-        }
-
         [JsonIgnore]
         public string RelationshipID
         {

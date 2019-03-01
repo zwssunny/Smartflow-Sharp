@@ -35,7 +35,7 @@
                     alert(designConfig.success);
                 }
             };
-            ajaxService(settings);
+           // ajaxService(settings);
         } 
     }
 

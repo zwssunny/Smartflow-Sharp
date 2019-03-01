@@ -21,8 +21,8 @@ namespace Smartflow.Elements
         /// <summary>
         /// 执行SQL语句
         /// </summary>
-        [JsonProperty("script")]
-        [XmlElement("script")]
+        [JsonProperty("text")]
+        [XmlElement("text")]
         public string Text
         {
             get;
@@ -32,8 +32,8 @@ namespace Smartflow.Elements
         /// <summary>
         /// 连接字符串
         /// </summary>
-        [JsonProperty("connecte")]
-        [XmlElement("connecte")]
+        [JsonProperty("connectionString")]
+        [XmlElement("connectionString")]
         public string ConnectionString
         {
             get;
@@ -54,8 +54,8 @@ namespace Smartflow.Elements
         /// <summary>
         /// 命令类型（目前只支持文本命令、后续扩展存储过程）
         /// </summary>
-        [JsonProperty("commandtype")]
-        [XmlElement("commandtype")]
+        [JsonProperty("commandType")]
+        [XmlElement("commandType")]
         public string CommandType
         {
             get;
