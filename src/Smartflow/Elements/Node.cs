@@ -20,6 +20,7 @@ namespace Smartflow.Elements
 {
     [XmlInclude(typeof(List<Transition>))]
     [XmlInclude(typeof(List<Group>))]
+    [XmlInclude(typeof(List<Form>))]
     public class Node : ASTNode
     {
         private WorkflowNodeCategory _nodeType = WorkflowNodeCategory.Normal;
@@ -42,6 +43,15 @@ namespace Smartflow.Elements
         [JsonProperty("group")]
         [XmlElement(ElementName = "group")]
         public virtual List<Group> Groups
+        {
+            get;
+            set;
+        }
+
+
+        [JsonProperty("form")]
+        [XmlElement(ElementName = "form")]
+        public virtual List<Form> Forms
         {
             get;
             set;
@@ -71,19 +81,26 @@ namespace Smartflow.Elements
                     r.Persistent();
                 }
             }
+
+            if (Forms != null)
+            {
+                foreach (Form f in Forms)
+                {
+                    f.RelationshipID = this.NID;
+                    f.InstanceID = InstanceID;
+                    f.Persistent();
+                }
+            }
         }
 
         public ASTNode GetNode(string ID)
         {
             string query = "SELECT * FROM T_NODE WHERE ID=@ID AND InstanceID=@InstanceID";
-            ASTNode node = Connection.Query<ASTNode>(query, new
+            return Connection.Query<ASTNode>(query, new
             {
                 ID = ID,
                 InstanceID = InstanceID
-
             }).FirstOrDefault();
-
-            return node;
         }
     }
 }

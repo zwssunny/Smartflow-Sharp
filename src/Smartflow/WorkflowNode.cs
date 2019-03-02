@@ -125,7 +125,7 @@ namespace Smartflow
         /// <returns>路线</returns>
         protected Transition GetTransition(string transitionID)
         {
-            string query = "SELECT * FROM T_TRANSITION WHERE NID=@transitionID AND InstanceID=@InstanceID";
+            string query = "SELECT * FROM T_TRANSITION WHERE NID=@TransitionID AND InstanceID=@InstanceID";
             Transition transition = Connection.Query<Transition>(query, new
             {
                 TransitionID = transitionID,
@@ -138,12 +138,11 @@ namespace Smartflow
 
         protected List<Group> GetGroup()
         {
-            string query = "SELECT * FROM T_GROUP WHERE RNID=@RNID AND InstanceID=@InstanceID";
+            string query = "SELECT * FROM T_GROUP WHERE RelationshipID=@RelationshipID AND InstanceID=@InstanceID";
             return Connection.Query<Group>(query, new
             {
-                RNID = NID,
-                INSTANCEID = InstanceID
-
+                RelationshipID = NID,
+                InstanceID = InstanceID
             }).ToList();
         }
 
@@ -197,7 +196,7 @@ namespace Smartflow
         {
             string sql = ResourceManage.GetString(ResourceManage.SQL_ACTOR_RECORD);
             using (IDataReader dr = DapperFactory.CreateWorkflowConnection().ExecuteReader(sql,
-                new { INSTANCEID = instanceID }))
+                new { InstanceID = instanceID }))
             {
                 DataTable dt = new DataTable(Guid.NewGuid().ToString());
                 dt.Load(dr);

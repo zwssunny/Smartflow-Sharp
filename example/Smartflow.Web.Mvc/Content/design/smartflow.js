@@ -5,71 +5,46 @@
  */
 (function ($) {
 
-    var
-        NC = {},
+    //var CONST_ATTRIBUTE_FIELD_MAP = { id: 'id', name: 'name', from: 'origin', to: 'destination' };
+    //var CONST_ACTION_TIP = [
+    //    { title: '审核人：', fieldName: 'Name', format: function (value) { return value; } },
+    //    { title: '时间：', fieldName: 'CreateDateTime', format: function (value) { return new Date(value).format('yyyy-MM-dd hh:mm'); } },
+    //    {
+    //        title: '操作：', fieldName: 'Operation', format: function (value)
+    //        {
+    //            var ACTION_VALUE_MAP = { 0: '审核', 1: '流程撤销', 2: '流程退回' };
+    //            return ACTION_VALUE_MAP[value];
+    //        }
+    //}];
+
+    var NC = {},
         LC = {},
         RC = [],
         draw,
         fromConnect,
-        drawOption,
-        duplicateCheck = function (from, to) {
-            var result = false;
-            for (var i = 0, len = RC.length; i < len; i++) {
-                var r = RC[i];
-                if (r.from === from && r.to === to) {
-                    result = true;
-                    break;
-                }
-            }
-            return result;
-        },
-        config = {
-            rootStart: '<workflow>',
-            rootEnd: '</workflow>',
-            start: '<',
-            end: '>',
-            lQuotation: '"',
-            rQuotation: '"',
-            beforeClose: '</',
-            afterClose: '/>',
-            equal: '=',
-            space: ' ',
-            group: 'group',
-            from: 'from',
-            actor: 'actor',
-            transition: 'transition',
-            br: 'br'
-        },
-        ATTRIBUTE_FIELD_MAP = {
-            id: 'id',
-            name: 'name',
-            from: 'origin',
-            to: 'destination'
-        },
-        ACTION_TIP = [{
-            title: '审核人：',
-            fieldName: 'APPELLATION',
-            format: function (value) {
-                return value;
-            }
-        }, {
-            title: '时间：',
-            fieldName: 'CREATEDATETIME',
-            format: function (value) {
-                return new Date(value).format('yyyy-MM-dd hh:mm');
-            }
-        }, {
-            title: '操作：',
-            fieldName: 'OPERATION',
-            format: function (value) {
-                var ACTION_VALUE_MAP = {
-                    0: '审核',
-                    1: '流程撤销',
-                    2: '流程退回'
-                }
-                return ACTION_VALUE_MAP[value];
-            }
-        }];
+        drawOption;
+
+    var config = {
+        rootStart: '<workflow>',
+        rootEnd: '</workflow>',
+        start: '<',
+        end: '>',
+        lQuotation: '"',
+        rQuotation: '"',
+        beforeClose: '</',
+        afterClose: '/>',
+        equal: '=',
+        space: ' ',
+        group: 'group',
+        form:'form',
+        from: 'from',
+        actor: 'actor',
+        transition: 'transition',
+        br: 'br',
+        id: 'id',
+        name: 'name',
+        to:'destination'
+     };
 
     function init(option) {
         draw = SVG(option.container);
@@ -181,6 +156,7 @@
         this.disX = 0;
         this.disY = 0;
         this.group = [];
+        this.form = [];
         this.actors = [];
         Node.base.Constructor.call(this, "node", "node");
         this.name = "节点";
@@ -232,7 +208,7 @@
                     rect = SVG.get(id),
                     elements = findByElementId(id);
 
-                delElement(elements);
+                deleteElement(elements);
 
                 rect.remove();
                 node.brush.remove();
@@ -294,22 +270,53 @@
                 build = util.builder();
 
             build.append(config.start)
-                .append(self.category);
-
-            eachAttributs(build, self);
-            build.append(config.space)
-                       .append('layout')
-                       .append(config.equal)
-                       .append(config.lQuotation)
-                       .append(self.x + ' ' + self.disX + ' ' + self.y + ' ' + self.disY)
-                       .append(config.rQuotation);
-            build.append(config.end);
+                 .append(self.category)
+                 .append(config.space)
+                 .append("id")
+                 .append(config.equal)
+                 .append(config.lQuotation)
+                 .append(self['unique'])
+                 .append(config.rQuotation)
+                 .append(config.space)
+                 .append(config.name)
+                 .append(config.equal)
+                 .append(config.lQuotation)
+                 .append(self[config.name])
+                 .append(config.rQuotation)
+                 .append(config.space)
+                 .append('layout')
+                 .append(config.equal)
+                 .append(config.lQuotation)
+                 .append(self.x + ' ' + self.disX + ' ' + self.y + ' ' + self.disY)
+                 .append(config.rQuotation)
+                 .append(config.end);
 
             $.each(self.group, function () {
                 build.append(config.start)
                      .append(config.group);
-                eachAttributs(build, this, config.group);
+                eachAttributs(build, this);
                 build.append(config.afterClose);
+            });
+
+            $.each(self.form, function () {
+                //文本
+                if (this.text && this.text!='') {
+                    build.append(config.start)
+                         .append(config.form)
+                         .append(config.space)
+                         .append(config.name)
+                         .append(config.equal)
+                         .append(config.lQuotation)
+                         .append(reference[config.name])
+                         .append(config.rQuotation)
+                         .append(config.end)
+                         .append("<![CDATA[")
+                         .append(this.text)
+                         .append("]]>")
+                         .append(config.beforeClose)
+                         .append(config.form)
+                         .append(config.end);
+                }
             });
 
             if (self.exportDecision) {
@@ -326,13 +333,15 @@
                     build.append(config.start)
                          .append(config.transition)
                          .append(config.space)
-                         .append(ATTRIBUTE_FIELD_MAP['name'])
+                        // .append(CONST_ATTRIBUTE_FIELD_MAP['name'])
+                         .append(config.name)
                          .append(config.equal)
                          .append(config.lQuotation)
                          .append(L.name)
                          .append(config.rQuotation)
                          .append(config.space)
-                         .append(ATTRIBUTE_FIELD_MAP['to'])
+                        //.append(CONST_ATTRIBUTE_FIELD_MAP['to'])
+                         .append(config.to)
                          .append(config.equal)
                          .append(config.lQuotation)
                          .append(N.unique)
@@ -359,7 +368,7 @@
             $.each(self.actors, function () {
                 build.append(config.start)
                     .append(config.actor);
-                eachAttributs(build, this, config.actor);
+                eachAttributs(build, this);
                 build.append(config.afterClose);
             });
 
@@ -367,17 +376,18 @@
                  .append(self.category)
                  .append(config.end);
 
-            function eachAttributs(build, reference, attribute) {
-                var propertyName = 'unique'
+          
+            function eachAttributs(build, reference) {
                 $.each(['id', 'name'], function (i, p) {
                     build.append(config.space)
-                         .append(ATTRIBUTE_FIELD_MAP[p])
-                         .append(config.equal)
-                         .append(config.lQuotation)
-                         .append(p === 'id' && (attribute !== 'group' && attribute !== 'actor') ? reference[propertyName] : reference[p])
-                         .append(config.rQuotation);
+                        .append(config[p])
+                        .append(config.equal)
+                        .append(config.lQuotation)
+                        .append(reference[p])
+                        .append(config.rQuotation);
                 });
             }
+
             return build.toString();
         },
         validate: function () {
@@ -389,7 +399,6 @@
         }
     });
 
-    //显示Tooltip 
     Node.prototype.showToolTip = function (data) {
         var n = this,
             rect = SVG.get(n.id),
@@ -399,7 +408,7 @@
 
         $.each(data, function () {
             var serverData = this;
-            $.each(ACTION_TIP, function () {
+            $.each(CONST_ACTION_TIP, function () {
                 var column = this.title + this.format(serverData[this.fieldName]);
                 fragmeng.appendChild(document.createTextNode(column));
                 fragmeng.appendChild(document.createElement(config.br));
@@ -420,7 +429,6 @@
             instance.draw();
         });
     }
-
 
     function Decision() {
         Decision.base.Constructor.call(this);
@@ -520,7 +528,7 @@
         },
         bindEvent: function (n) {
             Start.base.Parent.prototype.bindEvent.call(this, n);
-            this.off('dblclick');
+            //this.off('dblclick');
         },
         validate: function () {
             return (findByElementId(this.id, 'from').length > 0
@@ -562,8 +570,7 @@
         });
     }
 
-    //添加左对齐方式
-    function alignment() {
+    function alignElement() {
         var sn;
         for (var p in NC) {
             if (NC[p].category == 'start') {
@@ -635,9 +642,31 @@
                 nt = NC[nodeId],
                 nf = NC[fromConnect.id];
 
+            var duplicateCheck = function (from, to) {
+                var result = false;
+                for (var i = 0, len = RC.length; i < len; i++) {
+                    var r = RC[i];
+                    if (r.from === from && r.to === to) {
+                        result = true;
+                        break;
+                    }
+                }
+                return result;
+            };
+
             if (nodeId !== fromConnect.id
                 && !nt.checkRule(nf)
                 && !duplicateCheck(fromConnect.id, nodeId)) {
+
+                var checkOrientation = function (from, to) {
+                    var orientation = 'down';
+                    if (from.y() < to.y()) {
+                        orientation = 'down';
+                    } else {
+                        orientation = 'up'
+                    }
+                    return orientation;
+                }
 
                 var instance = new Line(),
                     orientation = checkOrientation(fromRect, toRect);
@@ -707,8 +736,7 @@
         return false;
     }
 
-    //删除与当前节点的连接线
-    function delElement(elements) {
+    function deleteElement(elements) {
         for (var i = 0; i < elements.length; i++) {
             var element = elements[i];
             if (element) {
@@ -790,7 +818,18 @@
     }
 
     function revert(data, disable, currentNodeId, process) {
-        var record = process || [];
+        var record = process || [],
+            findUID = function (destination) {
+                var id;
+                for (var i = 0, len = data.length; i < len; i++) {
+                    var node = data[i];
+                    if (destination == node.unique) {
+                        id = node.id;
+                        break;
+                    }
+                }
+                return id;
+            };
         $.each(data, function () {
             var self = this;
             this.category = (this.category.toLowerCase() == 'normal' ? 'node' : this.category.toLowerCase());
@@ -799,12 +838,21 @@
             instance.disable = (disable || false);
             instance.draw(currentNodeId);
             self.id = instance.id;
+
+            //遍历过程记录
+            var setToolTipArray = function (data, id) {
+                var toolArray = [];
+                $.each(data, function () {
+                    if (this.ID == id) {
+                        toolArray.push(this);
+                    }
+                });
+                return toolArray;
+            }
             if (instance.disable && record.length > 0) {
-                var toolTipArray = getToolTipData(record, instance.unique);
-                instance.showToolTip(toolTipArray);
+                //instance.showToolTip(setToolTipArray(record, instance.unique));
             }
         });
-
         $.each(data, function () {
             var self = this;
             $.each(self.transitions, function () {
@@ -829,29 +877,6 @@
                 });
             });
         });
-
-        function findUID(destination) {
-            var id;
-            for (var i = 0, len = data.length; i < len; i++) {
-                var node = data[i];
-                if (destination == node.unique) {
-                    id = node.id;
-                    break;
-                }
-            }
-            return id;
-        }
-    }
-
-    //遍历过程记录
-    function getToolTipData(data, id) {
-        var toolArray = [];
-        $.each(data, function () {
-            if (this.IDENTIFICATION == id) {
-                toolArray.push(this);
-            }
-        });
-        return toolArray;
     }
 
     function convertToRealType(category) {
@@ -874,18 +899,6 @@
         return convertType;
     }
 
-    //获取方向
-    function checkOrientation(from, to) {
-        var orientation = 'down';
-        if (from.y() < to.y()) {
-            orientation = 'down';
-        } else {
-            orientation = 'up'
-        }
-        return orientation;
-    }
-
-
     //对外提供访问接口
     window.SMF = {
         init: init,
@@ -894,10 +907,9 @@
         //导出到JSON对象，以序列化保存到数据库
         exportToJSON: exportToJSON,
         revert: revert,
-        alignment: alignment,
+        alignment: alignElement,
         create: function (category) {
             var reallType = convertToRealType(category);
-
             reallType.x = Math.floor(Math.random() * 200 + 1);
             reallType.y = Math.floor(Math.random() * 200 + 1);
             reallType.draw();

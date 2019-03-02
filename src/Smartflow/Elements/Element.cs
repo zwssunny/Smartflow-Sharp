@@ -41,7 +41,7 @@ namespace Smartflow.Elements
 
         [JsonProperty("unique")]
         [XmlAttribute("id")]
-        public string ID
+        public  string ID
         {
             get;
             set;

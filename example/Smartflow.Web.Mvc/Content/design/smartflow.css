@@ -2,7 +2,7 @@
  body{font-size:14px;font-family:"Lucida Grande", Lucida Sans Unicode,Hiragino Sans GB, WenQuanYi Micro Hei, Verdana, Aril, sans-serif;}
  fieldset legend{margin:0;padding:0;color:#2e7deb;margin-left:5px;}
  ul {list-style-type: none;}
- input,textarea{outline:none;}
+ input,textarea,div{outline:none;}
  textarea {resize: none;}
  html, body,.container, .container-ctr {height: 100%;overflow: hidden;}
  .container-ctr{ margin-left:30px; padding:10px;box-sizing:border-box;background-color:#888; }

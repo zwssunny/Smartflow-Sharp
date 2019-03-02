@@ -21,13 +21,13 @@ namespace Smartflow.BussinessService.WorkflowService
 
         public void Persistent(WorkflowStructure workflowStructure)
         {
-            string sql = " INSERT INTO T_STRUCTURE(IDENTIFICATION,Name,STRUCTUREXML) VALUES(@IDENTIFICATION,@Name,@STRUCTUREXML) ";
+            string sql = " INSERT INTO T_STRUCTURE(IDENTIFICATION,APPELLATION,STRUCTUREXML) VALUES(@IDENTIFICATION,@APPELLATION,@STRUCTUREXML) ";
             Connection.Execute(sql, workflowStructure);
         }
 
         public void Update(WorkflowStructure workflowStructure)
         {
-            string sql = " UPDATE T_STRUCTURE SET Name=@Name,STRUCTUREXML=@STRUCTUREXML WHERE IDENTIFICATION=@IDENTIFICATION ";
+            string sql = " UPDATE T_STRUCTURE SET APPELLATION=@APPELLATION,STRUCTUREXML=@STRUCTUREXML WHERE IDENTIFICATION=@IDENTIFICATION ";
             Connection.Execute(sql, workflowStructure);
         }
 

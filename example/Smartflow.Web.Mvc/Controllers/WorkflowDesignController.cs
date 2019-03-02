@@ -18,7 +18,7 @@ using Smartflow.BussinessService.WorkflowService;
 
 namespace Smartflow.Web.Mvc.Controllers
 {
-    public  class WorkflowDesignController : BaseController
+    public class WorkflowDesignController : BaseController
     {
         private WorkflowDesignService designService = new WorkflowDesignService();
         private ActorService roleService = new ActorService();
@@ -59,7 +59,7 @@ namespace Smartflow.Web.Mvc.Controllers
             WorkflowInstance instance = WorkflowInstance.GetInstance(instanceID);
             string data = Newtonsoft.Json.JsonConvert.SerializeObject(new
             {
-                structure = GetNodeList(instance.Resource),
+                structure = GetImageList(instance.Resource),
                 id = instance.Current.ID
             }, new Newtonsoft.Json.JsonSerializerSettings()
             {
@@ -88,15 +88,27 @@ namespace Smartflow.Web.Mvc.Controllers
             return JsonWrapper(WorkflowDecision.GetSettings());
         }
 
-        private List<Node> GetNodeList(string structure)
+        private List<Node> GetNodeList(string resource)
         {
-            Workflow workflow = XmlConfiguration.ParseflowXml<Workflow>(structure);
+            Workflow workflow = XmlConfiguration.ParseflowXml<Workflow>(resource);
             List<Node> elements = new List<Node>();
             elements.Add(workflow.StartNode);
             elements.AddRange(workflow.ChildNode);
             elements.AddRange(workflow.ChildDecisionNode);
             elements.Add(workflow.EndNode);
+            return elements;
+        }
 
+        private List<Node> GetImageList(string resource)
+        {
+            List<Node> elements = this.GetNodeList(resource);
+            elements.ForEach(n =>
+            {
+                n.Forms.RemoveAll((t) =>
+                {
+                    return true;
+                });
+            });
             return elements;
         }
     }

@@ -14,7 +14,8 @@
         lineTemplate = "<tr><td class='layui-text smartflow-header'>%{0}%</td><td><input type='text' value=\"%{1}%\" id=%{2}% class='layui-input smartflow-input' /></td></tr>";
     tabConfig = {
         node: ['#tab li[category=rule]'],
-        decision: ['#tab li[category=role]']
+        decision: ['#tab li[category=role]', '#tab li[category=form]'],
+        start: ['#tab li[category=rule]', '#tab li[category=role]', '#tab li[category=info]']
     },
     config = {
         //开始
@@ -36,18 +37,18 @@
         space: ' ',
     };
 
-    //添加字段映射
-    var roleFieldMap = {
-        id: 'IDENTIFICATION',
-        name: 'APPELLATION'
-    },
 
-    configFieldMap = {
-        id: 'IDENTIFICATION',
-        name: 'APPELLATION',
-        connection: 'CONNECTE',
-        provider: 'PROVIDERNAME'
+    var CONST_ROLE_FIELD_MAP= {
+        ID: 'IDENTIFICATION',
+        NAME: 'APPELLATION'
     };
+    var CONST_CONFIG_FIELD_MAP = {
+        ID: 'relationshipID',
+        NAME: 'name',
+        CONNECTIONSTRING: 'connectionString',
+        PROVIDERNAME: 'providerName'
+    };
+ 
 
     $.extend(String.prototype, {
         format: function () {
@@ -97,16 +98,16 @@
                     .append('id')
                     .append(config.equal)
                     .append(config.lQuotation)
-                    .append(this[roleFieldMap.id])
+                    .append(this[CONST_ROLE_FIELD_MAP.ID])
                     .append(config.rQuotation)
                     .append(config.space)
                     .append('name')
                     .append(config.equal)
                     .append(config.lQuotation)
-                    .append(this[roleFieldMap.name])
+                    .append(this[CONST_ROLE_FIELD_MAP.NAME])
                     .append(config.rQuotation)
                     .append(config.end)
-                    .append(this[roleFieldMap.name])
+                    .append(this[CONST_ROLE_FIELD_MAP.NAME])
                     .append(config.beforeClose)
                     .append('li')
                     .append(config.afterClose);
@@ -149,6 +150,14 @@
         ajaxService(ajaxSettings);
     }
 
+    function loadForm(formArray) {
+        //目前仅支持单个表单
+        if (formArray.length > 0) {
+            var instance = formArray[0];
+            $("#txtElement").val(instance.text);
+        }
+    }
+
     function setSettingsToNode(nx) {
         var roles = [],
             expressions = [],
@@ -165,11 +174,11 @@
             if (cmdText != '' && cmdText && option.length > 0) {
                 var data = JSON.parse(unescape(option.attr("data")));
                 nx.command = {
-                    identification: data[configFieldMap.id],
-                    script: cmdText,
-                    connecte: data[configFieldMap.connection],
-                    providername: data[configFieldMap.provider],
-                    commandtype: 'text'
+                    relationshipID: data[CONST_CONFIG_FIELD_MAP.ID],
+                    text: cmdText,
+                    connectionString: data[CONST_CONFIG_FIELD_MAP.CONNECTIONSTRING],
+                    providerName: data[CONST_CONFIG_FIELD_MAP.PROVIDERNAME],
+                    commandType: 'text'
                 };
             }
             nx.setExpression(expressions);
@@ -178,6 +187,12 @@
                 var self = $(this);
                 roles.push({ id: self.attr("id"), name: self.attr("name") });
             });
+
+            var text = $("#txtElement").val();
+            nx.form = [{
+                text: text,
+                name: '业务表单'
+            }];
             nx.group = roles;
         }
 
@@ -201,17 +216,24 @@
             }
             if (nx.command) {
                 var cmd = nx.command;
-                $(cmdTextSelector).val(cmd.script);
-                $(ruleSelector).val(cmd.identification);
+                $(cmdTextSelector).val(cmd.text);
+                $(ruleSelector).val(cmd.relationshipID);
             }
             loadSelect();
         } else {
             loadRoleGrid(nx.group);
+            loadForm(nx.form);
         }
-        var items = tabConfig[nx.category.toLocaleLowerCase()];
+
+        var nodeName = nx.category.toLocaleLowerCase(),
+            items = tabConfig[nodeName];
         $.each(items, function (i, selector) {
             $(selector).hide();
         });
+
+        if (nodeName === "start") {
+            $('#tab li[category=form]').trigger('click');
+        }
     }
 
     function loadSelect() {
@@ -235,10 +257,10 @@
                      .append('value')
                      .append(config.equal)
                      .append(config.lQuotation)
-                     .append(this[configFieldMap.id])
+                     .append(this[CONST_CONFIG_FIELD_MAP.ID])
                      .append(config.rQuotation)
                      .append(config.end)
-                     .append(this[configFieldMap.name])
+                     .append(this[CONST_CONFIG_FIELD_MAP.NAME])
                      .append(config.beforeClose)
                      .append('option')
                      .append(config.afterClose);

@@ -131,7 +131,7 @@
     <value>1.0</value>
   </data>
   <data name="SQL_ACTOR_RECORD" xml:space="preserve">
-    <value>SELECT Y.ID,X.Name,X.CreateDateTime,X.Operation FROM T_ACTOR X,T_NODE Y WHERE X.InstaceID=@InstaceID AND X.RelationshipID=Y.NID ORDER BY CREATEDATETIME ASC</value>
+    <value>SELECT Y.ID,X.Name,X.CreateDateTime,X.Operation FROM T_ACTOR X,T_NODE Y WHERE X.InstanceID=@InstanceID AND X.RelationshipID=Y.NID ORDER BY CREATEDATETIME ASC</value>
     <comment>获取流程图中的title信息</comment>
   </data>
   <data name="SQL_WORKFLOW_INSTANCE" xml:space="preserve">
