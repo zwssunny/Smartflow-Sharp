@@ -18,6 +18,13 @@ namespace Smartflow.Elements
     [XmlInclude(typeof(Node))]
     public class Transition : Element, IRelationship
     {
+        [JsonProperty("name")]
+        [XmlAttribute("name")]
+        public virtual string Name
+        {
+            get;
+            set;
+        }
 
         [JsonProperty("layout")]
         [XmlAttribute("layout")]
@@ -50,7 +57,7 @@ namespace Smartflow.Elements
         }
 
         [JsonProperty("expression")]
-        [XmlAttribute("expression")]
+        [XmlText(typeof(string))]
         public string Expression
         {
             get;

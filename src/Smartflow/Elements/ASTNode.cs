@@ -19,7 +19,24 @@ namespace Smartflow.Elements
 {
     public class ASTNode : Element
     {
-  
+        [JsonProperty("name")]
+        [XmlAttribute("name")]
+        public virtual string Name
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 节点标识ID
+        /// </summary>
+        [JsonProperty("unique")]
+        [XmlAttribute("id")]
+        public  string ID
+        {
+            get;
+            set;
+        }
 
         [JsonProperty("transitions")]
         [XmlElement(ElementName = "transition")]

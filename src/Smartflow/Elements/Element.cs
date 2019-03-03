@@ -31,22 +31,6 @@ namespace Smartflow.Elements
             set;
         }
 
-        [JsonProperty("name")]
-        [XmlAttribute("name")]
-        public virtual string Name
-        {
-            get;
-            set;
-        }
-
-        [JsonProperty("unique")]
-        [XmlAttribute("id")]
-        public  string ID
-        {
-            get;
-            set;
-        }
-
 
         [JsonIgnore]
         [XmlIgnore]

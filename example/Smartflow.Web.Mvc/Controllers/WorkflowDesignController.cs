@@ -85,7 +85,7 @@ namespace Smartflow.Web.Mvc.Controllers
 
         public JsonResult GetConfigs()
         {
-            return JsonWrapper(WorkflowDecision.GetSettings());
+            return JsonWrapper(WorkflowConfig.GetSettings());
         }
 
         private List<Node> GetNodeList(string resource)

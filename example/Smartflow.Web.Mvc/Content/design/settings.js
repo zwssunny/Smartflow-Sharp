@@ -43,10 +43,10 @@
         NAME: 'APPELLATION'
     };
     var CONST_CONFIG_FIELD_MAP = {
-        ID: 'relationshipID',
-        NAME: 'name',
-        CONNECTIONSTRING: 'connectionString',
-        PROVIDERNAME: 'providerName'
+        ID: 'ID',
+        NAME: 'NAME',
+        CONNECTIONSTRING: 'CONNECTIONSTRING',
+        PROVIDERNAME: 'PROVIDERNAME'
     };
  
 
@@ -169,16 +169,11 @@
             });
 
             var cmdText = $(cmdTextSelector).val(),
-                option = $(optionSelector);
-
-            if (cmdText != '' && cmdText && option.length > 0) {
-                var data = JSON.parse(unescape(option.attr("data")));
+                sourceID = $(optionSelector).val();
+            if (cmdText != '' && cmdText) {
                 nx.command = {
-                    relationshipID: data[CONST_CONFIG_FIELD_MAP.ID],
-                    text: cmdText,
-                    connectionString: data[CONST_CONFIG_FIELD_MAP.CONNECTIONSTRING],
-                    providerName: data[CONST_CONFIG_FIELD_MAP.PROVIDERNAME],
-                    commandType: 'text'
+                    id: sourceID,
+                    text: cmdText
                 };
             }
             nx.setExpression(expressions);
@@ -214,12 +209,7 @@
                 });
                 $("#transitions>tbody").html(build.toString());
             }
-            if (nx.command) {
-                var cmd = nx.command;
-                $(cmdTextSelector).val(cmd.text);
-                $(ruleSelector).val(cmd.relationshipID);
-            }
-            loadSelect();
+            loadSelect(nx.command);
         } else {
             loadRoleGrid(nx.group);
             loadForm(nx.form);
@@ -236,7 +226,7 @@
         }
     }
 
-    function loadSelect() {
+    function loadSelect(command) {
         var settings = {
             url: config.configUrl
         };
@@ -260,12 +250,19 @@
                      .append(this[CONST_CONFIG_FIELD_MAP.ID])
                      .append(config.rQuotation)
                      .append(config.end)
+
                      .append(this[CONST_CONFIG_FIELD_MAP.NAME])
+
                      .append(config.beforeClose)
                      .append('option')
                      .append(config.afterClose);
             });
             $(ruleSelector).html(build.toString());
+
+            if (command) {
+                $(cmdTextSelector).val(command.text);
+                $(ruleSelector).val(command.id);
+            }
         }
         ajaxService(settings);
     }

@@ -48,6 +48,7 @@
     <Compile Include="Elements\Command.cs" />
     <Compile Include="Elements\Decision.cs" />
     <Compile Include="Elements\Element.cs" />
+    <Compile Include="Elements\ElementAttribute.cs" />
     <Compile Include="Elements\End.cs" />
     <Compile Include="Elements\Form.cs" />
     <Compile Include="EnumConverter.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Elements\Actor.cs" />
     <Compile Include="SqlMapper.cs" />
     <Compile Include="DefaultWordFilter.cs" />
+    <Compile Include="WorkflowConfig.cs" />
     <Compile Include="WorkflowContext.cs" />
     <Compile Include="WorkflowDecision.cs" />
     <Compile Include="WorkflowEngine.cs" />

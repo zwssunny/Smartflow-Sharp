@@ -11,6 +11,14 @@ namespace Smartflow.Elements
 {
     public class Form : Element, IRelationship
     {
+        [JsonProperty("name")]
+        [XmlAttribute("name")]
+        public  string Name
+        {
+            get;
+            set;
+        }
+
         [JsonIgnore]
         public string RelationshipID
         {

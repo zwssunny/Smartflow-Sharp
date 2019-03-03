@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace Smartflow.Elements
 {
-    public class Group : Element, IRelationship
+    public class Group : ElementAttribute, IRelationship
     {
         [JsonIgnore]
         public string RelationshipID

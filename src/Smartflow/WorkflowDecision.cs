@@ -42,11 +42,13 @@ namespace Smartflow
         public Transition GetTransition()
         {
             Command command = GetExecuteCmd();
-            IDbConnection connect = DapperFactory.CreateConnection(command.ProviderName, command.ConnectionString);
+            WorkflowConfig config=WorkflowConfig.GetInstance(command.ID);
+
+            IDbConnection connection = DapperFactory.CreateConnection(config.ProviderName, config.ConnectionString);
             try
             {
                 DataTable resultSet = new DataTable(Guid.NewGuid().ToString());
-                using (IDataReader reader = connect.ExecuteReader(command.Text, new { InstanceID = InstanceID }))
+                using (IDataReader reader = connection.ExecuteReader(command.Text, new { InstanceID = InstanceID }))
                 {
                     resultSet.Load(reader);
                     reader.Close();
@@ -81,17 +83,5 @@ namespace Smartflow
             string query = "SELECT * FROM T_COMMAND WHERE RelationshipID=@RelationshipID";
             return Connection.Query<Command>(query, new { RelationshipID = NID }).FirstOrDefault();
         }
-
-        public static DataTable GetSettings()
-        {
-            string query = " SELECT * FROM T_CONFIG ";
-            DataTable configData = new DataTable(Guid.NewGuid().ToString());
-            using (IDataReader dr = DapperFactory.CreateWorkflowConnection().ExecuteReader(query))
-            {
-                configData.Load(dr);
-            }
-            return configData;
-        }
-
     }
 }

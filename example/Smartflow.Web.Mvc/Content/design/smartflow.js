@@ -307,7 +307,7 @@
                          .append(config.name)
                          .append(config.equal)
                          .append(config.lQuotation)
-                         .append(reference[config.name])
+                         .append(this[config.name])
                          .append(config.rQuotation)
                          .append(config.end)
                          .append("<![CDATA[")
@@ -331,37 +331,37 @@
                         N = NC[this.to];
 
                     build.append(config.start)
-                         .append(config.transition)
-                         .append(config.space)
-                        // .append(CONST_ATTRIBUTE_FIELD_MAP['name'])
-                         .append(config.name)
-                         .append(config.equal)
-                         .append(config.lQuotation)
-                         .append(L.name)
-                         .append(config.rQuotation)
-                         .append(config.space)
-                        //.append(CONST_ATTRIBUTE_FIELD_MAP['to'])
-                         .append(config.to)
-                         .append(config.equal)
-                         .append(config.lQuotation)
-                         .append(N.unique)
-                         .append(config.rQuotation)
-                         .append(config.space)
-                         .append('layout')
-                         .append(config.equal)
-                         .append(config.lQuotation)
-                         .append(L.x1 + ' ' + L.y1 + ' ' + L.x2 + ' ' + L.y2)
-                         .append(config.rQuotation);
+                        .append(config.transition)
+                        .append(config.space)
+                        .append(config.name)
+                        .append(config.equal)
+                        .append(config.lQuotation)
+                        .append(L.name)
+                        .append(config.rQuotation)
+                        .append(config.space)
+                        .append(config.to)
+                        .append(config.equal)
+                        .append(config.lQuotation)
+                        .append(N.unique)
+                        .append(config.rQuotation)
+                        .append(config.space)
+                        .append('layout')
+                        .append(config.equal)
+                        .append(config.lQuotation)
+                        .append(L.x1 + ' ' + L.y1 + ' ' + L.x2 + ' ' + L.y2)
+                        .append(config.rQuotation)
+                        .append(config.end);
 
                     if (self.category === 'decision') {
-                        build.append(config.space)
-                             .append('expression')
-                             .append(config.equal)
-                             .append(config.lQuotation)
+
+                        build.append("<![CDATA[")
                              .append(L.expression)
-                             .append(config.rQuotation)
-                    }
-                    build.append(config.afterClose);
+                             .append("]]>");
+                    } 
+
+                    build.append(config.beforeClose)
+                         .append(config.transition)
+                         .append(config.end);
                 }
             });
 
@@ -491,11 +491,13 @@
                      .append(config.end);
 
                 $.each(self.command, function (propertyName, value) {
-
                     build.append(config.start)
                          .append(propertyName)
                          .append(config.end)
+                         .append("<![CDATA[")
                          .append(value)
+                         .append("]]>")
+                         //.append(value)
                          .append(config.beforeClose)
                          .append(propertyName)
                          .append(config.end);

@@ -18,6 +18,18 @@ namespace Smartflow.Elements
 {
     public class Command : Element, IRelationship
     {
+
+        /// <summary>
+        /// 数据源ID
+        /// </summary>
+        [JsonProperty("id")]
+        [XmlElement("id")]
+        public string ID
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// 执行SQL语句
         /// </summary>
@@ -29,38 +41,6 @@ namespace Smartflow.Elements
             set;
         }
 
-        /// <summary>
-        /// 连接字符串
-        /// </summary>
-        [JsonProperty("connectionString")]
-        [XmlElement("connectionString")]
-        public string ConnectionString
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// 数据库访问提供者
-        /// </summary>
-        [JsonProperty("providername")]
-        [XmlElement("providername")]
-        public string ProviderName
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// 命令类型（目前只支持文本命令、后续扩展存储过程）
-        /// </summary>
-        [JsonProperty("commandType")]
-        [XmlElement("commandType")]
-        public string CommandType
-        {
-            get;
-            set;
-        }
 
         [JsonIgnore]
         [XmlIgnore]
@@ -72,17 +52,14 @@ namespace Smartflow.Elements
 
         internal override void Persistent()
         {
-            string sql = "INSERT INTO T_Command(NID,RelationshipID,Name,Text,ConnectionString,InstanceID,ProviderName,CommandType) VALUES(@NID,@RelationshipID,@Name,@Text,@ConnectionString,@InstanceID,@ProviderName,@CommandType)";
+            string sql = "INSERT INTO T_Command(NID,ID,RelationshipID,Text,InstanceID) VALUES(@NID,@ID,@RelationshipID,@Text,@InstanceID)";
             Connection.Execute(sql, new
             {
                 NID = Guid.NewGuid().ToString(),
+                ID=ID,
                 RelationshipID = RelationshipID,
-                Name = Name,
                 Text = Text,
-                ConnectionString = ConnectionString,
-                InstanceID = InstanceID,
-                ProviderName = ProviderName,
-                CommandType = CommandType
+                InstanceID = InstanceID
             });
         }
     }
