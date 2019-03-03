@@ -61,6 +61,8 @@ namespace Smartflow
             wfNode.Transitions = wfNode.QueryWorkflowNode(node.NID);
             wfNode.FromTransition = wfNode.GetHistoryTransition();
             wfNode.Groups = wfNode.GetGroup();
+            wfNode.WebView = wfNode.GetWebView();
+
             return wfNode;
         }
 
@@ -145,6 +147,18 @@ namespace Smartflow
                 InstanceID = InstanceID
             }).ToList();
         }
+
+        protected Form GetWebView()
+        {
+            string query = "SELECT * FROM T_FORM WHERE RelationshipID=@RelationshipID AND InstanceID=@InstanceID";
+            return Connection.Query<Form>(query, new
+            {
+                RelationshipID = NID,
+                InstanceID = InstanceID
+
+            }).FirstOrDefault();
+        }
+
 
         /// <summary>
         /// 获取当前执行的跳转路线

@@ -156,7 +156,7 @@
         this.disX = 0;
         this.disY = 0;
         this.group = [];
-        this.form = [];
+        this.form = undefined;
         this.actors = [];
         Node.base.Constructor.call(this, "node", "node");
         this.name = "节点";
@@ -298,26 +298,24 @@
                 build.append(config.afterClose);
             });
 
-            $.each(self.form, function () {
-                //文本
-                if (this.text && this.text!='') {
-                    build.append(config.start)
-                         .append(config.form)
-                         .append(config.space)
-                         .append(config.name)
-                         .append(config.equal)
-                         .append(config.lQuotation)
-                         .append(this[config.name])
-                         .append(config.rQuotation)
-                         .append(config.end)
-                         .append("<![CDATA[")
-                         .append(this.text)
-                         .append("]]>")
-                         .append(config.beforeClose)
-                         .append(config.form)
-                         .append(config.end);
-                }
-            });
+            if (self.form) {
+                var formElement = self.form;
+                build.append(config.start)
+                    .append(config.form)
+                    .append(config.space)
+                    .append(config.name)
+                    .append(config.equal)
+                    .append(config.lQuotation)
+                    .append(formElement[config.name])
+                    .append(config.rQuotation)
+                    .append(config.end)
+                    .append("<![CDATA[")
+                    .append(formElement.text)
+                    .append("]]>")
+                    .append(config.beforeClose)
+                    .append(config.form)
+                    .append(config.end);
+            }
 
             if (self.exportDecision) {
                 self.exportDecision(build);

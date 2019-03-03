@@ -104,10 +104,7 @@ namespace Smartflow.Web.Mvc.Controllers
             List<Node> elements = this.GetNodeList(resource);
             elements.ForEach(n =>
             {
-                n.Forms.RemoveAll((t) =>
-                {
-                    return true;
-                });
+                n.WebView = null;
             });
             return elements;
         }

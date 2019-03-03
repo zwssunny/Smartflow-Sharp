@@ -100,6 +100,7 @@
     <Compile Include="Controllers\FileApplyController.cs" />
     <Compile Include="Controllers\UserControlController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WebViewController.cs" />
     <Compile Include="Controllers\WorkflowDesignController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -418,6 +419,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\WorkflowDesign\WorkflowImage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\WebPageView.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -13,7 +13,7 @@
         itemTemplate = "<li id=%{0}%>%{1}%</li>",
         lineTemplate = "<tr><td class='layui-text smartflow-header'>%{0}%</td><td><input type='text' value=\"%{1}%\" id=%{2}% class='layui-input smartflow-input' /></td></tr>";
     tabConfig = {
-        node: ['#tab li[category=rule]'],
+        node: ['#tab li[category=rule]', '#tab li[category=form]'],
         decision: ['#tab li[category=role]', '#tab li[category=form]'],
         start: ['#tab li[category=rule]', '#tab li[category=role]', '#tab li[category=info]']
     },
@@ -150,11 +150,9 @@
         ajaxService(ajaxSettings);
     }
 
-    function loadForm(formArray) {
-        //目前仅支持单个表单
-        if (formArray.length > 0) {
-            var instance = formArray[0];
-            $("#txtElement").val(instance.text);
+    function loadForm(form) {
+        if (form) {
+            $("#txtElement").val(form.text);
         }
     }
 
@@ -184,10 +182,10 @@
             });
 
             var text = $("#txtElement").val();
-            nx.form = [{
+            nx.form = {
                 text: text,
                 name: '业务表单'
-            }];
+            };
             nx.group = roles;
         }
 

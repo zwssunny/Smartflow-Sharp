@@ -1,0 +1,40 @@
+﻿@using System.Collections.Generic
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>WebPageView</title>
+    <link href="~/Content/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/main.css" rel="stylesheet" />
+    <script src="~/Content/jquery.min.js"></script>
+    <script src="~/Content/layui/layui.all.js"></script>
+    <script  type="text/javascript">
+
+        $(function () {
+            //目前仅支持一个表单
+            $("input[type='text'],input[type='hidden']").each(function () {
+
+            });
+
+
+        });
+
+    </script>
+</head>
+<body>
+    @foreach (Smartflow.Elements.Form form in ViewBag.Stack)
+    {
+        @Html.Raw(form.Text)
+    }
+
+    @foreach (Smartflow.Elements.Transition tran in ViewBag.Transitions)
+    {
+        <input  type="button" value="@tran.Name"/>
+    }
+
+</body>
+</html>

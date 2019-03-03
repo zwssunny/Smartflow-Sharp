@@ -20,7 +20,7 @@ namespace Smartflow.Elements
 {
     [XmlInclude(typeof(List<Transition>))]
     [XmlInclude(typeof(List<Group>))]
-    [XmlInclude(typeof(List<Form>))]
+    [XmlInclude(typeof(Form))]
     public class Node : ASTNode
     {
         private WorkflowNodeCategory _nodeType = WorkflowNodeCategory.Normal;
@@ -51,7 +51,7 @@ namespace Smartflow.Elements
 
         [JsonProperty("form")]
         [XmlElement(ElementName = "form")]
-        public virtual List<Form> Forms
+        public virtual Form WebView
         {
             get;
             set;
@@ -82,14 +82,11 @@ namespace Smartflow.Elements
                 }
             }
 
-            if (Forms != null)
+            if (WebView != null)
             {
-                foreach (Form f in Forms)
-                {
-                    f.RelationshipID = this.NID;
-                    f.InstanceID = InstanceID;
-                    f.Persistent();
-                }
+                WebView.RelationshipID = this.NID;
+                WebView.InstanceID = InstanceID;
+                WebView.Persistent();
             }
         }
 
