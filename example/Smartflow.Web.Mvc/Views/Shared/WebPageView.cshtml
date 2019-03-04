@@ -12,13 +12,28 @@
     <link href="~/Content/main.css" rel="stylesheet" />
     <script src="~/Content/jquery.min.js"></script>
     <script src="~/Content/layui/layui.all.js"></script>
-    <script  type="text/javascript">
+    <script type="text/javascript">
 
         $(function () {
             //目前仅支持一个表单
             $("input[type='text'],input[type='hidden']").each(function () {
 
             });
+
+            var element = {
+                selector: { name: 'T_MAIN', selector: '' },
+                childrenSelector: [{ name: 'T_SUB', selector: '' }]
+            }
+
+            var config = {
+                main: 'T_MAIN',
+                item: [{
+                    relation: 'RID',
+                    name: 'T_SUB'
+                }]
+            }
+
+
 
 
         });
@@ -33,7 +48,65 @@
 
     @foreach (Smartflow.Elements.Transition tran in ViewBag.Transitions)
     {
-        <input  type="button" value="@tran.Name"/>
+        <input type="button" value="@tran.Name" />
+    }
+
+</body>
+</html>
+@using System.Collections.Generic
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>WebPageView</title>
+    <link href="~/Content/layui/css/layui.css" rel="stylesheet" />
+    <link href="~/Content/main.css" rel="stylesheet" />
+    <script src="~/Content/jquery.min.js"></script>
+    <script src="~/Content/layui/layui.all.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            //目前仅支持一个表单
+            $("input[type='text'],input[type='hidden']").each(function () {
+
+            });
+
+            var Element = {
+                selector: {
+                    name: 't_main',
+                    selector: ''
+                },
+                items: [{
+                    name: 't_details',
+                    selector: '#table tbody>'
+                }]
+            }
+
+
+            var Config = {
+                main: 't_main',
+                item: [{
+                    relationship: 'relationshipID',
+                    name: 't_details'
+                }]
+            }
+        });
+
+    </script>
+</head>
+<body>
+    @foreach (Smartflow.Elements.Form form in ViewBag.Stack)
+    {
+        @Html.Raw(form.Text)
+    }
+
+    @foreach (Smartflow.Elements.Transition tran in ViewBag.Transitions)
+    {
+        <input type="button" value="@tran.Name" />
     }
 
 </body>

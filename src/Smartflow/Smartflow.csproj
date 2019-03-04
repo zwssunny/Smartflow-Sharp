@@ -53,6 +53,8 @@
     <Compile Include="Elements\Form.cs" />
     <Compile Include="EnumConverter.cs" />
     <Compile Include="Enums\WorkflowAction.cs" />
+    <Compile Include="Form\Root.cs" />
+    <Compile Include="Form\Son.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="IMailService.cs" />
     <Compile Include="IRelationship.cs" />
