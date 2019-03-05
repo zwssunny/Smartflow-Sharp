@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DynamicRepository.cs" />
     <Compile Include="ExpressionUtils.cs" />
     <Compile Include="IMdl.cs" />
     <Compile Include="IRepository.cs" />

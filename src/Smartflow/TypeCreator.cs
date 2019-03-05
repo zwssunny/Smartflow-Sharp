@@ -36,7 +36,8 @@ namespace Smartflow
         private static void PropertyCreator(TypeBuilder typeBuilder, string propertyName, Type declare)
         {
             FieldBuilder fb = typeBuilder.DefineField("m_" + propertyName, declare, FieldAttributes.Private);
-            //fb.SetConstant(default(string));
+
+            fb.SetConstant(TypeCreator.DefaultValue(declare));
 
             PropertyBuilder pb = typeBuilder.DefineProperty(propertyName, System.Reflection.PropertyAttributes.HasDefault, CallingConventions.Standard, declare, null);
             MethodAttributes getSetAttr = MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
@@ -58,5 +59,9 @@ namespace Smartflow
 
         }
 
+        private static object DefaultValue(Type targetType)
+        {
+            return targetType.IsValueType ? Activator.CreateInstance(targetType) : null;
+        }
     }
 }

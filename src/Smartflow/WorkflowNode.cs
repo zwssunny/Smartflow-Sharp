@@ -148,10 +148,10 @@ namespace Smartflow
             }).ToList();
         }
 
-        protected Form GetWebView()
+        protected Smartflow.Elements.Form GetWebView()
         {
             string query = "SELECT * FROM T_FORM WHERE RelationshipID=@RelationshipID AND InstanceID=@InstanceID";
-            return Connection.Query<Form>(query, new
+            return Connection.Query<Smartflow.Elements.Form>(query, new
             {
                 RelationshipID = NID,
                 InstanceID = InstanceID

@@ -338,6 +338,7 @@
     <Content Include="Content\layui\lay\modules\util.js" />
     <Content Include="Content\login.css" />
     <Content Include="Content\main.css" />
+    <Content Include="Content\smartflow.form.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

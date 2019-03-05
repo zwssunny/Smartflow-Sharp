@@ -22,12 +22,12 @@ namespace Smartflow.Web.Mvc.Controllers
             WorkflowNode current = workflowInstance.Current;
             stack.Push(current.WebView);
 
+            ViewBag.InstanceID = instanceID;
             ViewBag.Stack = stack;
             ViewBag.Transitions = current.Transitions;
 
             return View("~/Views/Shared/WebPageView.cshtml");
         }
-
 
         public ActionResult WebPageView(string instanceID)
         {
@@ -42,9 +42,22 @@ namespace Smartflow.Web.Mvc.Controllers
                 }
                 current = current.GetFromNode();
             }
+            ViewBag.InstanceID = instanceID;
             ViewBag.Stack = stack;
             ViewBag.Transitions = current.Transitions;
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetWebView(Smartflow.Form.FormRelationship relation, string instanceID)
+        {
+            return Json(false);
+        }
+
+        [HttpPost]
+        public JsonResult SaveWebView(Smartflow.Form.FormRelationship relation, string form)
+        {
+            return Json(false);
         }
     }
 }

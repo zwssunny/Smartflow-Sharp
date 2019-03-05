@@ -9,7 +9,7 @@ namespace Smartflow.Form
     /// 表单关系映射
     /// </summary>
     [Serializable]
-    public class Root
+    public class FormRelationship
     {
         /// <summary>
         /// 根（表名）
@@ -21,9 +21,18 @@ namespace Smartflow.Form
         }
 
         /// <summary>
+        /// 关系标识
+        /// </summary>
+        public string Relationship
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// 表单详情配置项
         /// </summary>
-        public List<Son> Items
+        public List<FormRelationship> Items
         {
             get;
             set;
