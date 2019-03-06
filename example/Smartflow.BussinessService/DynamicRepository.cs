@@ -12,26 +12,39 @@ namespace Smartflow.BussinessService
     {
         private static Dictionary<string, Type> _cache = new Dictionary<string, Type>();
 
-        public static object GetInstance(string instanceID, FormRelationship relationship)
+        public static object GetInstance(string instanceID, Relation relation)
         {
             IDbConnection connection = DblHelper.CreateConnection();
-            string sql = string.Format(" select * from {0} where instanceID='{0}'", relationship.Name, instanceID);
-            Dictionary<string, Type> properties = GetProprties(relationship.Name);
-            foreach (FormRelationship item in relationship.Items)
+            string sql = string.Format(" select * from {0} where instanceID='{0}'", relation.Name, instanceID);
+            Dictionary<string, Type> properties = GetProprties(relation.Name);
+            foreach (Relation item in relation.Items)
             {
-                Dictionary<string, Type> subProperties = GetProprties(item.Name); ;
-                if (!_cache.ContainsKey(item.Name))
+                Dictionary<string, Type> subProperties = GetProprties(item.Name);
+                Type genericType = typeof(List<>);
+                if (!_cache.ContainsKey(item.Identification))
                 {
-                    Type subType = TypeCreator.Creator(item.Name, subProperties);
-                    Type genericType = typeof(List<>);
+                    Type subType = TypeCreator.Creator(item.Name+"Proxy", subProperties);
                     properties[item.Name] = genericType.MakeGenericType(subType);
+                    _cache[item.Identification] = subType;
+                }
+                else
+                {
+                    properties[item.Name] = genericType.MakeGenericType(_cache[item.Identification]);
                 }
             }
 
-            Type baseType = TypeCreator.Creator(relationship.Name, properties);
+            Type baseType = null;
+            if (!_cache.ContainsKey(relation.Identification))
+            {
+                 baseType = TypeCreator.Creator(relation.Name + "Proxy", properties);
+                _cache[relation.Identification] = baseType;
+            }
+            else
+            {
+                baseType=_cache[relation.Identification] ;
+            }
             Object dataObject = connection.Query(baseType, sql);
-
-            foreach (FormRelationship item in relationship.Items)
+            foreach (Relation item in relation.Items)
             {
                 sql = string.Format(" select * from {0} where instanceID='{0}'", item.Name, instanceID);
                 dataObject.SetValue(item.Name, connection.Query(_cache[item.Name], sql));
@@ -40,11 +53,11 @@ namespace Smartflow.BussinessService
             return dataObject;
         }
 
-        public static void Persistent(Object proxy, FormRelationship relationship)
+        public static void Persistent(Object proxy, Relation relation)
         {
             IDbConnection connection = DblHelper.CreateConnection();
-            connection.Execute(InsertCommand(relationship.Name), proxy);
-            foreach (FormRelationship item in relationship.Items)
+            connection.Execute(InsertCommand(relation.Name), proxy);
+            foreach (Relation item in relation.Items)
             {
                 if (proxy.Value(item.Name) is System.Collections.IEnumerable)
                 {
@@ -57,22 +70,28 @@ namespace Smartflow.BussinessService
             }
         }
 
-        public static Type BuildDynamicObjectType(FormRelationship relationship)
+        public static Type BuildDynamicObjectType(Relation relation)
         {
-            IDbConnection connection = DblHelper.CreateConnection();
-            Dictionary<string, Type> properties = GetProprties(relationship.Name);
-            foreach (FormRelationship item in relationship.Items)
+            Type baseType = null;
+            if (!_cache.ContainsKey(relation.Identification))
             {
-                Dictionary<string, Type> subProperties = GetProprties(item.Name); ;
-                if (!_cache.ContainsKey(item.Name))
+                IDbConnection connection = DblHelper.CreateConnection();
+                Dictionary<string, Type> properties = GetProprties(relation.Name);
+                foreach (Relation item in relation.Items)
                 {
+                    Dictionary<string, Type> subProperties = GetProprties(item.Name); ;
                     Type subType = TypeCreator.Creator(item.Name, subProperties);
                     Type genericType = typeof(List<>);
                     properties[item.Name] = genericType.MakeGenericType(subType);
                 }
+                baseType = TypeCreator.Creator(relation.Name + "Proxy", properties);
+                _cache[relation.Identification] = baseType;
             }
-
-            return TypeCreator.Creator(relationship.Name, properties);
+            else
+            {
+                baseType = _cache[relation.Identification];
+            }
+            return baseType;
         }
 
         private static Dictionary<string, Type> GetProprties(string identity)

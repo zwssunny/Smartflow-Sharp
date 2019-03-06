@@ -54,7 +54,7 @@
     <Compile Include="EnumConverter.cs" />
     <Compile Include="Enums\WorkflowAction.cs" />
     <Compile Include="Form\DynamicObjectExtensions.cs" />
-    <Compile Include="Form\FormRelationship.cs" />
+    <Compile Include="Form\Relation.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="IMailService.cs" />
     <Compile Include="IRelationship.cs" />

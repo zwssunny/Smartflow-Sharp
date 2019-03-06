@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Smartflow.Form;
 
 namespace Smartflow.Web.Mvc.Controllers
 {
@@ -57,7 +58,7 @@ namespace Smartflow.Web.Mvc.Controllers
         /// <param name="instanceID"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult GetWebView(Smartflow.Form.FormRelationship relation, string instanceID)
+        public JsonResult GetWebView(Relation relation, string instanceID)
         {
             return Json(DynamicRepository.GetInstance(instanceID, relation));
         }
@@ -70,7 +71,7 @@ namespace Smartflow.Web.Mvc.Controllers
         /// <param name="form"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult SaveWebView(Smartflow.Form.FormRelationship relation, string form)
+        public JsonResult SaveWebView(Relation relation, string form)
         {
             Object proxy = JsonConvert.DeserializeObject(form,
                            DynamicRepository.BuildDynamicObjectType(relation));
