@@ -21,5 +21,16 @@ namespace Smartflow.Form
             }
             return null;
         }
+        
+        
+        public static void SetValue(this Object data, string propetyName, object value)
+        {
+            if (data.Constant(propetyName))
+            {
+               data.GetType().GetProperty(propetyName).SetValue(data, value, null);
+            }
+        }
+
+        
     }
 }
