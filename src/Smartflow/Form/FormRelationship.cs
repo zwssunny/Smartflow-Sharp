@@ -12,6 +12,15 @@ namespace Smartflow.Form
     public class FormRelationship
     {
         /// <summary>
+        /// 组名
+        /// </summary>
+        public string Group
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// 根（表名）
         /// </summary>
         public string Name

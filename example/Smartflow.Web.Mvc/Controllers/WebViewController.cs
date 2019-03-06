@@ -1,4 +1,6 @@
-﻿using Smartflow.BussinessService.WorkflowService;
+﻿using Newtonsoft.Json;
+using Smartflow.BussinessService;
+using Smartflow.BussinessService.WorkflowService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,16 +50,34 @@ namespace Smartflow.Web.Mvc.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 获取记录
+        /// </summary>
+        /// <param name="relation"></param>
+        /// <param name="instanceID"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult GetWebView(Smartflow.Form.FormRelationship relation, string instanceID)
         {
-            return Json(false);
+            return Json(DynamicRepository.GetInstance(instanceID, relation));
         }
 
+
+        /// <summary>
+        /// 保存视图
+        /// </summary>
+        /// <param name="relation"></param>
+        /// <param name="form"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult SaveWebView(Smartflow.Form.FormRelationship relation, string form)
         {
-            return Json(false);
+            Object proxy = JsonConvert.DeserializeObject(form,
+                           DynamicRepository.BuildDynamicObjectType(relation));
+
+            DynamicRepository.Persistent(proxy, relation);
+
+            return Json(true);
         }
     }
 }

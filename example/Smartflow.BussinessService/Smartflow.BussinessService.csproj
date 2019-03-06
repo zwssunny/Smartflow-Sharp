@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DynamicRepository.cs" />
     <Compile Include="ExpressionUtils.cs" />
+    <Compile Include="FieldInfo.cs" />
     <Compile Include="IMdl.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Models\Pending.cs" />

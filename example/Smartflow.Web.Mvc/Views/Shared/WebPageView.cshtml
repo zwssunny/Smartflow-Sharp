@@ -21,12 +21,16 @@
         smart.env = {
             config: {
                 name: 't_main',
+                group: 'apply',
+                identity: 'apply',
                 item: [{
+                    name: 't_details',
+                    identity: 'details',
                     relationship: 'relationshipID',
-                    name: 't_details'
+                    group: 'details'
                 }]
             }
-        }
+        };
 
         //客户端需要订阅：smart.beforeSubmit
         //客户端需要订阅：smart.loadRecord
