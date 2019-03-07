@@ -46,7 +46,17 @@ namespace Smartflow
         /// <returns>true：授权 false：未授权</returns>
         protected abstract bool CheckAuthorization(WorkflowContext context);
 
-       
+
+        /// <summary>
+        /// 预备启动工作流
+        /// </summary>
+        /// <param name="resourceXml"></param>
+        /// <returns></returns>
+        public Smartflow.Elements.Form Ready(string resourceXml)
+        {
+            return workflowService.Ready(resourceXml);
+        }
+
         /// <summary>
         /// 根据传递的流程XML字符串,启动工作流
         /// </summary>

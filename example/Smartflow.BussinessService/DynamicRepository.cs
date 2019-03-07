@@ -57,14 +57,17 @@ namespace Smartflow.BussinessService
         {
             IDbConnection connection = DblHelper.CreateConnection();
             connection.Execute(InsertCommand(relation.Name), proxy);
-            foreach (Relation item in relation.Items)
+            if (relation.Items != null)
             {
-                if (proxy.Value(item.Name) is System.Collections.IEnumerable)
+                foreach (Relation item in relation.Items)
                 {
-                    var collection = proxy.Value(item.Name) as System.Collections.IEnumerable;
-                    foreach (var subProxy in collection)
+                    if (proxy.Value(item.Name) is System.Collections.IEnumerable)
                     {
-                        connection.Execute(InsertCommand(item.Name), subProxy);
+                        var collection = proxy.Value(item.Name) as System.Collections.IEnumerable;
+                        foreach (var subProxy in collection)
+                        {
+                            connection.Execute(InsertCommand(item.Name), subProxy);
+                        }
                     }
                 }
             }
@@ -77,12 +80,15 @@ namespace Smartflow.BussinessService
             {
                 IDbConnection connection = DblHelper.CreateConnection();
                 Dictionary<string, Type> properties = GetProprties(relation.Name);
-                foreach (Relation item in relation.Items)
+                if (relation.Items != null)
                 {
-                    Dictionary<string, Type> subProperties = GetProprties(item.Name); ;
-                    Type subType = TypeCreator.Creator(item.Name, subProperties);
-                    Type genericType = typeof(List<>);
-                    properties[item.Name] = genericType.MakeGenericType(subType);
+                    foreach (Relation item in relation.Items)
+                    {
+                        Dictionary<string, Type> subProperties = GetProprties(item.Name); ;
+                        Type subType = TypeCreator.Creator(item.Name, subProperties);
+                        Type genericType = typeof(List<>);
+                        properties[item.Name] = genericType.MakeGenericType(subType);
+                    }
                 }
                 baseType = TypeCreator.Creator(relation.Name + "Proxy", properties);
                 _cache[relation.Identification] = baseType;
@@ -102,7 +108,7 @@ namespace Smartflow.BussinessService
             Dictionary<string, Type> properties = new Dictionary<string, Type>();
             foreach (FieldInfo field in fields)
             {
-                SqlDbType dbType = (SqlDbType)Enum.Parse(typeof(SqlDbType), field.DATA_TYPE);
+                SqlDbType dbType = (SqlDbType)Enum.Parse(typeof(SqlDbType), field.DATA_TYPE,true);
                 properties.Add(field.COLUMN_NAME, DbTypeCsharpType(dbType));
             }
             return properties;
@@ -116,15 +122,14 @@ namespace Smartflow.BussinessService
             StringBuilder command = new StringBuilder();
 
             command.Append(" INSERT INTO ")
-              .Append(identity)
-              .Append(" ( ")
-              .Append(string.Join(",", fields))
-              .Append(" ) ")
-              .Append(" VALUES ")
-              .Append(" ( ")
-              .Append(string.Join(",@", fields))
-              .Append(" ) ");
-
+                  .Append(identity)
+                  .Append(" ( ")
+                  .Append(string.Join(",", fields))
+                  .Append(" ) ")
+                  .Append(" VALUES ")
+                  .Append(" ( ")
+                  .Append(string.Join(",@", fields))
+                  .Append(" ) ");
 
             return command.ToString();
         }

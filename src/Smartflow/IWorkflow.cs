@@ -23,6 +23,14 @@ namespace Smartflow
         /// </summary>
         /// <param name="resourceXml">流程结构</param>
         /// <returns></returns>
+        Smartflow.Elements.Form Ready(string resourceXml);
+
+
+        /// <summary>
+        /// 启动工作流
+        /// </summary>
+        /// <param name="resourceXml">流程结构</param>
+        /// <returns></returns>
         string Start(string resourceXml);
 
         /// <summary>

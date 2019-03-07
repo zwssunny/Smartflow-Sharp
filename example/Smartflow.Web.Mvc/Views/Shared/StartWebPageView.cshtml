@@ -18,6 +18,9 @@
         };
     </script>
     <script type="text/javascript">
+
+
+
         smart.env = {
             config: {
                 name: 't_file',
@@ -36,36 +39,27 @@
         @Html.Raw(form.Text)
     }
 
-    @foreach (Smartflow.Elements.Transition tran in ViewBag.Transitions)
-    {
-        <input type="button" value="@tran.Name" />
-    }
+    <input type="button" value="启动流程" id="btnStart" onclick="smart.start()" />
 
     <script src="~/Content/smartflow.form.js"></script>
     <script type="text/javascript">
 
-        $(function () {
-            smart.instanceID = '@ViewBag.InstanceID';
+        smart.beforeStart = function () {
 
-            smart.load(smart.identity);
-        })
+            var groupName = smart.env.config.group;
+            var O = {};
 
-        function check() {
-            openWin('@Url.Action("WorkflowCheck", "UserControl")' + "?instanceID=" + smart.instanceID,600, 300);
-        }
+            $("[group=" + groupName + "]").each(function () {
 
-        function undoCheck() {
-
-            $.ajax({
-                url: '@Url.Action("UndoCheck", "UserControl")' + "?instanceID=" + smart.instanceID,
-                dataType: 'JSON',
-                type: 'GET',
-                success: function () {
-                   
+                var attrName = $(this).attr('name');
+                var value = $(this).val();
+                if (!O[attrName]) {
+                    O[attrName] = value;
                 }
             });
-        }
 
+            return O;
+        }
     </script>
 </body>
 </html>

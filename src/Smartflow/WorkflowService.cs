@@ -19,6 +19,13 @@ namespace Smartflow
     public partial class WorkflowService :WorkflowInfrastructure, IWorkflow
     {
 
+        public Smartflow.Elements.Form Ready(string resourceXml)
+        {
+            Workflow workflow = XmlConfiguration.ParseflowXml<Workflow>(resourceXml);
+            return workflow.StartNode.WebView;
+        }
+
+
         public string Start(string resourceXml)
         {
             Workflow workflow = XmlConfiguration.ParseflowXml<Workflow>(resourceXml);
@@ -36,6 +43,9 @@ namespace Smartflow
             }
             return instaceID;
         }
+
+
+
 
         public void Kill(WorkflowInstance instance)
         {

@@ -17,9 +17,7 @@
      * 发送ajaxPost请求
      * @param {any} settings
      */
-    smart.ajaxPost = function (settings);
- {
-
+    smart.ajaxPost = function (settings) {
         var defaultSettings = $.extend({
             type: 'post',
             cache: false,
@@ -51,12 +49,15 @@
         }
     }
 
-    smart.submit = function () {
-        if ($.isFunction(smart.beforeSubmit)) {
-            var form = smart.beforeSubmit.call(window);
+    smart.start = function () {
+        if ($.isFunction(smart.beforeStart)) {
+            var form = smart.beforeStart.call(window);
             smart.ajaxPost({
                 url: 'WebView/SaveWebView',
-                data: { relation: smart.env.config, form: escape(form) },
+                data: {
+                    relation: JSON.stringify(smart.env.config),
+                    form: JSON.stringify(form)
+                },
                 success: function () {
                     window.close();
                 }

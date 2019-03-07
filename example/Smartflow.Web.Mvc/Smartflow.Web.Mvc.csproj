@@ -424,6 +424,9 @@
   <ItemGroup>
     <Content Include="Views\Shared\WebPageView.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\StartWebPageView.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -19,17 +19,11 @@ namespace Smartflow.Web.Mvc.Controllers
         public ActionResult StartWebPageView(string id)
         {
             WorkflowStructure structure = designService.GetWorkflowStructure(id);
-            string instanceID = workflowEngine.Start(structure.STRUCTUREXML);
-            WorkflowInstance workflowInstance = WorkflowInstance.GetInstance(instanceID);
+            Smartflow.Elements.Form webForm = workflowEngine.Ready(structure.STRUCTUREXML);
             Stack<Smartflow.Elements.Form> stack = new Stack<Smartflow.Elements.Form>();
-            WorkflowNode current = workflowInstance.Current;
-            stack.Push(current.WebView);
-
-            ViewBag.InstanceID = instanceID;
+            stack.Push(webForm);
             ViewBag.Stack = stack;
-            ViewBag.Transitions = current.Transitions;
-
-            return View("~/Views/Shared/WebPageView.cshtml");
+            return View();
         }
 
         public ActionResult WebPageView(string instanceID)
@@ -71,12 +65,13 @@ namespace Smartflow.Web.Mvc.Controllers
         /// <param name="form"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult SaveWebView(Relation relation, string form)
+        public JsonResult SaveWebView(string relation, string form)
         {
+            Relation r = JsonConvert.DeserializeObject<Relation>(relation);
             Object proxy = JsonConvert.DeserializeObject(form,
-                           DynamicRepository.BuildDynamicObjectType(relation));
+                           DynamicRepository.BuildDynamicObjectType(r));
 
-            DynamicRepository.Persistent(proxy, relation);
+            DynamicRepository.Persistent(proxy, r);
 
             return Json(true);
         }
