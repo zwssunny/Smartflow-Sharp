@@ -47,7 +47,7 @@
         $(function () {
             smart.instanceID = '@ViewBag.InstanceID';
 
-            smart.load(smart.identity);
+            smart.load(smart.env.name);
         })
 
         function check() {

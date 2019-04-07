@@ -32,14 +32,12 @@ namespace Smartflow.Web.Mvc.Controllers
             WorkflowInstance workflowInstance = WorkflowInstance.GetInstance(instanceID);
             WorkflowNode current = workflowInstance.Current;
             Stack<Smartflow.Elements.Form> stack = new Stack<Smartflow.Elements.Form>();
-            while (current != null)
+
+            if (current.WebView != null)
             {
-                if (current.WebView != null)
-                {
-                    stack.Push(current.WebView);
-                }
-                current = current.GetFromNode();
+                stack.Push(current.WebView);
             }
+
             ViewBag.InstanceID = instanceID;
             ViewBag.Stack = stack;
             ViewBag.Transitions = current.Transitions;
@@ -66,15 +64,17 @@ namespace Smartflow.Web.Mvc.Controllers
         /// <param name="form"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult SaveWebView(string relation, string form,string resourceID)
+        public JsonResult SaveWebView(string relation, string form, string resourceID)
         {
             Relation r = JsonConvert.DeserializeObject<Relation>(relation);
-            Object proxy = JsonConvert.DeserializeObject(form,DynamicRepository.BuildDynamicObjectType(r));
+            Object proxy = JsonConvert.DeserializeObject(form, DynamicRepository.BuildDynamicObjectType(r));
             WorkflowStructure structure = designService.GetWorkflowStructure(resourceID);
             IBase entity = (proxy as IBase);
             entity.INSTANCEID = workflowEngine.Start(structure.STRUCTUREXML);
             entity.RESOURCEID = resourceID;
             DynamicRepository.Persistent(entity, r);
+
+    
             return Json(true);
         }
     }
