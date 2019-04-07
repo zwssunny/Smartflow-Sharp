@@ -128,7 +128,7 @@ namespace Smartflow.BussinessService
                   .Append(" ) ")
                   .Append(" VALUES ")
                   .Append(" ( ")
-                  .Append(string.Join(",@", fields))
+                  .Append("@"+string.Join(",@", fields))
                   .Append(" ) ");
 
             return command.ToString();

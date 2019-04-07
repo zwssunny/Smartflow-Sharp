@@ -68,11 +68,12 @@ namespace Smartflow.Web.Mvc.Controllers
         public JsonResult SaveWebView(string relation, string form)
         {
             Relation r = JsonConvert.DeserializeObject<Relation>(relation);
-            Object proxy = JsonConvert.DeserializeObject(form,
-                           DynamicRepository.BuildDynamicObjectType(r));
-
-            DynamicRepository.Persistent(proxy, r);
-
+            Object proxy = JsonConvert.DeserializeObject(form,DynamicRepository.BuildDynamicObjectType(r));
+            //WorkflowStructure structure = designService.GetWorkflowStructure(r.Identification);
+            IBase entity = (proxy as IBase);
+            entity.INSTANCEID = Guid.NewGuid().ToString();
+            entity.RESOURCEID = Guid.NewGuid().ToString();
+            DynamicRepository.Persistent(entity, r);
             return Json(true);
         }
     }

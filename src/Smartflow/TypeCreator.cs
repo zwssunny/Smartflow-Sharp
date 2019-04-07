@@ -26,6 +26,9 @@ namespace Smartflow
             AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
             ModuleBuilder mb = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
             TypeBuilder typeBuilder = mb.DefineType(className, TypeAttributes.Public);
+            //typeBuilder.SetParent(typeof(Smartflow.Form.Base));
+
+            typeBuilder.AddInterfaceImplementation(typeof(Smartflow.Form.IBase));
             foreach (string propertyName in dicProperties.Keys)
             {
                 PropertyCreator(typeBuilder, propertyName, dicProperties[propertyName]);
@@ -35,12 +38,13 @@ namespace Smartflow
 
         private static void PropertyCreator(TypeBuilder typeBuilder, string propertyName, Type declare)
         {
-            FieldBuilder fb = typeBuilder.DefineField("m_" + propertyName, declare, FieldAttributes.Private);
+            FieldBuilder fb = typeBuilder.DefineField("m_"+propertyName, declare, FieldAttributes.Private);
 
             fb.SetConstant(TypeCreator.DefaultValue(declare));
 
             PropertyBuilder pb = typeBuilder.DefineProperty(propertyName, System.Reflection.PropertyAttributes.HasDefault, CallingConventions.Standard, declare, null);
-            MethodAttributes getSetAttr = MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
+            MethodAttributes getSetAttr = MethodAttributes.Public|MethodAttributes.Virtual | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
+
             MethodBuilder mbGetAccessor = typeBuilder.DefineMethod("get_" + propertyName, getSetAttr, declare, Type.EmptyTypes);
             ILGenerator fieldGetIL = mbGetAccessor.GetILGenerator();
 
