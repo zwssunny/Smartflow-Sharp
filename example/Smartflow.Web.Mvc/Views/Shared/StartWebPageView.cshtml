@@ -37,8 +37,7 @@
         @Html.Raw(form.Text)
     }
 
-    <input type="button" value="启动流程" id="btnStart" onclick="smart.start()" />
-
+    <input type="button" value="启动流程" id="btnStart" onclick="smart.start('@ViewBag.ID')" />
     <script src="~/Content/smartflow.form.js"></script>
     <script type="text/javascript">
 

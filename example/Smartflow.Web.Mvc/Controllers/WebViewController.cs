@@ -23,6 +23,7 @@ namespace Smartflow.Web.Mvc.Controllers
             Stack<Smartflow.Elements.Form> stack = new Stack<Smartflow.Elements.Form>();
             stack.Push(webForm);
             ViewBag.Stack = stack;
+            ViewBag.ID = id;
             return View();
         }
 
@@ -65,14 +66,14 @@ namespace Smartflow.Web.Mvc.Controllers
         /// <param name="form"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult SaveWebView(string relation, string form)
+        public JsonResult SaveWebView(string relation, string form,string resourceID)
         {
             Relation r = JsonConvert.DeserializeObject<Relation>(relation);
             Object proxy = JsonConvert.DeserializeObject(form,DynamicRepository.BuildDynamicObjectType(r));
-            //WorkflowStructure structure = designService.GetWorkflowStructure(r.Identification);
+            WorkflowStructure structure = designService.GetWorkflowStructure(resourceID);
             IBase entity = (proxy as IBase);
-            entity.INSTANCEID = Guid.NewGuid().ToString();
-            entity.RESOURCEID = Guid.NewGuid().ToString();
+            entity.INSTANCEID = workflowEngine.Start(structure.STRUCTUREXML);
+            entity.RESOURCEID = resourceID;
             DynamicRepository.Persistent(entity, r);
             return Json(true);
         }

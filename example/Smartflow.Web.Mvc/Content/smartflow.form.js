@@ -49,14 +49,15 @@
         }
     }
 
-    smart.start = function () {
+    smart.start = function (id) {
         if ($.isFunction(smart.beforeStart)) {
             var form = smart.beforeStart.call(window);
             smart.ajaxPost({
                 url: 'WebView/SaveWebView',
                 data: {
                     relation: JSON.stringify(smart.env.config),
-                    form: JSON.stringify(form)
+                    form: JSON.stringify(form),
+                    resourceID: id
                 },
                 success: function () {
                     window.close();
