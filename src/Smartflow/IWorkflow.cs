@@ -19,7 +19,7 @@ namespace Smartflow
     {
 
         /// <summary>
-        /// 启动工作流
+        /// 预备流程
         /// </summary>
         /// <param name="resourceXml">流程结构</param>
         /// <returns></returns>
