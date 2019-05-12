@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Smartflow
 {
-    public interface IFilter
+    public interface IDbFieldFilter
     {
         string Filter(string cmdText);
     }

@@ -151,8 +151,8 @@ namespace Smartflow.Dapper
 #endif
         {
 
-            IFilter filterService=WorkflowServiceProvider.OfType<IFilter>();
-            this.commandText = filterService.Filter(commandText);
+            IDbFieldFilter filterService =WorkflowServiceProvider.OfType<IDbFieldFilter>();
+            this.commandText =(filterService != null)? filterService.Filter(commandText):commandText;
             this.parameters = parameters;
             this.transaction = transaction;
             this.commandTimeout = commandTimeout;

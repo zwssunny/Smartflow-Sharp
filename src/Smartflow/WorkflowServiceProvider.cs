@@ -19,7 +19,6 @@ namespace Smartflow
         {
             _collection.Add(new WorkflowService());
             _collection.Add(new MailService());
-            _collection.Add(new DefaultWordFilter());
         }
 
         public static IList<object> Services
