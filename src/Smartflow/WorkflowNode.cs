@@ -61,7 +61,6 @@ namespace Smartflow
             wfNode.Transitions = wfNode.QueryWorkflowNode(node.NID);
             wfNode.FromTransition = wfNode.GetHistoryTransition();
             wfNode.Groups = wfNode.GetGroup();
-            wfNode.WebView = wfNode.GetWebView();
 
             return wfNode;
         }
@@ -146,17 +145,6 @@ namespace Smartflow
                 RelationshipID = NID,
                 InstanceID = InstanceID
             }).ToList();
-        }
-
-        protected Smartflow.Elements.Form GetWebView()
-        {
-            string query = "SELECT * FROM T_FORM WHERE RelationshipID=@RelationshipID AND InstanceID=@InstanceID";
-            return Connection.Query<Smartflow.Elements.Form>(query, new
-            {
-                RelationshipID = NID,
-                InstanceID = InstanceID
-
-            }).FirstOrDefault();
         }
 
 

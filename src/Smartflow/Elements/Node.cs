@@ -20,7 +20,6 @@ namespace Smartflow.Elements
 {
     [XmlInclude(typeof(List<Transition>))]
     [XmlInclude(typeof(List<Group>))]
-    [XmlInclude(typeof(Form))]
     public class Node : ASTNode
     {
         private WorkflowNodeCategory _nodeType = WorkflowNodeCategory.Normal;
@@ -49,14 +48,7 @@ namespace Smartflow.Elements
         }
 
 
-        [JsonProperty("form")]
-        [XmlElement(ElementName = "form")]
-        public virtual Form WebView
-        {
-            get;
-            set;
-        }
-
+       
         internal override void Persistent()
         {
             base.Persistent();
@@ -82,12 +74,7 @@ namespace Smartflow.Elements
                 }
             }
 
-            if (WebView != null)
-            {
-                WebView.RelationshipID = this.NID;
-                WebView.InstanceID = InstanceID;
-                WebView.Persistent();
-            }
+        
         }
 
         public ASTNode GetNode(string ID)

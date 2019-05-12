@@ -100,7 +100,6 @@
     <Compile Include="Controllers\FileApplyController.cs" />
     <Compile Include="Controllers\UserControlController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\WebViewController.cs" />
     <Compile Include="Controllers\WorkflowDesignController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -338,7 +337,6 @@
     <Content Include="Content\layui\lay\modules\util.js" />
     <Content Include="Content\login.css" />
     <Content Include="Content\main.css" />
-    <Content Include="Content\smartflow.form.js" />
     <Content Include="Global.asax" />
     <Content Include="test.html" />
     <Content Include="Web.config" />
@@ -421,12 +419,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\WorkflowDesign\WorkflowImage.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\WebPageView.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\StartWebPageView.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

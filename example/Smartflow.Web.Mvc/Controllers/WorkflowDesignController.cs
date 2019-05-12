@@ -102,10 +102,6 @@ namespace Smartflow.Web.Mvc.Controllers
         private List<Node> GetImageList(string resource)
         {
             List<Node> elements = this.GetNodeList(resource);
-            elements.ForEach(n =>
-            {
-                n.WebView = null;
-            });
             return elements;
         }
     }

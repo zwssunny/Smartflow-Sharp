@@ -5,18 +5,6 @@
  */
 (function ($) {
 
-    //var CONST_ATTRIBUTE_FIELD_MAP = { id: 'id', name: 'name', from: 'origin', to: 'destination' };
-    //var CONST_ACTION_TIP = [
-    //    { title: '审核人：', fieldName: 'Name', format: function (value) { return value; } },
-    //    { title: '时间：', fieldName: 'CreateDateTime', format: function (value) { return new Date(value).format('yyyy-MM-dd hh:mm'); } },
-    //    {
-    //        title: '操作：', fieldName: 'Operation', format: function (value)
-    //        {
-    //            var ACTION_VALUE_MAP = { 0: '审核', 1: '流程撤销', 2: '流程退回' };
-    //            return ACTION_VALUE_MAP[value];
-    //        }
-    //}];
-
     var NC = {},
         LC = {},
         RC = [],
@@ -36,7 +24,6 @@
         equal: '=',
         space: ' ',
         group: 'group',
-        form:'form',
         from: 'from',
         actor: 'actor',
         transition: 'transition',
@@ -298,25 +285,6 @@
                 build.append(config.afterClose);
             });
 
-            if (self.form) {
-                var formElement = self.form;
-                build.append(config.start)
-                    .append(config.form)
-                    .append(config.space)
-                    .append(config.name)
-                    .append(config.equal)
-                    .append(config.lQuotation)
-                    .append(formElement[config.name])
-                    .append(config.rQuotation)
-                    .append(config.end)
-                    .append("<![CDATA[")
-                    .append(formElement.text)
-                    .append("]]>")
-                    .append(config.beforeClose)
-                    .append(config.form)
-                    .append(config.end);
-            }
-
             if (self.exportDecision) {
                 self.exportDecision(build);
             }
@@ -528,7 +496,7 @@
         },
         bindEvent: function (n) {
             Start.base.Parent.prototype.bindEvent.call(this, n);
-            //this.off('dblclick');
+            this.off('dblclick');
         },
         validate: function () {
             return (findByElementId(this.id, 'from').length > 0

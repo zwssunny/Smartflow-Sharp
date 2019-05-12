@@ -50,12 +50,8 @@
     <Compile Include="Elements\Element.cs" />
     <Compile Include="Elements\ElementAttribute.cs" />
     <Compile Include="Elements\End.cs" />
-    <Compile Include="Elements\Form.cs" />
     <Compile Include="EnumConverter.cs" />
     <Compile Include="Enums\WorkflowAction.cs" />
-    <Compile Include="Form\DynamicObjectExtensions.cs" />
-    <Compile Include="Form\IBase.cs" />
-    <Compile Include="Form\Relation.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="IMailService.cs" />
     <Compile Include="IRelationship.cs" />
@@ -78,7 +74,6 @@
     <Compile Include="Elements\Actor.cs" />
     <Compile Include="SqlMapper.cs" />
     <Compile Include="DefaultWordFilter.cs" />
-    <Compile Include="TypeCreator.cs" />
     <Compile Include="WorkflowConfig.cs" />
     <Compile Include="WorkflowContext.cs" />
     <Compile Include="WorkflowDecision.cs" />
