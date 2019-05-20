@@ -32,3 +32,5 @@ example/Smartflow.Web.Mvc/obj/Debug/Smartflow.Web.Mvc.csproj.CopyComplete
 
 bin
 obj
+/packages
+/.vs
